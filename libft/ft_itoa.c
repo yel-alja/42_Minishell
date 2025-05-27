@@ -3,64 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 10:19:41 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/11/04 11:51:52 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/28 11:56:26 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/11/02 21:36:40 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count_digits(long n)
+static size_t	ft_countnbr(int n)
 {
-	int	count;
+	size_t	len;
 
-	count = 1;
+	len = 0;
+	if (n >= 0 && n <= 9)
+		return (1);
 	if (n < 0)
 	{
 		n *= -1;
-		count++;
+		len++;
 	}
-	while (n > 9)
+	while (n > 0)
 	{
 		n /= 10;
-		count++;
+		len++;
 	}
-	return (count);
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*ptr;
-	int		len;
-	long	i;
+	char	*p;
+	size_t	lennb;
 
-	i = (long)n;
-	len = ft_count_digits(i);
-	ptr = (char *)malloc(len + 1);
-	if (!ptr)
-		return (NULL);
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
 	if (n == 0)
-		ptr[0] = '0';
-	if (i < 0)
+		return (ft_strdup("0"));
+	lennb = ft_countnbr(n);
+	p = malloc(lennb + 1);
+	if (p == NULL)
+		return (NULL);
+	if (n < 0)
 	{
-		i *= -1;
-		ptr[0] = '-';
+		p[0] = '-';
+		n *= -1;
 	}
-	while (len > 0 && i > 0)
+	p[lennb] = '\0';
+	while (n > 0)
 	{
-		ptr[len - 1] = i % 10 + '0';
-		i /= 10;
-		len--;
+		p[--lennb] = n % 10 + 48;
+		n /= 10;
 	}
-	len = ft_count_digits(n);
-	ptr[len] = '\0';
-	return (ptr);
+	return (p);
 }
-/*#include <limits.h>
-
-int	main(void)
-{
-	printf("%s\n", ft_itoa(INT_MIN));
-}*/

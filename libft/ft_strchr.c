@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 14:14:24 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/10/27 14:39:08 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/26 10:40:32 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/10/26 12:19:22 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,16 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned int	i;
-	char			y;
-	char			*p;
+	int	i;
 
-	y = (char)c;
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == y)
-		{
-			p = (char *)&s[i];
-			return (p);
-		}
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
 		i++;
 	}
-	if (y == '\0')
-		return ((char *)&s[i]);
+	if (c == 0)
+		return ((char *)(s + i));
 	return (NULL);
 }
-/*#include <stdio.h>
-int main()
-{
-	//char str[] =  "hello";
-	printf("%p\n",ft_strchr(str, 'l'));
-}*/

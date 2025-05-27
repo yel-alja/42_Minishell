@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 00:08:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/10/29 00:16:17 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/27 16:27:23 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/10/27 16:27:33 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,17 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	const unsigned char	*p;
-	const unsigned char	*pt;
-	size_t				i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	p = (const unsigned char *)s1;
-	pt = (const unsigned char *)s2;
-	i = 0;
-	while (n > i)
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	if (!n)
+		return (0);
+	while (--n != 0 && *str1 == *str2)
 	{
-		if (p[i] != pt[i])
-			return (p[i] - pt[i]);
-		i++;
+		str1++;
+		str2++;
 	}
-	return (0);
+	return ((int)(*str1 - *str2));
 }
-// int main ()
-// {
-// 	printf("%d\n",ft_memcmp("hh","hhk",0));
-// }

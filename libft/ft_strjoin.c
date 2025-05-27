@@ -3,40 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 09:34:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/11/01 10:04:07 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/27 15:57:15 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/11/04 13:44:13 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static void	ft_len(char const *s1, char const *s2, size_t *lens1, size_t *lens2)
+{
+	*lens1 = ft_strlen(s1);
+	*lens2 = ft_strlen(s2);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len_s1;
-	size_t	len_s2;
 	size_t	i;
-	size_t	j;
-	char	*str;
+	size_t	lens1;
+	size_t	lens2;
+	char	*p;
 
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	str = malloc(len_s1 + len_s2 + 1);
-	if (!str)
+	if (!s1 || !s2)
+		return (NULL);
+	ft_len(s1, s2, &lens1, &lens2);
+	p = malloc(lens1 + lens2 + 1);
+	if (p == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (i < lens1)
 	{
-		str[i] = s1[i];
+		p[i] = s1[i];
 		i++;
 	}
-	j = 0;
-	while (s2[j])
+	i = 0;
+	while (i < lens2)
 	{
-		str[i + j] = s2[j];
-		j++;
+		p[i + lens1] = s2[i];
+		i++;
 	}
-	str[i + j] = '\0';
-	return (str);
+	p[i + lens1] = '\0';
+	return (p);
 }

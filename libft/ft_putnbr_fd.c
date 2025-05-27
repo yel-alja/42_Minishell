@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 09:32:20 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/11/06 09:45:29 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/30 14:52:37 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/10/30 15:14:30 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	plsnbr(long n, int fd)
-{
-	if (n > 9)
-	{
-		plsnbr(n / 10, fd);
-		plsnbr(n % 10, fd);
-	}
-	else
-		ft_putchar_fd(n + 48, fd);
-}
-
 void	ft_putnbr_fd(int n, int fd)
 {
-	long	i;
-
-	i = (long)n;
-	if (i < 0)
+	if (n == -2147483648)
 	{
-		i *= -1;
 		ft_putchar_fd('-', fd);
-		plsnbr(i, fd);
+		ft_putchar_fd('2', fd);
+		ft_putnbr_fd(147483648, fd);
 	}
-	else
-		plsnbr(i, fd);
+	else if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n *= -1;
+		ft_putnbr_fd(n, fd);
+	}
+	else if (n >= 0 && n <= 9)
+	{
+		ft_putchar_fd(n + '0', fd);
+	}
+	else if (n > 9)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
 }

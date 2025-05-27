@@ -1,31 +1,36 @@
+CC = cc
+
+CFLAGS = -g
+
+SRC = $(addprefix src/, $(SRC_EXEC) $(SRC_PARS) main.c)
+
+SRC_BUILT_IN = $(addprefix built-in/, ft_cd.c ft_pwd.c ft_export.c ft_env.c ft_unset.c ft_exit.c ft_echo.c)
+
+SRC_PARS = $(addprefix parsing/,)
+SRC_EXEC = $(addprefix execution/, execution.c redirection.c utils.c \
+			$(SRC_BUILT_IN))
+LIB = libft/libft.a
+
+OBJ = $(SRC:.c=.o)
+
 NAME = minishell
 
-SRCS =  
+all : $(NAME)
 
-#OBJS = $(SRCS:.c=.o)
+$(NAME) : $(OBJ) $(LIB)
+	@$(CC) $(CFLAGS) -lreadline $(OBJ) $(LIB) -o $(NAME)
 
+$(LIB) :
+	@make -C libft
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-RLFLAGS = -lreadline
-LIBFT_DIR = libft/
-LIBFT = libft/libft.a
+clean :
+	@rm -rf $(OBJ)
+	@make -C libft clean
 
-all: $(LIBFT) $(NAME)
+fclean : clean
+	@rm -rf $(NAME)
+	@make -C libft fclean
 
-$(LIBFT):
-	make -C $(LIBFT_DIR)
-# $(NAME): $(OBJS)
-# $(CC) $(OBJS) $(CFLAGS) $(RLFLAGS) $(LIBFT) -o $(NAME)
+re : fclean all
 
-clean:
-# rm -f $(OBJS) $(BONUS_OBJS)
-	make -C $(LIBFT_DIR) clean
-
-fclean: clean
-#rm -f $(NAME) $(BONUS_NAME)
-	make -C $(LIBFT_DIR) fclean
-
-re: fclean all
-
-.PHONY: all clean fclean re
+.PHONY:  all clean fclean re

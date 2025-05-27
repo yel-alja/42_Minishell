@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 21:57:29 by yel-alja          #+#    #+#             */
-/*   Updated: 2024/10/30 21:46:24 by yel-alja         ###   ########.fr       */
+/*   Created: 2024/10/27 14:41:47 by zouazrou          #+#    #+#             */
+/*   Updated: 2024/11/04 09:56:52 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,22 @@
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
-	size_t	len_d;
-	size_t	len_s;
+	size_t	j;
+	size_t	lensrc;
 
-	len_s = ft_strlen(src);
-	if (!dst && size == 0)
-		return (len_s);
-	len_d = ft_strlen(dst);
+	if ((!dst || !src) && !size)
+		return (0);
 	i = 0;
-	if (size <= len_d)
-		return (size + len_s);
-	while (src[i] && (len_d + i < size - 1))
-	{
-		dst[len_d + i] = src[i];
+	j = 0;
+	lensrc = ft_strlen(src);
+	while (dst[i] && i < size)
 		i++;
+	while (i + j + 1 < size && src[j])
+	{
+		dst[i + j] = src[j];
+		j++;
 	}
-	dst[len_d + i] = '\0';
-	return (len_d + len_s);
+	if (i < size)
+		dst[i + j] = '\0';
+	return (i + lensrc);
 }
-
-// int main()
-// {
-// 	char src[] = "world";
-// 	char dest[] = "hello";
-// 	printf("%zu\n",ft_strlcat(dest, NULL,10));
-// 	printf("%s", dest);
-
-// }
