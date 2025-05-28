@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 10:29:02 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 11:24:00 by zouazrou         ###   ########.fr       */
+/*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
+/*   Updated: 2025/05/28 10:43:39 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "include/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+int main()
 {
+    while(1)
+    {
+        t_token *token ;
+        char *input;
+        input = readline("minishell> ");
 
-	// while (0.0000001)
-	// {
-	// 	;
-	// }
-
-	return 0;
+        if(*input)
+            add_history(input);
+    }
 }
-

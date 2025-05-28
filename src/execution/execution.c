@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:07:51 by moirhira          #+#    #+#             */
-/*   Updated: 2025/05/27 11:31:56 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	run_redirects(t_cmd *cmd, t_env **env)
 			cmd->fd_output = rd_append(redir->file_del, cmd->fd_input);
 		// Check if Error occured
 		if (cmd->fd_input == -1 || cmd->fd_input == -1)
-			cmd->error = TRUE;
+			cmd->error = true;
 		redir = redir->next;
 	}
 }

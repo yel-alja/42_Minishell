@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 11:24:12 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:28:59 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-t_bool	is_path(char *file);
-t_bool	is_built_in(char *cmd);
+#include "minishell.h"
+
+
+bool	is_path(char *file);
+bool	is_built_in(char *cmd);
 
 // Redirections
 int		here_doc(char *del, int fd);

@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "execution.h": "c",
+        "complex": "c",
+        "minishell.h": "c",
+        "parsing.h": "c",
+        "signal.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "stdbool.h": "c",
+        "libft.h": "c"
+    }
+}

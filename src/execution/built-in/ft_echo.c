@@ -3,52 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:19:40 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 09:25:25 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-t_bool	option_n(char *args)
+bool	option_n(char *args)
 {
 	int	j;
 
 	j = 0;
 	if (!args || !args[0] || !args[1])
-		return (FALSE);
+		return (false);
 	while (args[j])
 	{
 		if ((!j && args[j] != '-') || (j && args[j] != 'n'))
-			return (FALSE);
+			return (false);
 		j++;
 	}
-	return (TRUE);
+	return (true);
 }
 
 int	echo(char **args)
 {
 	int		i;
-	t_bool	flag;
+	bool	flag;
 
 	i = 1;
-	flag = FALSE;
+	flag = false;
 
 	if (!args || !*args)
 		return (1);
 
 	flag = option_n(args[i]);
-	if (flag == TRUE)
+	if (flag == true)
 		i++;
     while (args[i])
     {
-        if ((i != 1 && flag == FALSE) || (i != 2 && flag == TRUE))
+        if ((i != 1 && flag == false) || (i != 2 && flag == true))
             printf(" ");
         printf("%s", args[i++]);
     }
-    if (flag == FALSE)
+    if (flag == false)
         printf("\n");
     return (0);
 }

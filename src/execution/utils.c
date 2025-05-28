@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 12:03:25 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	errmsg(char *cmd, char *arg, char *err)
 
 // (X) ./a.out/
 // This is only case : exe
-t_bool	is_path(char *file)
+bool	is_path(char *file)
 {
 	int	i;
 
@@ -46,12 +46,12 @@ t_bool	is_path(char *file)
 	while (file[++i])
 	{
 		if (file[i] == '/')
-			return (TRUE);
+			return (true);
 	}
-	return (FALSE);
+	return (false);
 }
 
-t_bool	is_built_in(char *cmd)
+bool	is_built_in(char *cmd)
 {
     if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "pwd")
     || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")

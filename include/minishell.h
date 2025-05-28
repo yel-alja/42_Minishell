@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:07:38 by moirhira          #+#    #+#             */
-/*   Updated: 2025/05/27 11:37:24 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:36:42 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,10 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 #include "../libft/libft.h"
-
-
-typedef enum	e_bool
-{
-	FALSE,
-	TRUE,
-}				t_bool;
-
-#include "execution.h"
 #include "parsing.h"
-
+#include "execution.h"
 
 typedef struct s_env
 {
@@ -42,43 +34,39 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef enum	e_redir_type
+typedef enum	e_type
 {
     PIPE,        // |
     INPUT,       // <
     OUTPUT,      // >
     APPEND,      // >>
     HEREDOC,     // <<
-    HEREDOC_Q,
-}				t_redir_type;
+    HEREDOC_Q,	 // << '\"
+}				t_type;
 
 typedef struct	s_redir
 {
     char			*file_del;
-    t_redir_type	type;
+    t_type	type;
     struct s_redir	*next;
 }					t_redir;
-
-/*
-
-ex: cmd arg1 arg2 < infile << EOF > outfile1 >> outfile2
-struct
-{
-	char **args = {"cmd", "arg1", "arg2", NULL}
-	t_redir : {linked list}
-	("infile", INPUT) -> ("EOF", HEREDOC) -> ("outfile1", INPUT) -> ("outfile2", APPEND) -> NULL
-	next = NULL
-}
-*/
 
 typedef struct	s_cmd
 {
 	char			**args;
 	int				fd_input;
 	int				fd_output;
-	t_bool			error;
+	bool			error;
 	t_redir 		*redirects;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_token
+{
+	char *value;
+	t_type type;
+	struct s_token *next;
+}	t_token;
+
 
 #endif

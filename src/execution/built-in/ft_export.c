@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 09:31:58 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 12:11:14 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void print_env(t_env *env, char flage);
 int	check_valid_syntax(char *arg)
 {
 	int		i;
-	t_bool	has_val;
+	bool	has_val;
 
 	i = 0;
-	has_val = FALSE;
+	has_val = false;
 	if (!arg || !arg[i])
 		return (0);
 	if (!isalpha(arg[i]) && arg[i] != '_')
@@ -44,7 +44,7 @@ int	export(char **args, t_env **env)
 	int		i;
 	int		rtn_val;
 
-	// if (word == TRUE) // then set the  value of that variable shall be set to word.
+	// if (word == true) // then set the  value of that variable shall be set to word.
 	// if (!args[1])
 	// 	return (print_env(env, 'x'), 0);
 	i = 0;
