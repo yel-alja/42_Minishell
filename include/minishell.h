@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:07:38 by moirhira          #+#    #+#             */
-/*   Updated: 2025/05/28 10:36:42 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:17:41 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ typedef struct s_token
 	t_type type;
 	struct s_token *next;
 }	t_token;
+
+typedef struct s_garbage
+{
+	char *ptr;
+	struct s_garbage *next;
+}	t_garbage;
 
 
 #endif

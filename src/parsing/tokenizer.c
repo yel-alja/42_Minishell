@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toknizer.c                                         :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/28 10:41:06 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:02:42 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ t_token *lst_new(char *input , t_type type)
       
      node = malloc(sizeof(t_token));
      if(!node)
-        return (NULL);
+        garbage_collect(NULL);
+    garbage_collect(node);
     node->value = ft_strdup(input);
+    if(!node->value)
+        garbage_collect(NULL);
+    garbage_collect(node->value);
     node->type = type;
     node->next = NULL;
     return (node);
@@ -46,7 +50,7 @@ void check_red(char *input , int i , t_token **cmnd)
     
     if(input[i] == '|')
     {
-        command = lst_new("|" , PIPE); //?
+        command = lst_new("|" , PIPE);
         lst_addback(cmnd , command);
         i++;    
     }
