@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 09:31:58 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:05:39 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_valid_syntax(char *arg)
 	return (2);
 }
 
-int	export(char **args, t_env **env)
+int	ft_export(char **args, t_env **env)
 {
 	t_env	*var;
 	int		i;

@@ -6,14 +6,14 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:05:30 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 10:05:49 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:05:44 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 // (X)
-int pwd(char **args)
+int ft_pwd(char **args)
 {
     char    *buffer;
 

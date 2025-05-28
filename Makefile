@@ -9,7 +9,7 @@ SRC_BUILT_IN = $(SRC_EX_DIR)/built-in/ft_cd.c $(SRC_EX_DIR)/built-in/ft_pwd.c $(
 				$(SRC_EX_DIR)/built-in/ft_env.c $(SRC_EX_DIR)/built-in/ft_unset.c \
 				$(SRC_EX_DIR)/built-in/ft_exit.c $(SRC_EX_DIR)/built-in/ft_echo.c
 
-SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/utils.c $(SRC_BUILT_IN)
+SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/utils.c 
 
 SRC_PARS = src/parsing/toknizer.c
 

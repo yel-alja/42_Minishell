@@ -6,13 +6,13 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:06:25 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 10:07:13 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:05:30 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-int    env(char **args, t_env *env)
+int    ft_env(char **args, t_env *env)
 {
     // int i;
 
