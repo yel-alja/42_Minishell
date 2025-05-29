@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/29 18:26:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 22:04:13 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,46 +78,47 @@ t_token *check_operator(char *input , int *i)
     }
     else if(input[*i] == '"')
     {
-        j = *i;
+      
+        j = *i + 1;
         while(input[j] && input[j] != '"')
         {
             j++;
             k++;
         }
-        if(input[j] == '\0')
-            garbage_collect(NULL); //syntax error unclosed double quote" we should write it after this line
-        else
-        {
-            tmp = lst_new(ft_strndup(&input[*i] , k - 1) , WORD);
-            *i += j;
-        }
+        // if(input[j] == '\0')
+        //     garbage_collect(NULL); //syntax error unclosed double quote" we should write it after this line
+        // else
+        // {
+            tmp = lst_new(ft_strndup(&input[*i + 1] , k - 1) , WORD);
+            *i += j + 1;
+        // }
     }
-    else if(input[*i] == '\'')
+    else if(input[*i] == '\'') // single quotes
     {
-        j = *i;
+        j = *i + 1;
         while(input[j] && input[j] != '\'')
         {
             j++;
             k++;
         }
-        if(input[j] == '\0')
-            garbage_collect(NULL); //again here unclosed single quote
-        else
-        {
-            tmp = lst_new(ft_strndup(&input[*i] , k - 1) , WORD);
-            *i += j;
-        }
+        // if(input[j] == '\0')
+        //     garbage_collect(NULL); //again here unclosed single quote
+        // else
+        // {
+            tmp = lst_new(ft_strndup(&input[*i + 1] , k - 1) , WORD);
+            *i += j + 1;
+        // }
     }
-    else
+    else // word
     {
         j = *i;
         k = 0;
-        while(input[j] && input[j] != '|' && input[j] != '<' && input[j] != '>' && input[j] != '\'' && input[j] != '"' && is_whitespace(input[j]) == 0)
+        while(input[j] && is_metachar(input[j]) == 0 && is_whitespace(input[j]) == 0)
         {
             j++;
             k++;
         }
-        tmp = lst_new(ft_strndup(&input[*i] , k) , WORD);
+        tmp = lst_new(ft_strndup(&input[*i] , k - 1) , WORD);
         *i = j;
     }
     return (tmp);
@@ -131,9 +132,9 @@ t_token *tokenizer(char *input)
     while(input[i])
     {
         while(input[i] && is_whitespace(input[i]))
-             i++;
-        lst_addback(&head , check_operator(input , &i));
+            i++;
+        lst_addback(&head , check_operator(input , &i)); 
     }
     return head;
 }
-    
+ 

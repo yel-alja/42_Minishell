@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/29 10:02:43 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:45:48 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void garbage_collect(void *ptr);
 /*************utils*************/
 char *ft_strndup(char *str , int size);
 int is_whitespace(char c);
+int is_metachar(char c);
 
 
 #endif

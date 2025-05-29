@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:07:38 by moirhira          #+#    #+#             */
-/*   Updated: 2025/05/29 09:11:06 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:58:49 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_env
 
 typedef enum	e_type
 {
-    PIPE,        // |
+    PIPE = 0,        // |
     WORD,        // |
     INPUT,       // <
     OUTPUT,      // >
