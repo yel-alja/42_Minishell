@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:11:52 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:16 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 09:46:38 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void free_list(t_garbage *lst)
     }
 }
 
-void garbage_collect(void *ptr) // every time we allocate somthings using malloc or split or strdup ...  
+void garbage_collect(void *ptr) // every time we allocate somthing using malloc or split or strdup ...  
 {                               // we must give the garbage collector the adress that we allocate 
     static t_garbage *head;
     t_garbage *tmp;
@@ -61,4 +61,3 @@ void garbage_collect(void *ptr) // every time we allocate somthings using malloc
         exit(0);   
     }
 }
-

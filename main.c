@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/28 17:50:45 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:21:49 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int main()
         t_token *token ;
         char *input;
         input = readline("minishell> ");
-
-        if(*input)
+        if(input)
             add_history(input);
 
     }

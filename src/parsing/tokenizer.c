@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:42 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:26:34 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,9 @@ t_token *lst_new(char *input , t_type type)
 {
      t_token *node;
       
-     node = malloc(sizeof(t_token));
-     if(!node)
-        garbage_collect(NULL);
+    node = malloc(sizeof(t_token));
     garbage_collect(node);
     node->value = ft_strdup(input);
-    if(!node->value)
-        garbage_collect(NULL);
     garbage_collect(node->value);
     node->type = type;
     node->next = NULL;
@@ -44,31 +40,100 @@ void lst_addback(t_token **head, t_token *node)
     }   
 }
 
-void check_red(char *input , int i , t_token **cmnd)
+t_token *check_operator(char *input , int *i)
 {
-    t_token *command = NULL;
-    
-    if(input[i] == '|')
+    t_token *tmp = NULL;
+    int j;
+    int k = 0;
+    if(input[*i] == '|')
     {
-        command = lst_new("|" , PIPE);
-        lst_addback(cmnd , command);
-        i++;    
+        tmp = lst_new("|" , PIPE);
+        *i += 1;
     }
-    // else if(input[i] )
-
+    else if(input[*i] == '<')
+    {
+        if(input[*i + 1] != '<' )
+        {
+            tmp = lst_new("<" , INPUT);
+            *i += 1;
+        }
+        else
+        {
+            tmp = lst_new("<<" , HEREDOC);
+            *i += 2;
+        }
+    }
+    else if(input[*i] == '>')
+    {
+        if(input[*i + 1] != '>')
+        {
+            tmp = lst_new(">" , OUTPUT);
+            *i += 1;
+        }
+        else
+        {
+            tmp = lst_new(">>" , APPEND);
+            *i += 2;
+        }
+    }
+    else if(input[*i] == '"')
+    {
+        j = *i;
+        while(input[j] && input[j] != '"')
+        {
+            j++;
+            k++;
+        }
+        if(input[j] == '\0')
+            garbage_collect(NULL); //syntax error unclosed double quote" we should write it after this line
+        else
+        {
+            tmp = lst_new(ft_strndup(&input[*i] , k - 1) , WORD);
+            *i += j;
+        }
+    }
+    else if(input[*i] == '\'')
+    {
+        j = *i;
+        while(input[j] && input[j] != '\'')
+        {
+            j++;
+            k++;
+        }
+        if(input[j] == '\0')
+            garbage_collect(NULL); //again here unclosed single quote
+        else
+        {
+            tmp = lst_new(ft_strndup(&input[*i] , k - 1) , WORD);
+            *i += j;
+        }
+    }
+    else
+    {
+        j = *i;
+        k = 0;
+        while(input[j] && input[j] != '|' && input[j] != '<' && input[j] != '>' && input[j] != '\'' && input[j] != '"' && is_whitespace(input[j]) == 0)
+        {
+            j++;
+            k++;
+        }
+        tmp = lst_new(ft_strndup(&input[*i] , k) , WORD);
+        *i = j;
+    }
+    return (tmp);
 }
+
 
 t_token *tokenizer(char *input)
 {
-    t_token *cmnd = NULL;
+    t_token *head = NULL;
     int i = 0;
-    char **res;
     while(input[i])
     {
-        while(input[i] && input[i] == ' ')
-            i++;
-        check_red(input , i ,&cmnd);
-            
+        while(input[i] && is_whitespace(input[i]))
+             i++;
+        lst_addback(&head , check_operator(input , &i));
     }
-    return NULL; //? should i do somthing here
+    return head;
 }
+    

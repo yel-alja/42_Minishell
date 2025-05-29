@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/29 10:02:43 by yel-alja         ###   ########.fr       */
+/*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
+/*   Updated: 2025/05/29 18:23:07 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-#define PARSING_H
-
-#include "minishell.h"
-
-typedef struct s_token t_token;
-
-/*************token*************/
-
-t_token *tokenizer(char *input);
+#include "../../include/minishell.h"
 
 
-/*************garbage_collect*************/
-void garbage_collect(void *ptr);
+char *ft_strndup(char *str , int size)
+{
+    char *p ;
+    int i;
+    
+    p = malloc(size + 1); 
+    garbage_collect(p);
+    i = 0;
+    while(i < size)
+    {
+        p[i] = str[i];
+        i++;
+    }
+    p[i] = '\0';
+    return (p);
+}
 
-
-
-
-
-/*************utils*************/
-char *ft_strndup(char *str , int size);
-int is_whitespace(char c);
-
-
-#endif
+int is_whitespace(char c)
+{
+    if((c == ' ' || (c >= 9 && c <= 13)))
+        return (1);
+    return (0);
+}
