@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 10:28:59 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:10:47 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,9 @@ int		cd(char **args);
 
 // Error o dakchi
 void	errmsg(char *cmd, char *arg, char *msg);
+
+
+/******** envp *********/
+t_env	*get_envp(char **env);
 
 #endif

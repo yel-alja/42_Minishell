@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/30 23:13:36 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:17:07 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,32 @@ char *type_to_str(t_type type)
 void print_tokens(t_token *token)
 {
     while(token)
-    {   
+    {
          printf("\033[36m[value : \033[0m\033[33m%s\033[0m\033[36m]    [type : \033[0m\033[32m%s\033[0m\033[36m]\033[0m\n",token->value, type_to_str(token->type));
         token = token->next;
     }
 }
-
-int main()
+void env(t_env *our_env)
 {
+	while (our_env)
+	{
+		printf("%s", our_env->name);
+		if (our_env->value)
+		{
+			printf("=");
+			printf("%s", our_env->value);
+		}
+		printf("\n");
+		our_env = our_env->next;
+	}
+
+}
+
+int main(int ac, char **av, char **env)
+{
+	t_env	*envp;
+
+	envp = get_envp(env);
     while(1)
     {
         t_token *token ;
