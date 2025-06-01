@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/31 15:55:49 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:02:54 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,66 +82,88 @@ t_token *_app_out(int *i, char c)
     return (tmp);
 }
 
-t_token *_word(char *input, int *i)
-{
-    t_token *tmp;
-    int j;
-    int k;
 
-    j = *i;
-    k = 0;
-    while (input[j] && is_metachar(input[j]) == 0 && is_whitespace(input[j]) == 0)
-    {
-        j++;
-        k++;
-    }
-    tmp = lst_new(ft_strndup(&input[*i], k - 1), WORD);
-    *i = j;
-    return (tmp);
+/*-------------------------------------------------------------------------------*/
+int	ft_charlen(char *str, char c)
+{
+	int	len;
+
+	len = 0;
+	while (str[len] && str[len] != c)
+		len++;
+	return (len);
 }
 
-t_token *_quotes(char *input, int *i)
+char	*_double_quotes(char *input, int *i)
 {
-    char *str = NULL;
+	char	*str;
+	int		len;
 
-    int j = *i + 1;
-    t_token *tmp;
-    while (input[*i] && !is_whitespace(input[j]) && !is_metachar(input[j]))
+	(*i)++;
+	len = ft_charlen(input + (*i), '"');
+	str = ft_substr(input + (*i), 0, len);
+	(*i) += len + 1;
+	return (str);
+}
+char	*_single_quotes(char *input, int *i)
+{
+	char	*str;
+	int		len;
+
+	(*i)++;
+	len = ft_charlen(input + (*i), '\'');
+	str = ft_substr(input + (*i), 0, len);
+	(*i) += len + 1;
+	return (str);
+}
+char	*_simple_word(char *input, int *i)
+{
+	char	*str;
+	int		len;
+
+	len = 0;
+	while (input[(*i) + len] && !is_whitespace(input[(*i) + len]) && !is_metachar(input[(*i) + len]))
+		len++;
+	str = ft_substr(input + (*i), 0, len);
+	(*i) += len;
+	return (str);
+}
+
+t_token *handling_word(char *input, int *i)
+{
+    char *str;
+    t_token *token;
+
+
+	str = NULL;
+    while (input[*i] && !is_whitespace(input[*i]))
     {
         if (input[*i] == '"')
-        {
-            while (input[j] && input[j] != '"')
-                j++;
-        }
-        else
-        {
-            while (input[j] && input[j] != '\'')
-                j++;
-        }
-        str = ft_strjoin(str, ft_substr(&input[*i + 1], 0, j - 1));
-        *i += j + 1;
+			str = ft_strjoin(str, _double_quotes(input, i));
+        else if (input[*i] == '\'')
+			str = ft_strjoin(str, _single_quotes(input, i));
+		else
+			str = ft_strjoin(str, _simple_word(input, i));
     }
     if(str)
-        tmp = lst_new(str, WORD);
-    return (tmp);
+        token = lst_new(str, WORD);
+    return (token);
 }
 
 t_token *check_operator(char *input, int *i)
 {
-    t_token *tmp = NULL;
-    int j;
-    int k = 0;
+    t_token *token = NULL;
+	int j;
+
     if (input[*i] == '|')
-        tmp = _pipe(i);
+        token = _pipe(i);
     else if (input[*i] == '<')
-        tmp = _heredoc_in(i, input[*i + 1]);
+        token = _heredoc_in(i, input[*i + 1]);
     else if (input[*i] == '>')
-        tmp = _app_out(i, input[*i + 1]);
-    else if (input[*i] != '"' && input[*i] != '\'')
-        tmp = _word(input, i);
+        token = _app_out(i, input[*i + 1]);
     else
-        tmp = _quotes(input, i);
-    return (tmp);
+        token = handling_word(input, i);
+    return (token);
 }
 
 t_token *tokenizer(char *input)
