@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/01 12:16:48 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/06/07 23:05:12 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_charlen(char *str, char c)
-{
-	int	len;
-
-	len = 0;
-	while (str[len] && str[len] != c)
-		len++;
-	return (len);
-}
 
 int	sep_name_value(char *var, char **name, char **value)
 {

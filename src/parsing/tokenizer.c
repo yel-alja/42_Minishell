@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/01 12:02:54 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/06/07 23:04:43 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,6 @@ t_token *_app_out(int *i, char c)
 }
 
 
-/*-------------------------------------------------------------------------------*/
-int	ft_charlen(char *str, char c)
-{
-	int	len;
-
-	len = 0;
-	while (str[len] && str[len] != c)
-		len++;
-	return (len);
-}
-
 char	*_double_quotes(char *input, int *i)
 {
 	char	*str;
@@ -138,6 +127,8 @@ t_token *handling_word(char *input, int *i)
 	str = NULL;
     while (input[*i] && !is_whitespace(input[*i]))
     {
+        if(input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
+            break;
         if (input[*i] == '"')
 			str = ft_strjoin(str, _double_quotes(input, i));
         else if (input[*i] == '\'')

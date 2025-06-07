@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/31 14:49:46 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/07 23:04:52 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,14 @@ int is_metachar(char c)
     if(c == '|' || c == '<' || c == '>' || c == '\'' || c == '"')
         return (1);
     return (0);
+}
+
+int	ft_charlen(char *str, char c)
+{
+	int	len;
+
+	len = 0;
+	while (str[len] && str[len] != c)
+		len++;
+	return (len);
 }
