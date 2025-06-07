@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/07 23:04:43 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/07 23:52:46 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ t_token *check_operator(char *input, int *i)
     t_token *token = NULL;
 	int j;
 
+    if (input[*i] == '\0')
+        return (NULL);
     if (input[*i] == '|')
         token = _pipe(i);
     else if (input[*i] == '<')
