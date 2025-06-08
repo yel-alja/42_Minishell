@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 08:53:55 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 11:35:43 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token *lst_new(char *input, t_type type)
     node->value = ft_strdup(input);
     garbage_collect(node->value);
     node->type = type;
+    node->quote = 0;
     node->next = NULL;
     return (node);
 }
@@ -122,7 +123,7 @@ t_token *handling_word(char *input, int *i)
 {
     char *str;
     t_token *token;
-
+    int quote = 0;
 
 	str = NULL;
     while (input[*i] && !is_whitespace(input[*i]))
@@ -130,14 +131,23 @@ t_token *handling_word(char *input, int *i)
         if(input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
             break;
         if (input[*i] == '"')
-			str = ft_strjoin(str, _double_quotes(input, i));
+        {
+            quote = 1;
+            str = ft_strjoin(str, _double_quotes(input, i));
+        }
         else if (input[*i] == '\'')
+        {
+            quote = 1;    
 			str = ft_strjoin(str, _single_quotes(input, i));
+        }
 		else
 			str = ft_strjoin(str, _simple_word(input, i));
     }
     if(str)
+    {
         token = lst_new(str, WORD);
+        token->quote = quote;
+    }
     return (token);
 }
 
@@ -198,6 +208,18 @@ int check_quotes(char *input)
     return (1);
 }
 
+// int check_syntax(t_token *token)
+// {
+//     if(token->type == PIPE)
+//     {
+//         write(2 , "syntax error near unexpected token '|'\n" ,40);
+//         return (0);   
+//     }
+//     while(token->next)
+//     {
+//         if(token->type == PIPE || token)
+//     }
+// }
 t_token *tokenizer(char *input)
 {
     t_token *head = NULL;
@@ -210,5 +232,7 @@ t_token *tokenizer(char *input)
             i++;
         lst_addback(&head, check_operator(input, &i));
     }
+    // if(!check_syntax(head))
+    //     return NULL;
     return head;
 }

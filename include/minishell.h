@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/07 23:32:28 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 11:29:35 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@ typedef struct s_env
 
 typedef enum	e_type
 {
-    PIPE = 0,        // |
-    WORD,        // |
+    PIPE,        // |
+    WORD,        // "hello"
     INPUT,       // <
     OUTPUT,      // >
     APPEND,      // >>
     HEREDOC,     // <<
-    HEREDOC_Q,	 // << '\"
 }				t_type;
 
 typedef struct	s_redir
@@ -66,6 +65,7 @@ typedef struct s_token
 {
 	char *value;
 	t_type type;
+	int quote; //if 0 the value it was not quoted else it was quoted
 	struct s_token *next;
 }	t_token;
 
