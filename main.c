@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 11:33:35 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:29:27 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ int main(int ac, char **av, char **env)
         if(input)
             add_history(input);
         token = tokenizer(input);
-        if(token == NULL)
-        {
-            garbage_collect(NULL);
-            continue;
-        }
+        // if(token == NULL)
+        // {
+        //     garbage_collect(NULL);
+        //     continue;
+        // }
         print_tokens(token);
     }
 }
