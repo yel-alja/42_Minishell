@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 11:35:43 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:24:09 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,18 +208,26 @@ int check_quotes(char *input)
     return (1);
 }
 
-// int check_syntax(t_token *token)
-// {
-//     if(token->type == PIPE)
-//     {
-//         write(2 , "syntax error near unexpected token '|'\n" ,40);
-//         return (0);   
-//     }
-//     while(token->next)
-//     {
-//         if(token->type == PIPE || token)
-//     }
-// }
+int check_syntax(t_token *token)
+{
+    if(token->type == PIPE)
+    {
+        write(2 , "syntax error\n" ,13);
+        return (0);   
+    }
+    while(token->next)
+    {
+        if((token->type == PIPE || token->value[0] == '<' || token->value[0] == '>') 
+                && token->next == NULL)
+        {
+             write(2 , "syntax error\n" ,13);
+            return (0);   
+        }
+        token = token->next;
+    }
+    return (1);
+}
+
 t_token *tokenizer(char *input)
 {
     t_token *head = NULL;
@@ -232,7 +240,7 @@ t_token *tokenizer(char *input)
             i++;
         lst_addback(&head, check_operator(input, &i));
     }
-    // if(!check_syntax(head))
-    //     return NULL;
+    if(!check_syntax(head))
+        return NULL;
     return head;
 }
