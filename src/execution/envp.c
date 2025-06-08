@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/07 23:05:12 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:41:56 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,16 @@ t_env	*get_envp(char **env)
 	head = NULL;
 	while(env[++i])
 	{
-		printf("%s\n", env[i]);
+		// printf("%s\n", env[i]);
 		add_var(&head, new_var(env[i]));
-		printf("%s", head->name);
-		if (head->value)
-		{
-			printf("=");
-			printf("%s", head->value);
-		}
-		printf("\n");
+		// printf("%s", head->name);
+		// if (head->value)
+		// {
+			// printf("=");
+			// printf("%s", head->value);
+		// }
+		// printf("\n");
 	}
-	printf("\nsize %d\n", i);
+	// printf("\nsize %d\n", i);
 	return (head);
 }

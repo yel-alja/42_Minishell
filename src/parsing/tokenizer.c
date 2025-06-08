@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 15:38:03 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:36:30 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char	*_double_quotes(char *input, int *i)
 	(*i) += len + 1;
 	return (str);
 }
+
 char	*_single_quotes(char *input, int *i)
 {
 	char	*str;
@@ -106,6 +107,7 @@ char	*_single_quotes(char *input, int *i)
 	(*i) += len + 1;
 	return (str);
 }
+
 char	*_simple_word(char *input, int *i)
 {
 	char	*str;
@@ -167,79 +169,6 @@ t_token *check_operator(char *input, int *i)
     else
         token = handling_word(input, i);
     return (token);
-}
-
-int into_quote(char *input , int *i , char c)
-{
-    *i += 1;
-    while(input[*i])
-    {
-        if(input[*i] == c)
-            return 1;
-        *i += 1;
-    }
-    return 0;
-}
-
-int check_quotes(char *input)
-{
-    int i = 0;
-
-    while(input[i])
-    {
-        if(input[i] == '"')
-        {
-            if(!into_quote(input , &i , '"'))
-            {
-                write(2 , "unclosed double quotes\n" , 23);   
-                return (0);
-            }
-        }
-        else if (input[i] == '\'')
-        {
-              if(!into_quote(input , &i , '\''))
-              {
-                    write(2 , "unclosed single quotes\n" , 23);
-                    return (0);
-              }
-        }
-        i++;
-    }
-    return (1);
-}
-
-int is_operator(t_token *token)
-{
-    if(token->value[0] == '<' || token->value[0] == '>' || token->type == PIPE)
-        return (1);
-    return (0);
-}
-
-int check_syntax(t_token *token)
-{
-    if(!token)
-        return (0);
-    if(token->type == PIPE)
-    {
-        write(2 , "syntax error\n" ,13);
-        return (0);   
-    }
-    while(token)
-    {
-        if((token->type == PIPE || is_operator(token)) 
-                && token->next == NULL)
-        {
-             write(2 , "syntax error\n" ,13);
-            return (0);   
-        }
-        if(is_operator(token) && is_operator(token->next))
-        {
-             write(2 , "syntax error\n" ,13);
-            return (0);   
-        }   
-        token = token->next;
-    }
-    return (1);
 }
 
 t_token *tokenizer(char *input)

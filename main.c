@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 15:29:27 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:46:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,20 @@ void env(t_env *our_env)
 
 }
 
+void printenv(t_env *e)
+{
+    while(e)
+    {
+        printf("%s=%s\n" , e->name , e->value);
+        e = e->next;
+    }
+}
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 
-	//envp = get_envp(env);
+	envp = get_envp(env);
+    // printenv(envp); 
     while(1)
     {
         t_token *token ;
@@ -59,11 +68,11 @@ int main(int ac, char **av, char **env)
         if(input)
             add_history(input);
         token = tokenizer(input);
-        // if(token == NULL)
-        // {
-        //     garbage_collect(NULL);
-        //     continue;
-        // }
+        if(token == NULL)
+        {
+            garbage_collect(NULL);
+            continue;
+        }
         print_tokens(token);
     }
 }

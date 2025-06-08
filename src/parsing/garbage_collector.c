@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:11:52 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/31 14:42:57 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:26:58 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void garbage_collect(void *ptr) // every time we allocate somthing using malloc 
     else
     {
         free_list(head);
+        head = NULL;
     }
 }

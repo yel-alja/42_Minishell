@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/06/07 23:36:50 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:39:10 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "minishell.h"
 
+typedef struct s_env t_env;
 
 bool	is_path(char *file);
 bool	is_built_in(char *cmd);
@@ -39,7 +40,7 @@ void	errmsg(char *cmd, char *arg, char *msg);
 
 
 /******** envp *********/
-//t_env	*get_envp(char **env);
+t_env	*get_envp(char **env);
 //utils
 int	ft_charlen(char *str, char c);
 
