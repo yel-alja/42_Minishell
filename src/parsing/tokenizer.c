@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/07 23:52:46 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 08:53:55 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,10 +159,51 @@ t_token *check_operator(char *input, int *i)
     return (token);
 }
 
+int into_quote(char *input , int *i , char c)
+{
+    *i += 1;
+    while(input[*i])
+    {
+        if(input[*i] == c)
+            return 1;
+        *i += 1;
+    }
+    return 0;
+}
+
+int check_quotes(char *input)
+{
+    int i = 0;
+
+    while(input[i])
+    {
+        if(input[i] == '"')
+        {
+            if(!into_quote(input , &i , '"'))
+            {
+                write(2 , "unclosed double quotes\n" , 23);   
+                return (0);
+            }
+        }
+        else if (input[i] == '\'')
+        {
+              if(!into_quote(input , &i , '\''))
+              {
+                    write(2 , "unclosed single quotes\n" , 23);
+                    return (0);
+              }
+        }
+        i++;
+    }
+    return (1);
+}
+
 t_token *tokenizer(char *input)
 {
     t_token *head = NULL;
     int i = 0;
+    if(!check_quotes(input))
+        return (head);
     while (input[i])
     {
         while (input[i] && is_whitespace(input[i]))
