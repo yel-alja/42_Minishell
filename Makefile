@@ -6,14 +6,15 @@ SRC = $(SRC_BUILT_IN) $(SRC_PARS) $(SRC_EXEC) main.c
 SRC_EX_DIR = src/execution
 SRC_PAR_DIR = src/parsing
 
-SRC_BUILT_IN = $(SRC_EX_DIR)/built-in/ft_cd.c $(SRC_EX_DIR)/built-in/ft_pwd.c $(SRC_EX_DIR)/built-in/ft_export.c \
-				$(SRC_EX_DIR)/built-in/ft_env.c $(SRC_EX_DIR)/built-in/ft_unset.c \
-				$(SRC_EX_DIR)/built-in/ft_exit.c $(SRC_EX_DIR)/built-in/ft_echo.c
+SRC_BUILT_IN = $(SRC_EX_DIR)/built-in/ft_cd.c $(SRC_EX_DIR)/built-in/ft_pwd.c \
+				$(SRC_EX_DIR)/built-in/ft_export.c $(SRC_EX_DIR)/built-in/ft_env.c \
+				$(SRC_EX_DIR)/built-in/ft_unset.c $(SRC_EX_DIR)/built-in/ft_exit.c \
+				$(SRC_EX_DIR)/built-in/ft_echo.c
 
 SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/utils.c $(SRC_EX_DIR)/envp.c
 
 SRC_PARS = $(SRC_PAR_DIR)/tokenizer.c  $(SRC_PAR_DIR)/garbage_collector.c $(SRC_PAR_DIR)/utils.c \
-			$(SRC_PAR_DIR)/syntax.c
+			$(SRC_PAR_DIR)/syntax.c $(SRC_PAR_DIR)/expansion.c
 
 LIB = libft/libft.a
 

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 18:36:30 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/08 19:09:11 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_token *handling_word(char *input, int *i)
         }
         else if (input[*i] == '\'')
         {
-            quote = 1;    
+            quote = 2;    
 			str = ft_strjoin(str, _single_quotes(input, i));
         }
 		else
