@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/09 22:06:12 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:23:38 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int check_dollar(char *str)
     }
     return (0);
 }
-void search_and_replace(char *tkn , char *var_name, char *var_val , int nalen)
+char *search_and_replace(char *tkn , char *var_name, char *var_val , int nalen)
 {
     int i= 0;
     int j;
-    int len = ft_strlen(tkn) + ft_strlen(var_val) - nalen;
+    int len = ft_strlen(tkn) + ft_strlen(var_val) - nalen + 1;
     char *res = malloc(len + 1);
+    garbage_collect(res);
     while(tkn[i])
     {
         if(!ft_strncmp(&tkn[i] , var_name , nalen)) 
@@ -47,17 +48,19 @@ void search_and_replace(char *tkn , char *var_name, char *var_val , int nalen)
         }
         i++;
     }
-    res[i] = '\0';  
-    printf("%s\n" , res);
+    res[i] = '\0';
+    return res;
 }
-void var(t_token *token)
+
+char *var(t_token *token)
 {
     int i = 0;
     int start = 0;
     char *var_name= NULL;
     char *var_value = NULL;
+    char *p = NULL;
     if(!check_dollar(token->value))
-        return;
+        return NULL;
     while(token->value[i])
     {
         if(token->value[i] == '$')
@@ -68,13 +71,16 @@ void var(t_token *token)
                         token->value[start] != '$')
                 start++;
             var_name = ft_substr(token->value , i, start - i + 1); //? garbage collect also for strdup bellow
-            var_value = ft_strdup(getenv(var_name));                        //we should implement our getenv
+            garbage_collect(var_name);
+            var_value = getenv(var_name);                        //we should implement our getenv
             if(!var_value)
                 continue;
-            search_and_replace(token->value , var_name , var_value ,ft_strlen(var_name));
+            if(!p)
+                p = search_and_replace(token->value , var_name , var_value ,ft_strlen(var_name));
         }
         i++;
     }
+    return (p);
 }
 
 void expansion(t_token **token)
@@ -82,12 +88,14 @@ void expansion(t_token **token)
     t_token *tmp;
 
     tmp = *token;
-    
+    char *res = NULL;
     while(tmp)
     {
         if(tmp->type == WORD && tmp->quote != 2)
         {
-            var(tmp);
+            res = var(tmp);
+            if(res) 
+                tmp->value = res; //? i lose adress here  but maybe the garbage know it
         }
         tmp = tmp->next;
     }
