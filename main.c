@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/10 10:20:05 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:41:58 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 
-	envp = get_envp(env);
+	// envp = get_envp(env);
     // printenv(envp); 
     while(1)
     {
@@ -73,8 +73,8 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL);
             continue;
         }
-        expansion(&token);
+        // expansion(&token);
         print_tokens(token);
-        garbage_collect(NULL);        
+        // gabage_collect(NULL);        
     }
 }

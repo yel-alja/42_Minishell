@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 19:09:11 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:42:16 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ t_token *lst_new(char *input, t_type type)
     t_token *node;
 
     node = malloc(sizeof(t_token));
-    garbage_collect(node);
+    // garbage_collect(node);
     node->value = ft_strdup(input);
-    garbage_collect(node->value);
+    // garbage_collect(node->value);
     node->type = type;
     node->quote = 0;
     node->next = NULL;
@@ -92,6 +92,7 @@ char	*_double_quotes(char *input, int *i)
 	(*i)++;
 	len = ft_charlen(input + (*i), '"');
 	str = ft_substr(input + (*i), 0, len);
+    // garbage_collect(str);
 	(*i) += len + 1;
 	return (str);
 }
@@ -104,6 +105,7 @@ char	*_single_quotes(char *input, int *i)
 	(*i)++;
 	len = ft_charlen(input + (*i), '\'');
 	str = ft_substr(input + (*i), 0, len);
+    // garbage_collect(str);
 	(*i) += len + 1;
 	return (str);
 }
@@ -117,6 +119,7 @@ char	*_simple_word(char *input, int *i)
 	while (input[(*i) + len] && !is_whitespace(input[(*i) + len]) && !is_metachar(input[(*i) + len]))
 		len++;
 	str = ft_substr(input + (*i), 0, len);
+    // garbage_collect(str);
 	(*i) += len;
 	return (str);
 }
@@ -136,6 +139,10 @@ t_token *handling_word(char *input, int *i)
         {
             quote = 1;
             str = ft_strjoin(str, _double_quotes(input, i));
+            token = lst_new(str, WORD);
+            token->quote = quote;
+            expansion(&token);
+            str = ft_strdup(token->value);
         }
         else if (input[*i] == '\'')
         {
@@ -143,7 +150,13 @@ t_token *handling_word(char *input, int *i)
 			str = ft_strjoin(str, _single_quotes(input, i));
         }
 		else
-			str = ft_strjoin(str, _simple_word(input, i));
+        {   
+            str = ft_strjoin(str, _simple_word(input, i));
+            token = lst_new(str, WORD);
+            token->quote = quote;
+            expansion(&token);
+            str = ft_strdup(token->value);
+        }
     }
     if(str)
     {

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 18:30:48 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/13 02:20:54 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char *ft_strndup(char *str , int size)
     int i;
     
     p = malloc(size + 2); 
-    garbage_collect(p);
+    // garbage_collect(p);
     i = 0;
     while(i <= size)
     {

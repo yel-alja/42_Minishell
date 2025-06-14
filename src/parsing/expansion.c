@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/10 10:23:38 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:41:31 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,35 @@ int check_dollar(char *str)
     }
     return (0);
 }
-char *search_and_replace(char *tkn , char *var_name, char *var_val , int nalen)
+
+char *remove_name(char *str ,char *str_rm)
+{
+    int i = 0;
+    int j = 0;
+    char *res = malloc(ft_strlen(str) - ft_strlen(str_rm) + 1);
+    while(str[i])
+    {
+        if(!ft_strncmp(&str[i] , str_rm , ft_strlen(str_rm)))
+        {
+            i += ft_strlen(str_rm);
+        }
+        res[j] = str[i];
+        j++;
+        i++;
+    }
+    res[j] = '\0';
+    return (res);
+}
+
+char *search_and_replace(char **token , char *var_name, char *var_val , int nalen)
 {
     int i= 0;
     int j;
+    char *tkn = (*token);
     int len = ft_strlen(tkn) + ft_strlen(var_val) - nalen + 1;
     char *res = malloc(len + 1);
-    garbage_collect(res);
-    while(tkn[i])
+    // garbage_collect(res);
+    while(i < len)
     {
         if(!ft_strncmp(&tkn[i] , var_name , nalen)) 
         {
@@ -49,6 +70,7 @@ char *search_and_replace(char *tkn , char *var_name, char *var_val , int nalen)
         i++;
     }
     res[i] = '\0';
+    *token = remove_name(tkn , var_name);
     return res;
 }
 
@@ -70,13 +92,13 @@ char *var(t_token *token)
             while(token->value[start] && !is_whitespace(token->value[start]) &&
                         token->value[start] != '$')
                 start++;
-            var_name = ft_substr(token->value , i, start - i + 1); //? garbage collect also for strdup bellow
-            garbage_collect(var_name);
-            var_value = getenv(var_name);                        //we should implement our getenv
+            var_name = ft_substr(token->value , i - 1, start - i + 1); //? garbage collect also for strdup bellow
+            // garbage_collect(var_name);
+            var_value = getenv(var_name + 1);                        //we should implement our getenv
             if(!var_value)
                 continue;
-            if(!p)
-                p = search_and_replace(token->value , var_name , var_value ,ft_strlen(var_name));
+            p = ft_strjoin(p , search_and_replace(&token->value , var_name , var_value ,ft_strlen(var_name)));
+            i = -1;
         }
         i++;
     }
