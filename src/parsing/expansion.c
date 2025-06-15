@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/14 10:41:31 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:10:32 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void expansion(t_token **token)
     char *res = NULL;
     while(tmp)
     {
-        if(tmp->type == WORD && tmp->quote != 2)
+        if(tmp->type == WORD)
         {
             res = var(tmp);
             if(res) 
