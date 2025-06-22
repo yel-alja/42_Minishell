@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/14 10:41:58 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:02:00 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,57 @@ void printenv(t_env *e)
         e = e->next;
     }
 }
+
+
+// void print_cmd_list(t_cmd *cmd) {
+//     int index = 0;
+//     while (cmd) {
+//         printf("=== Command %d ===\n", index++);
+//         printf("Command: %s\n", cmd->cmd);
+
+//         printf("Args:\n");
+//         if (cmd->args) {
+//             for (int i = 0; cmd->args[i]; i++)
+//                 printf("%s ", cmd->args[i]);
+//         }
+//                 printf("\nred:\n");
+//         if (cmd->redirects) {
+//             t_redir *red = cmd->redirects;
+//             while( red)
+//             {
+//                 printf("file %s type %s\n", red->file_del , type_to_str(red->type));
+//                 red = red->next;
+//             }
+//         }
+//         }
+//         printf("\n");
+//         cmd = cmd->next;
+//     }
+
+void print_cmd_list(t_cmd *cmd) {
+    int index = 0;
+    while (cmd) {
+        printf("=== Command %d ===\n", index++);
+        printf("Command: %s\n", cmd->cmd);
+
+        printf("Args:\n");
+        if (cmd->args) {
+            for (int i = 0; cmd->args[i]; i++)
+                printf("%s ", cmd->args[i]);
+        }
+        printf("\nRedirections:\n");
+        if (cmd->redirects) {
+            t_redir *red = cmd->redirects;
+            while (red) {
+                printf("file %s type %s\n", red->file_del, type_to_str(red->type));
+                red = red->next;
+            }
+        }
+        printf("\n");
+        cmd = cmd->next;
+    }
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
@@ -74,7 +125,8 @@ int main(int ac, char **av, char **env)
             continue;
         }
         // expansion(&token);
-        print_tokens(token);
+        // print_tokens(token);
+        print_cmd_list(parser(token));
         // gabage_collect(NULL);        
     }
 }

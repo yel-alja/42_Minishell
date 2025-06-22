@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 11:41:47 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:44:54 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct	s_redir
 
 typedef struct	s_cmd
 {
+	char 			*cmd;
 	char			**args;
 	int				fd_input;
 	int				fd_output;
@@ -66,7 +67,7 @@ typedef struct s_token
 {
 	char *value;
 	t_type type;
-	int quote; //if 0 the value it was not quoted else it was quoted
+	int quote; //if 0 the value it was not quoted else it was quoted {'1} {"2}
 	struct s_token *next;
 }	t_token;
 

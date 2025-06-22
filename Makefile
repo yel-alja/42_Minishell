@@ -14,7 +14,8 @@ SRC_BUILT_IN = $(SRC_EX_DIR)/built-in/ft_cd.c $(SRC_EX_DIR)/built-in/ft_pwd.c \
 SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/utils.c $(SRC_EX_DIR)/envp.c
 
 SRC_PARS = $(SRC_PAR_DIR)/tokenizer.c  $(SRC_PAR_DIR)/garbage_collector.c $(SRC_PAR_DIR)/utils.c \
-			$(SRC_PAR_DIR)/syntax.c $(SRC_PAR_DIR)/expansion.c
+			$(SRC_PAR_DIR)/syntax.c $(SRC_PAR_DIR)/expansion.c $(SRC_PAR_DIR)/parser.c \
+			$(SRC_PAR_DIR)/parser_utils.c
 
 LIB = libft/libft.a
 
