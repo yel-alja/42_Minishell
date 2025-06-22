@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/22 18:01:41 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:13:28 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ t_cmd *parser2(t_token **tkn)
     int i  = 0;
     while(token)
     {
-        if(token->type != HEREDOC && token->type != OUTPUT && token->type != INPUT
+        if(token->type == PIPE)
+            break;
+        else if(token->type != HEREDOC && token->type != OUTPUT && token->type != INPUT
             && token->type != APPEND)
             {
                 args[i] = ft_strdup(token->value);
@@ -56,8 +58,6 @@ t_cmd *parser2(t_token **tkn)
             tmp = lst_new_red(token->next->value, INPUT);
         else if(token->type == APPEND)
             tmp = lst_new_red(token->next->value, APPEND);
-        else if(token->type == PIPE)
-            break;
         if(tmp)
         {
             lst_add_back(&red, tmp);
