@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/23 00:13:28 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:40:42 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ t_cmd *parser2(t_token **tkn)
             lst_add_back(&red, tmp);
             tmp = NULL;
         }
-        token = token->next;
+        if(token->type != HEREDOC && token->type != OUTPUT && token->type != INPUT
+            && token->type != APPEND)
+            token = token->next;
+        else
+            token = token->next->next;
     }
     args[i] = NULL;
     cmd = lst_new_cmd(cmnd , args , red);
