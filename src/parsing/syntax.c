@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:32:56 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/09 18:33:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:17:47 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int check_syntax(t_token *token)
              write(2 , "syntax error\n" ,13);
             return (0);   
         }
-        // if(is_operator(token) && is_operator(token->next)) //?
-        // {
-        //      write(2 , "syntax error\n" ,13);
-        //     return (0);   
-        // }   
+        if(is_operator(token) && is_operator(token->next)) //?
+        {
+             write(2 , "syntax error\n" ,13);
+            return (0);   
+        }   
         token = token->next;
     }
     return (1);

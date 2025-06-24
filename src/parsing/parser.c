@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/23 00:40:42 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:34:40 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ int count_args(t_token *token)
     }
     return (i);
 }
+char *get_cmd_name(t_token *token)
+{
+    char *cmd;
+    while(token)
+    {
+        if(token->type == WORD)
+            return(ft_strdup(token->value));
+        // if(token->type == HEREDOC || token->type == OUTPUT || token->type == INPUT
+        //     || token->type == APPEND)
+        else
+            token = token->next->next;
+    }
+    return (NULL);
+}
 
 t_cmd *parser2(t_token **tkn)
 {
@@ -32,7 +46,8 @@ t_cmd *parser2(t_token **tkn)
     t_redir *red = NULL;
     t_cmd   *cmd = NULL;
     t_token *token = (*tkn);
-    char *cmnd = ft_strdup(token->value);
+    int j = 0;
+    char *cmnd = get_cmd_name(token);
     char **args = malloc(count_args(token) * 8);
     int i  = 0;
     while(token)
