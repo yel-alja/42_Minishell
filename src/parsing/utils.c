@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/13 02:20:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/25 09:48:52 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_charlen(char *str, char c)
 
 int is_operator(t_token *token)
 {
-    if(token->value[0] == '<' || token->value[0] == '>' || token->type == PIPE)
+    if(token->value[0] == '<' || token->value[0] == '>')
         return (1);
     return (0);
 }
