@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/23 00:16:57 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/29 09:47:15 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,28 @@ void print_cmd_list(t_cmd *cmd) {
     }
 }
 
+void check_red(t_cmd *cmd)
+{
+    
+    while(cmd)
+    {
+     t_redir *red = cmd->redirects;
+     while(red)
+     {
+        if(red->type == HEREDOC)
+        {
+            heredoc("herdoc.txt" ,red->file_del );
+        }
+        red = red->next;
+     }
+     cmd = cmd->next;
+    }
+}
 int main(int ac, char **av, char **env)
 {
-	t_env	*envp;
-
-	// envp = get_envp(env);
+	t_env	*envp = NULL;
+    t_cmd *cmd = NULL;
+	envp = get_envp(env);
     // printenv(envp); 
     while(1)
     {
@@ -98,9 +115,10 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL);
             continue;
         }
-        // expansion(&token);
+        cmd = parser(token);
+        check_red(cmd);
+        // print_cmd_list(cmd);
         // print_tokens(token);
-        print_cmd_list(parser(token));
         // gabage_collect(NULL);        
     }
 }

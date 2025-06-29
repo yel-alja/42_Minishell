@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:25:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/27 12:02:33 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:22:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ int	rd_append(char *file, int fd)
 	return (fd);
 }
 
+int heredoc(char *file , char *del)
+{
+	int fd = open(file , O_RDWR | O_CREAT , 0644);
+	char *line = NULL;
+	while(1)
+	{
+		line  = readline(">");
+		ft_putstr_fd(line , fd);
+		if(!ft_strcmp(line , del))
+			break;
+	}
+	return fd;
+}
 
 // int main(int argc, char *argv[])
 // {

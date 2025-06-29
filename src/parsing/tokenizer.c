@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/19 16:30:48 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:23:53 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*_single_quotes(char *input, int *i)
 	(*i)++;
 	len = ft_charlen(input + (*i), '\'');
 	str = ft_substr(input + (*i) - 1, 0, len + 2);
-    // garbage_collect(str);
+    garbage_collect(str);
 	(*i) += len + 1;
 	return (str);
 }
@@ -120,9 +120,7 @@ char	*_simple_word(char *input, int *i)
 		len++;
 	str = ft_substr(input + (*i), 0, len);
     // garbage_collect(str);
-    // token = lst_new(str, WORD);
     // str = expansion(str);
-    // str = ft_strdup(token->value);
 	(*i) += len;
 	return (str);
 }
