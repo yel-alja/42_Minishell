@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/29 09:47:15 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/29 22:48:56 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void print_cmd_list(t_cmd *cmd) {
     }
 }
 
+
 void check_red(t_cmd *cmd)
 {
     
@@ -89,7 +90,7 @@ void check_red(t_cmd *cmd)
      {
         if(red->type == HEREDOC)
         {
-            heredoc("herdoc.txt" ,red->file_del );
+            heredoc(red->file_del );
         }
         red = red->next;
      }
