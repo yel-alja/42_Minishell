@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/06/29 22:50:32 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:04:28 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_built_in(char *cmd);
 
 // Redirections
 // int		here_doc(char *del, int fd);
-int     heredoc(char *del);
+char     *heredoc(char *del);
 int		rd_input(char *file, int fd);
 int		rd_output(char *file, int fd);
 int		rd_append(char *file, int fd);

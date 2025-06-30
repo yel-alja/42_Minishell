@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/29 22:48:56 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:05:48 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void print_cmd_list(t_cmd *cmd) {
 }
 
 
-void check_red(t_cmd *cmd)
+void check_red(t_cmd *cmd) // just for testing
 {
     
     while(cmd)
@@ -89,9 +89,7 @@ void check_red(t_cmd *cmd)
      while(red)
      {
         if(red->type == HEREDOC)
-        {
-            heredoc(red->file_del );
-        }
+            heredoc(red->file_del);
         red = red->next;
      }
      cmd = cmd->next;

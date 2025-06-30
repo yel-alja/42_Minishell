@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:25:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/06/29 22:53:46 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:04:15 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char *create_name()
     return ("/tmp/herdoc.txt");
 }
 
-int heredoc(char *del)
+char *heredoc(char *del)
 {
 	char *file = create_name();
 	int fd = open(file , O_RDWR | O_CREAT , 0644);
@@ -93,7 +93,7 @@ int heredoc(char *del)
 		ft_putstr_fd(line , fd);
 		ft_putstr_fd("\n" , fd);
 	}
-	return fd;
+	return file;
 }
 
 // int main(int argc, char *argv[])
