@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:32:56 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/25 09:48:36 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:28:15 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int check_quotes(char *input)
         {
             if(!into_quote(input , &i , '"'))
             {
-                write(2 , "unclosed double quotes\n" , 23);   
+                write(2 , "unclosed double quotes\n" , 23);
                 return (0);
             }
         }
@@ -58,21 +58,22 @@ int check_syntax(t_token *token)
     if(token->type == PIPE)
     {
         write(2 , "syntax error\n" ,13);
-        return (0);   
+        return (0);
     }
     while(token)
     {
         if((is_operator(token) || token->type == PIPE )&& token->next == NULL)
         {
              write(2 , "syntax error\n" ,13);
-            return (0);   
+            return (0);
         }
         if(is_operator(token) && is_operator(token->next)) //?
         {
-             write(2 , "syntax error\n" ,13);
-            return (0);   
-        }   
+            write(2 , "syntax error\n" ,13);
+            return (0);
+        }
         token = token->next;
     }
     return (1);
 }
+

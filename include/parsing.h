@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/22 15:09:57 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:00:35 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red);
 void lst_add_back(t_redir **head, t_redir *node);
 t_cmd *parser(t_token *token);
 t_redir *lst_new_red(char *file , t_type type);
+/******quote removal******/
+char *quote_removal(char *str);
 
 #endif

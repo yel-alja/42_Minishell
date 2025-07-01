@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/22 15:43:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:50:37 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red)
 {
     t_cmd *tmp;
-    
+
     tmp = malloc(sizeof(t_cmd));
     // garbage_collect(tmp);
     tmp->cmd = cmd;
@@ -28,10 +28,10 @@ t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red)
 t_redir *lst_new_red(char *file , t_type type)
 {
     t_redir *tmp;
-    
+
     tmp = malloc(sizeof(t_redir));
     // garbage_collect(tmp);
-    tmp->file_del = file;
+    tmp->filename = file;
     tmp->type = type;
     tmp->next = NULL;
     return(tmp);

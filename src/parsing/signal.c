@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 11:12:30 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 20:52:29 by zouazrou         ###   ########.fr       */
+/*   Created: 2025/07/01 12:02:31 by zouazrou          #+#    #+#             */
+/*   Updated: 2025/07/01 22:21:41 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
+extern int	signal_code;
 
-size_t	ft_strlen(const char *s)
+void	ctrl_c(int sig)
 {
-	size_t	len;
-
-	len = 0;
-	if(!s)
-		return (0);
-	while (s[len])
-		len++;
-	return (len);
+	write(2, "\n", 1);
+	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
+	rl_on_new_line(); // move to new line
+	rl_redisplay(); // reprint promt
+	signal_code = sig;
 }

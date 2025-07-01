@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/07 23:12:41 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:50:37 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	run_redirects(t_cmd *cmd, t_env **env)
 	redir = cmd->redirects;
 	while (redir)
 	{
-		if (redir->type == HEREDOC_Q || redir->type == HEREDOC)
-			cmd->fd_input = here_doc(redir->file_del, cmd->fd_input);
-		else if (redir->type == INPUT)
-			cmd->fd_input = rd_input(redir->file_del, cmd->fd_input);
+		// if (redir->type == HEREDOC_Q || redir->type == HEREDOC)
+		// 	cmd->fd_input = here_doc(redir->filename, cmd->fd_input);
+		if (redir->type == INPUT)
+			cmd->fd_input = rd_input(redir->filename, cmd->fd_input);
 		else if (redir->type == OUTPUT)
-			cmd->fd_output = rd_output(redir->file_del, cmd->fd_output);
+			cmd->fd_output = rd_output(redir->filename, cmd->fd_output);
 		else if (redir->type == APPEND)
-			cmd->fd_output = rd_append(redir->file_del, cmd->fd_input);
+			cmd->fd_output = rd_append(redir->filename, cmd->fd_input);
 		// Check if Error occured
 		if (cmd->fd_input == -1 || cmd->fd_input == -1)
 			cmd->error = true;

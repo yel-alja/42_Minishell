@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/30 10:05:48 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:18:35 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
+int	signal_code;
+
 char *type_to_str(t_type type)
 {
     if (type == PIPE) return "PIPE";
     if (type == APPEND) return "APPEND";
-    if (type == OUTPUT) return "REDIR_OUT";
-    if (type == INPUT) return "REDIR_IN";
+    if (type == OUTPUT) return "OUTPUT";
+    if (type == INPUT) return "INPUT";
     if (type == HEREDOC) return "HEREDOC";
     return "WORD";
 }
@@ -26,7 +28,13 @@ void print_tokens(t_token *token)
 {
     while(token)
     {
-         printf("\033[36m[value : \033[0m\033[33m%s\033[0m\033[36m]    [type : \033[0m\033[32m%s\033[0m\033[36m]\033[0m   {%d}\n ",token->value, type_to_str(token->type) , token->quote);
+		if (token->type == WORD)
+		{
+			char *ptr = token->value;
+			token->value = quote_removal(ptr);
+			free(ptr);
+		}
+        printf("\033[36m[value : \033[0m\033[33m%s\033[0m\033[36m]    [type : \033[0m\033[32m%s\033[0m\033[36m]\033[0m\n",token->value, type_to_str(token->type));
         token = token->next;
     }
 }
@@ -70,7 +78,7 @@ void print_cmd_list(t_cmd *cmd) {
         if (cmd->redirects) {
             t_redir *red = cmd->redirects;
             while (red) {
-                printf("file %s type %s\n", red->file_del, type_to_str(red->type));
+                printf("file %s type %s\n", red->filename, type_to_str(red->type));
                 red = red->next;
             }
         }
@@ -80,44 +88,49 @@ void print_cmd_list(t_cmd *cmd) {
 }
 
 
-void check_red(t_cmd *cmd) // just for testing
-{
-    
-    while(cmd)
-    {
-     t_redir *red = cmd->redirects;
-     while(red)
-     {
-        if(red->type == HEREDOC)
-            heredoc(red->file_del);
-        red = red->next;
-     }
-     cmd = cmd->next;
-    }
-}
+// void check_red(t_cmd *cmd) // just for testing
+// {
+
+//     while(cmd)
+//     {
+//      t_redir *red = cmd->redirects;
+//      while(red)
+//      {
+//         if(red->type == HEREDOC)
+//             heredoc(red->filename);
+//         red = red->next;
+//      }
+//      cmd = cmd->next;
+//     }
+// }
+
+//'dsfjl"f'''das"'
 int main(int ac, char **av, char **env)
 {
-	t_env	*envp = NULL;
-    t_cmd *cmd = NULL;
+	t_env	*envp;
+	t_token *token;
+	char *input;
+
 	envp = get_envp(env);
-    // printenv(envp); 
+    // printenv(envp);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
-        t_token *token ;
-        char *input;
-        input = readline("minishell> ");
-        if(input)
-            add_history(input);
+        input = readline(PROMPT);
+        if(!input)
+		{
+			// clean up
+			exit(EXIT_SUCCESS);
+		}
+		add_history(input);
         token = tokenizer(input);
         if(token == NULL)
         {
             garbage_collect(NULL);
             continue;
         }
-        cmd = parser(token);
-        check_red(cmd);
-        // print_cmd_list(cmd);
-        // print_tokens(token);
-        // gabage_collect(NULL);        
+        print_tokens(token);
+        // gabage_collect(NULL);
     }
 }

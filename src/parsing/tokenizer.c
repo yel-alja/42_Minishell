@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/25 22:23:53 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:10:17 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_token *lst_new(char *input, t_type type)
     node->value = ft_strdup(input);
     // garbage_collect(node->value);
     node->type = type;
-    node->quote = 0;
     node->next = NULL;
     return (node);
 }
@@ -41,7 +40,7 @@ void lst_addback(t_token **head, t_token *node)
     }
 }
 
-t_token *_pipe(int *i)
+t_token *token_pipe(int *i)
 {
     t_token *tmp;
 
@@ -50,7 +49,7 @@ t_token *_pipe(int *i)
     return (tmp);
 }
 
-t_token *_heredoc_in(int *i, char c)
+t_token *token_re_input(int *i, char c)
 {
     t_token *tmp;
 
@@ -67,7 +66,7 @@ t_token *_heredoc_in(int *i, char c)
     return (tmp);
 }
 
-t_token *_app_out(int *i, char c)
+t_token *token_re_output(int *i, char c)
 {
     t_token *tmp;
     if (c != '>')
@@ -84,48 +83,32 @@ t_token *_app_out(int *i, char c)
 }
 
 
-char	*_double_quotes(char *input, int *i)
-{
-	char	*str;
-	int		len;
-    t_token *token;
-	(*i)++;
-	len = ft_charlen(input + (*i), '"');
-	str = ft_substr(input + (*i) - 1, 0, len + 2);
-	(*i) += len + 1;
-    // str = expansion(str);
-	return (str);
-}
-
-char	*_single_quotes(char *input, int *i)
+char	*quoted_word(char *input, int *i, char quote)
 {
 	char	*str;
 	int		len;
 
 	(*i)++;
-	len = ft_charlen(input + (*i), '\'');
+	len = ft_charlen(input + (*i), quote);
 	str = ft_substr(input + (*i) - 1, 0, len + 2);
-    garbage_collect(str);
 	(*i) += len + 1;
 	return (str);
 }
 
-char	*_simple_word(char *input, int *i)
+char	*unquoted_word(char *input, int *i)
 {
 	char	*str;
 	int		len;
-    t_token *token;
+
 	len = 0;
 	while (input[(*i) + len] && !is_whitespace(input[(*i) + len]) && !is_metachar(input[(*i) + len]))
 		len++;
 	str = ft_substr(input + (*i), 0, len);
-    // garbage_collect(str);
-    // str = expansion(str);
 	(*i) += len;
 	return (str);
 }
 
-t_token *handling_word(char *input, int *i)
+t_token *token_word(char *input, int *i)
 {
     char *str;
     t_token *token;
@@ -137,41 +120,31 @@ t_token *handling_word(char *input, int *i)
         if(input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
             break;
         if (input[*i] == '"')
-        {
-            quote = 1;
-            str = ft_strjoin(str, _double_quotes(input, i));
-        }
+            str = ft_strjoin(str, quoted_word(input, i, '"'));
         else if (input[*i] == '\'')
-        {
-            quote = 2;    
-			str = ft_strjoin(str, _single_quotes(input, i));
-        }
+			str = ft_strjoin(str, quoted_word(input, i, '\''));
 		else
-            str = ft_strjoin(str, _simple_word(input, i));
+            str = ft_strjoin(str, unquoted_word(input, i));
     }
     if(str)
-    {
         token = lst_new(str, WORD);
-        token->quote = quote;
-    }
     return (token);
 }
 
-t_token *check_operator(char *input, int *i)
+t_token *handling_token(char *input, int *i)
 {
     t_token *token = NULL;
-	int j;
 
     if (input[*i] == '\0')
         return (NULL);
     if (input[*i] == '|')
-        token = _pipe(i);
+        token = token_pipe(i);
     else if (input[*i] == '<')
-        token = _heredoc_in(i, input[*i + 1]);
+        token = token_re_input(i, input[*i + 1]);
     else if (input[*i] == '>')
-        token = _app_out(i, input[*i + 1]);
+        token = token_re_output(i, input[*i + 1]);
     else
-        token = handling_word(input, i);
+        token = token_word(input, i);
     return (token);
 }
 
@@ -187,7 +160,7 @@ t_token *tokenizer(char *input)
             i++;
         if(!input[i])
             break;
-        lst_addback(&head, check_operator(input, &i));
+        lst_addback(&head, handling_token(input, &i));
     }
     if(!check_syntax(head))
         return NULL;

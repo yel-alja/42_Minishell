@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/19 16:44:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:07:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #include "parsing.h"
 #include "execution.h"
 
+#define PROMPT "yzsh>"
+
 typedef struct s_env
 {
 	char			*name;
@@ -42,13 +44,12 @@ typedef enum	e_type
     OUTPUT,      // >
     APPEND,      // >>
     HEREDOC,     // <<
-    HEREDOC_Q,	 // << '\"
 }				t_type;
 
 typedef struct	s_redir
 {
-    char			*file_del;
-    t_type	type;
+    char			*filename;
+    t_type			type;
     struct s_redir	*next;
 }					t_redir;
 
@@ -67,7 +68,6 @@ typedef struct s_token
 {
 	char *value;
 	t_type type;
-	int quote; //if 0 the value it was not quoted else it was quoted {'1} {"2}
 	struct s_token *next;
 }	t_token;
 
@@ -77,5 +77,7 @@ typedef struct s_garbage
 	struct s_garbage *next;
 }	t_garbage;
 
+/*******signal******/
+void	ctrl_c(int sig);
 
 #endif
