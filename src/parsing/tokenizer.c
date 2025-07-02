@@ -6,13 +6,13 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/01 11:10:17 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:51:26 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_token *lst_new(char *input, t_type type)
+t_token *new_token(char *input, t_type type)
 {
     t_token *node;
 
@@ -25,7 +25,7 @@ t_token *lst_new(char *input, t_type type)
     return (node);
 }
 
-void lst_addback(t_token **head, t_token *node)
+void token_add_back(t_token **head, t_token *node)
 {
     t_token *tmp;
 
@@ -44,7 +44,7 @@ t_token *token_pipe(int *i)
 {
     t_token *tmp;
 
-    tmp = lst_new("|", PIPE);
+    tmp = new_token("|", PIPE);
     *i += 1;
     return (tmp);
 }
@@ -55,12 +55,12 @@ t_token *token_re_input(int *i, char c)
 
     if (c != '<')
     {
-        tmp = lst_new("<", INPUT);
+        tmp = new_token("<", INPUT);
         *i += 1;
     }
     else
     {
-        tmp = lst_new("<<", HEREDOC);
+        tmp = new_token("<<", HEREDOC);
         *i += 2;
     }
     return (tmp);
@@ -71,19 +71,19 @@ t_token *token_re_output(int *i, char c)
     t_token *tmp;
     if (c != '>')
     {
-        tmp = lst_new(">", OUTPUT);
+        tmp = new_token(">", OUTPUT);
         *i += 1;
     }
     else
     {
-        tmp = lst_new(">>", APPEND);
+        tmp = new_token(">>", APPEND);
         *i += 2;
     }
     return (tmp);
 }
 
 
-char	*quoted_word(char *input, int *i, char quote)
+char	*quoted_word(char *input, int *i, char *quote)
 {
 	char	*str;
 	int		len;
@@ -120,14 +120,15 @@ t_token *token_word(char *input, int *i)
         if(input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
             break;
         if (input[*i] == '"')
-            str = ft_strjoin(str, quoted_word(input, i, '"'));
+            str = ft_strjoin(str, quoted_word(input, i, "\""));
         else if (input[*i] == '\'')
-			str = ft_strjoin(str, quoted_word(input, i, '\''));
+			str = ft_strjoin(str, quoted_word(input, i, "'"));
 		else
             str = ft_strjoin(str, unquoted_word(input, i));
     }
     if(str)
-        token = lst_new(str, WORD);
+        token = new_token(str, WORD);
+	free(str);
     return (token);
 }
 
@@ -160,7 +161,7 @@ t_token *tokenizer(char *input)
             i++;
         if(!input[i])
             break;
-        lst_addback(&head, handling_token(input, &i));
+        token_add_back(&head, handling_token(input, &i));
     }
     if(!check_syntax(head))
         return NULL;

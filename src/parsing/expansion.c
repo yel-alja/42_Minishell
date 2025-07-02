@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/19 01:38:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:01:16 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *search_and_replace(char **token , char *var_name, char *var_val , int nale
     // garbage_collect(res);
     while(i < len)
     {
-        if(!ft_strncmp(&tkn[i] , var_name , nalen)) 
+        if(!ft_strncmp(&tkn[i] , var_name , nalen))
         {
             j = 0;
             while(var_val[j])
@@ -81,7 +81,7 @@ char *var(char *token)
     char *var_name= NULL;
     char *var_value = NULL;
     char *p = NULL;
-   
+
     while(token[i])
     {
         if(token[i] == '$')
@@ -111,4 +111,40 @@ char *expansion(char *token)
         return token;
     res = var(token);
     return res;
+}
+
+/*	Notes:
+		if value begin by whitespases then split him from prev token
+		else join prev token with first word from value
+		ex : var=" A B "  ; echo a$var -> "a" "A" "B"
+		ex : var="\vA A " ; echo a$var -> "a\vA" "B"
+*/
+
+// this fn take value of variable and return lst of token
+t_token	*word_splitting(char *value)
+{
+	t_token	*head;
+	char	*word;
+	int		i;
+	int		len;
+
+	if (!value)
+		return (NULL);
+	i = 0;
+	head = NULL;
+	while (value[i])
+	{
+		while (value[i] && is_whitespace(value[i]))
+			i++;
+		if (!value[i])
+			break;
+		len = ft_charlen(value + i, WHITE_SP);
+		word = ft_substr(value + i, 0, len);
+		// printf("len = %d | word = \"%s\"\n", len, word);
+		token_add_back(&head, new_token(word, WORD));
+		free(word);
+		word = NULL;
+		i += len;
+	}
+	return (head);
 }

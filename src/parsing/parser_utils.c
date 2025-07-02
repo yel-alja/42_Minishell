@@ -6,13 +6,13 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/01 10:50:37 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:02:30 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red)
+t_cmd *new_cmd(char *cmd ,char **args , t_redir *red)
 {
     t_cmd *tmp;
 
@@ -25,7 +25,7 @@ t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red)
     return(tmp);
 }
 
-t_redir *lst_new_red(char *file , t_type type)
+t_redir *new_red(char *file , t_type type)
 {
     t_redir *tmp;
 
@@ -37,7 +37,7 @@ t_redir *lst_new_red(char *file , t_type type)
     return(tmp);
 }
 
-void lst_add_back(t_redir **head, t_redir *node)
+void red_add_back(t_redir **head, t_redir *node)
 {
     t_redir *tmp;
 
@@ -52,7 +52,7 @@ void lst_add_back(t_redir **head, t_redir *node)
     }
 }
 
-void lst_addbackc(t_cmd **head, t_cmd *node)
+void cmd_add_back(t_cmd **head, t_cmd *node)
 {
     t_cmd *tmp;
 

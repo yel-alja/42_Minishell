@@ -6,12 +6,13 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:02:31 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 22:21:41 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:54:26 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-extern int	signal_code;
+
+// extern int	signal_code;
 
 void	ctrl_c(int sig)
 {
@@ -19,5 +20,5 @@ void	ctrl_c(int sig)
 	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
 	rl_on_new_line(); // move to new line
 	rl_redisplay(); // reprint promt
-	signal_code = sig;
+	// signal_code = sig;
 }

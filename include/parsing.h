@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/01 19:00:35 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:42:30 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ typedef enum	e_type t_type;
 /*************token*************/
 
 t_token *tokenizer(char *input);
+t_token *new_token(char *input, t_type type);
+void token_add_back(t_token **head, t_token *node);
+int	contains_char(char c, char *str);
 
 
 /*************garbage_collect*************/
@@ -44,11 +47,12 @@ int is_metachar(char c);
 int is_operator(t_token *token);
 
 /*************parser*************/
-void lst_addbackc(t_cmd **head, t_cmd *node);
-t_cmd *lst_new_cmd(char *cmd ,char **args , t_redir *red);
-void lst_add_back(t_redir **head, t_redir *node);
-t_cmd *parser(t_token *token);
-t_redir *lst_new_red(char *file , t_type type);
+void	cmd_add_back(t_cmd **head, t_cmd *node);
+t_cmd	*new_cmd(char *cmd ,char **args , t_redir *red);
+void	red_add_back(t_redir **head, t_redir *node);
+t_cmd	*parser(t_token *token);
+t_redir	*new_red(char *file , t_type type);
+
 /******quote removal******/
 char *quote_removal(char *str);
 

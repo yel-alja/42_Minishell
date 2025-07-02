@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/06/30 10:04:28 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:30:38 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	errmsg(char *cmd, char *arg, char *msg);
 /******** envp *********/
 t_env	*get_envp(char **env);
 //utils
-int	ft_charlen(char *str, char c);
+int	ft_charlen(char *str, char *del);
 
 
 #endif

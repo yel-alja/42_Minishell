@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/01 12:07:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:37:19 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include "execution.h"
 
 #define PROMPT "yzsh>"
+#define WHITE_SP " \t\n"
 
 typedef struct s_env
 {

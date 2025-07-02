@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/08 18:41:56 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:24:24 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	sep_name_value(char *var, char **name, char **value)
 	int		i;
 	int		len;
 
-	len = ft_charlen(var, '=');
+	len = ft_charlen(var, "=");
 	*name = malloc((len + 1) * sizeof(char));
 	if (!*name)
 		return (1);
