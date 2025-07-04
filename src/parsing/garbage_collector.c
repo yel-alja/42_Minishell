@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:11:52 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/06/14 01:46:27 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/04 09:21:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_garbage *lst(void *ptr)
 
     node = malloc(sizeof(t_garbage));
     if(!node)
-        garbage_collect(NULL);
+        garbage_collect(NULL, 1);
     node->ptr = ptr;
     node->next = NULL;
     return (node);
@@ -37,7 +37,7 @@ void free_list(t_garbage *lst)
     }
 }
 
-void garbage_collect(void *ptr) // every time we allocate somthing using malloc or split or strdup ...  
+void garbage_collect(void *ptr ,int flag) // every time we allocate somthing using malloc or split or strdup ...  
 {                               // we must give the garbage collector the adress that we allocate 
     static t_garbage *head;
     t_garbage *tmp;
@@ -59,5 +59,7 @@ void garbage_collect(void *ptr) // every time we allocate somthing using malloc 
     {
         free_list(head);
         head = NULL;
+        if(flag == 0) //it's mean malloc failed
+            exit(EXIT_FAILURE);
     }
 }

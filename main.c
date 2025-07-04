@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 09:05:50 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/04 10:03:14 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ int main(int ac, char **av, char **env)
 	t_token *token;
 	char *input;
 
-	// envp = get_envp(env);
+	// envp = get_envp(env); 
     // printenv(envp);
-	// signal(SIGINT, ctrl_c);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
         input = readline(PROMPT);
-        garbage_collect(input);
+        garbage_collect(input , 0);
         if(!input)
 		{
 			// clean up
@@ -128,10 +128,10 @@ int main(int ac, char **av, char **env)
         token = tokenizer(input);
         if(token == NULL)
         {
-            garbage_collect(NULL);
+            garbage_collect(NULL , 1);
             continue;
         }
         print_tokens(token);
-        garbage_collect(NULL);
+        garbage_collect(NULL , 1);
     }
 }

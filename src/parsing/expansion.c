@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 08:48:19 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/04 09:18:49 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,9 @@ t_token	*word_splitting(char *value)
 			break;
 		len = ft_charlen(value + i, WHITE_SP);
 		word = ft_substr(value + i, 0, len);
-		// printf("len = %d | word = \"%s\"\n", len, word);
+        // garbage_collect(word , 0);
+        // printf("len = %d | word = \"%s\"\n", len, word);
 		token_add_back(&head, new_token(word, WORD));
-		free(word);
 		word = NULL;
 		i += len;
 	}
