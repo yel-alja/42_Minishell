@@ -29,7 +29,7 @@ $(LIB) :
 	make -C libft
 
 $(NAME) : $(OBJ) $(LIB)
-	$(CC) $(CFLAGS) -L/usr/lib/x86_64-linux-gnu  $(OBJ) $(LIB) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS)  $(OBJ) $(LIB) -o $(NAME) -lreadline
 
 
 clean :

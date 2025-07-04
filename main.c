@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/02 18:52:46 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 09:05:50 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,14 @@ int main(int ac, char **av, char **env)
 	t_token *token;
 	char *input;
 
-	envp = get_envp(env);
+	// envp = get_envp(env);
     // printenv(envp);
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, ctrl_c);
+	// signal(SIGQUIT, SIG_IGN);
     while(1)
     {
         input = readline(PROMPT);
+        garbage_collect(input);
         if(!input)
 		{
 			// clean up
@@ -131,6 +132,6 @@ int main(int ac, char **av, char **env)
             continue;
         }
         print_tokens(token);
-        // gabage_collect(NULL);
+        garbage_collect(NULL);
     }
 }

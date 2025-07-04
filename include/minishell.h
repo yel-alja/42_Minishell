@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/02 09:37:19 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 08:53:56 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include "parsing.h"
 #include "execution.h"
 
-#define PROMPT "yzsh>"
+#define PROMPT "yzsh> "
 #define WHITE_SP " \t\n"
 
 typedef struct s_env

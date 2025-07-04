@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 22:07:00 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 08:49:22 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*here_doc_file(char *del)
 		line = readline(">");
 		if (!line)
 		{
-			printf("warning: here-document delimited by end-of-file (wanted `a')\n");
+			printf("warning: here-document delimited by end-of-file (wanted `a')\n"); //should we write error in 2
 			break;
 		}
 		if (!ft_strcmp(line, del))
