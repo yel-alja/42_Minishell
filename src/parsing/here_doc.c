@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/04 08:49:22 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/04 22:09:53 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	has_quote(char *del)
 }
 char *create_name()
 {
-	/*is not complete*/
+	// we should 
     return ("/tmp/herdoc.txt");
 }
 /*

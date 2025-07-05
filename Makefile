@@ -1,6 +1,11 @@
 CC = cc
 
-CFLAGS =  -g #-Wall -Wextra -Werror  #should we remove -g
+CFLAGS    = -Wall -Wextra -Werror 
+          #-Wunused -Wunused-variable -Wunused-function -Wunused-parameter \
+          #-Wshadow -Wformat=2 -Wstrict-prototypes -Wmissing-declarations \
+          #-Wmissing-prototypes -Wunreachable-code -Wcast-align -Wcast-qual \
+          #-Wwrite-strings -Wpointer-arith -Winit-self -Wdouble-promotion \
+          #-Wfloat-equal -Wundef -Wbad-function-cast -Wold-style-definition
 
 SRC = $(SRC_BUILT_IN) $(SRC_PARS) $(SRC_EXEC) main.c
 SRC_EX_DIR = src/execution

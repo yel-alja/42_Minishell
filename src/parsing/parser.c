@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 10:33:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:41:53 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int count_args(t_token *token)
     }
     return (i);
 }
+
 char *get_cmd_name(t_token *token)
 {
-    char *cmd;
     while(token)
     {
         if(token->type == WORD)
@@ -46,7 +46,6 @@ t_cmd *parser2(t_token **tkn)
     t_redir *red = NULL;
     t_cmd   *cmd = NULL;
     t_token *token = (*tkn);
-    int j = 0;
     char *cmnd = get_cmd_name(token);
     char **args = malloc(count_args(token) * 8);
     int i  = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/01 10:50:37 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:43:42 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 void	child_process(t_cmd *cmd)
 {
+	(void)cmd; //?
 	// rd_input(cmd);
 	// return (1);
 }
 
 int		run_cmd(t_cmd *cmd)
 {
-	int		fds[2];
+	// int		fds[2];
 	pid_t	pid;
 
 	pid = fork();
@@ -34,6 +35,8 @@ int		run_cmd(t_cmd *cmd)
 }
 void	run_pipe(t_cmd *cmd, t_env **env)
 {
+	(void)cmd; //?
+	(void)env; //?
 	// while (cmd)
 	// {
 	// 	if (cmd->pipe)
@@ -44,7 +47,7 @@ void	run_pipe(t_cmd *cmd, t_env **env)
 void	run_redirects(t_cmd *cmd, t_env **env)
 {
 	t_redir	*redir;
-
+	(void)env; //?
 	redir = cmd->redirects;
 	while (redir)
 	{

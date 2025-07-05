@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:06:25 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:30 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:35:31 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-int    ft_env(char **args, t_env *env)
+int    ft_env(char **args/* , t_env *env */)
 {
     // int i;
 

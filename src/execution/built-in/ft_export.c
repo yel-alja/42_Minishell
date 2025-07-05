@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 09:31:58 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:39 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:35:19 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-void print_env(t_env *env, char flage);
+// void print_env(t_env *env, char flage);
 
 // return (0) if not a valid 'identifier'
 // return (1) Valid and has 'value'
@@ -38,9 +38,9 @@ int	check_valid_syntax(char *arg)
 	return (2);
 }
 
-int	ft_export(char **args, t_env **env)
+int	ft_export(char **args/* , t_env **env*/)
 {
-	t_env	*var;
+	// t_env	*var;
 	int		i;
 	int		rtn_val;
 
@@ -52,13 +52,16 @@ int	ft_export(char **args, t_env **env)
 	{
 		rtn_val = check_valid_syntax(args[i]);
 		if (rtn_val == 0)
+		{
+			
 			// errmsg("bash: export: not a valid identifier\n");
 			errmsg("export", NULL, "not a valid identifier");
-		// else if (rtn_val == 1)
-		// 	insert_var(env);
-		// else if (rtn_val == 2)
-		// 	;
+			// else if (rtn_val == 1)
+			// 	insert_var(env);
+			// else if (rtn_val == 2)
+			// 	;
 			return (0);
+		}
 	}
 	return (0);
 
