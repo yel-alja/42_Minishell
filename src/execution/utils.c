@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 10:38:02 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:57:55 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	errmsg(char *cmd, char *arg, char *err)
 		ft_putendl_fd(err, 2);
 	}
 	else
-		perror("");
+		perror(" ");
 }
 // shell: errmsg
 
@@ -51,11 +51,42 @@ bool	is_path(char *file)
 	return (false);
 }
 
+bool	search_in_path(t_cmd *cmd)
+{
+	int		p;
+	char	*str;
+	char	**paths;
+
+	paths = ft_split(getenv("PATH"), ':');
+	p = -1;
+	while (paths[++p])
+	{
+		str = ft_strjoin(paths[p], "/");
+		str = ft_strjoin(str, cmd->cmd);
+		if (access(str, F_OK | X_OK) == 0)
+		{
+			cmd->cmd = str;
+			return (true);
+		}
+	}
+	return (false);
+}
+
 bool	is_built_in(char *cmd)
 {
-    if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "pwd")
-    || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
-    || !ft_strcmp(cmd, "exit"))
-        return (1);
+    // if (!ft_strcmp(cmd, "pwd"))
+	// if (!ft_strcmp(cmd, "exit"))
+	// if (!ft_strcmp(cmd, "cd"))
+	// if (!ft_strcmp(cmd, "env"))
+	// if (!ft_strcmp(cmd, "unset"))
+	// if (!ft_strcmp(cmd, "echo"))
+    //     return (1);
     return (0);
+}
+
+int ft_close(int *fd)
+{
+	if (!isatty(*fd))
+		return (close(*fd));
+	return (0);
 }

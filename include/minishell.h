@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 10:04:39 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:54:43 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_cmd
 	int				fd_output;
 	bool			error;
 	t_redir 		*redirects;
+	pid_t			pid;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -80,5 +81,6 @@ typedef struct s_garbage
 
 /*******signal******/
 void	ctrl_c(int sig);
+int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
 
 #endif

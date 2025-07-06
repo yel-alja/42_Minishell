@@ -6,43 +6,17 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:25:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 21:06:18 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/05 11:11:13 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	here_doc(char *del, int fd)
-{
-	char	*line;
-	int		fds[2];
-
-	if (!isatty(fd))
-		close(fd);
-	if (!del)
-		return (errmsg(NULL, "here-doc", "Delimiter Not Found"), -1);
-	if (pipe(fds) == -1)
-		return (errmsg(NULL, "pipe", NULL), -1);
-	while (1)
-	{
-		line = readline(">");
-		if (!line)
-			return (errmsg("readline", NULL, NULL), close(fds[0]), close(fds[1]), -1);
-		if (!ft_strcmp(del, line))
-			return (close(fds[1]), free(line), fds[0]);
-		write(fds[1], line, ft_strlen(line));
-		write(fds[1], "\n", 1);
-		free(line);
-	}
-	return (0);
-}
-
 int	rd_input(char *file, int fd)
 {
-	if (!isatty(fd))
-		close(fd);
+	ft_close(&fd);
 	if (!file)
-		return (errmsg(NULL, "<", "Filename Not Found"), -1);
+		return (errmsg(NULL, "red", "Filename Not Found"), -1);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		errmsg(NULL, file, NULL);
@@ -51,32 +25,19 @@ int	rd_input(char *file, int fd)
 
 // If the file does not exist, it shall be created
 // otherwise, it shall be truncated to be an empty file after being opened.
-int	rd_output(char *file, int fd)
+int	rd_output(char *file, int fd, t_type flag)
 {
-	if (!isatty(fd))
-		close(fd);
+	ft_close(&fd);
 	if (!file)
-		return (errmsg(NULL, ">", "Filename Not Found"), -1);
-	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY);
+		return (errmsg(NULL, "red", "Filename Not Found"), -1);
+	if (flag == APPEND)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0664);
+	if (flag == OUTPUT)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd == -1)
 		errmsg(NULL, file, NULL);
 	return (fd);
 }
-
-int	rd_append(char *file, int fd)
-{
-	if (!isatty(fd))
-		close(fd);
-	if (!file)
-		return (errmsg(NULL, ">>", "Filename Not Found"), -1);
-	fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
-	if (fd == -1)
-		errmsg(NULL, file, NULL);
-	return (fd);
-}
-
-
-
 
 // int main(int argc, char *argv[])
 // {
