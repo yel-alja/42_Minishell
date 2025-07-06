@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/05 16:43:44 by zouazrou         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/06 16:24:09 by yel-alja         ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2025/07/06 16:51:17 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +88,21 @@ void print_cmd_list(t_cmd *cmd) {
 }
 
 
-void check_red(t_cmd *cmd , t_env *env) // just for testing
-{
+// void check_red(t_cmd *cmd) // just for testing
+// {
 
-    while(cmd)
-    {
-     t_redir *red = cmd->redirects;
-     while(red)
-     {
-        if(red->type == HEREDOC)
-            here_doc_file(red->filename , env);
-        red = red->next;
-     }
-     cmd = cmd->next;
-    }
-}
+//     while(cmd)
+//     {
+//      t_redir *red = cmd->redirects;
+//      while(red)
+//      {
+//         if(red->type == HEREDOC)
+//             heredoc(red->filename);
+//         red = red->next;
+//      }
+//      cmd = cmd->next;
+//     }
+// }
 
 //'dsfjl"f'''das"'
 int main(int ac, char **av, char **env)
@@ -114,14 +110,8 @@ int main(int ac, char **av, char **env)
 	t_env	*envp;
 	t_token *token;
 	char *input;
-<<<<<<< HEAD
 
 	// envp = get_envp(env);
-=======
-    (void)ac; //?
-    (void)av; //?
-	envp = get_envp(env); 
->>>>>>> parsing
     // printenv(envp);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
@@ -141,15 +131,9 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL , 1);
             continue;
         }
-<<<<<<< HEAD
-        // print_tokens(token);
-        // print_cmd_list(parser(token));
+        print_tokens(token);
 		exe_cmd_line(parser(token), &ac, NULL);
-=======
-        print_tokens(token); 
-        check_red(parser(token) , envp);
-        // print_cmd_list(parser(token));   
->>>>>>> parsing
+        // print_cmd_list(parser(token));
         garbage_collect(NULL , 1);
     }
 }

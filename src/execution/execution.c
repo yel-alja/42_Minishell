@@ -6,11 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/05 18:34:08 by zouazrou         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/04 17:43:42 by yel-alja         ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2025/07/06 16:45:11 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +15,6 @@
 
 void	wait_commands(t_cmd *cmd, int *exit_status)
 {
-<<<<<<< HEAD
 	while (cmd)
 	{
 		waitpid(cmd->pid, exit_status, 0);
@@ -27,11 +22,6 @@ void	wait_commands(t_cmd *cmd, int *exit_status)
 			*exit_status += 128;
 		cmd = cmd->next;
 	}
-=======
-	(void)cmd; //?
-	// rd_input(cmd);
-	// return (1);
->>>>>>> parsing
 }
 
 void		executable(t_cmd *cmd, int *exit_status, t_env **env)
@@ -70,16 +60,11 @@ int		run_redircts(t_cmd *cmd, int *exit_status)
 
 void		run_cmd(t_cmd *cmd, int *exit_status, t_env **env)
 {
-<<<<<<< HEAD
-=======
-	// int		fds[2];
->>>>>>> parsing
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 		errmsg(NULL, "fork", NULL);
-<<<<<<< HEAD
 	if (!pid)
 	{
 		run_redircts(cmd, exit_status);
@@ -94,28 +79,12 @@ void		run_cmd(t_cmd *cmd, int *exit_status, t_env **env)
 		ft_close(&cmd->fd_output);
 		cmd->pid = pid;
 	}
-=======
-	if (!pid) // Child Process
-		child_process(cmd);
-
-	return (9);
-}
-void	run_pipe(t_cmd *cmd, t_env **env)
-{
-	(void)cmd; //?
-	(void)env; //?
-	// while (cmd)
-	// {
-	// 	if (cmd->pipe)
-	// }
-
->>>>>>> parsing
 }
 
 void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
 {
 	t_redir	*redir;
-	(void)env; //?
+
 	redir = cmd->redirects;
 	while (redir)
 	{
