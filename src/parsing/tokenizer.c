@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 17:39:57 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:14:36 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ char	*quoted_word(char *input, int *i, char *quote)
 	str = ft_substr(input + (*i) - 1, 0, len + 2);
     garbage_collect(str , 0);
 	(*i) += len + 1;
-    if(quote[0] == '"') //?
-    {
-        str = expansion(str);
-    }
+    // if(quote[0] == '"') //?
+    // {
+    //     str = expansion(str);
+    // }
 	return (str);
 }
 
@@ -110,7 +110,7 @@ char	*unquoted_word(char *input, int *i)
 		len++;
 	str = ft_substr(input + (*i), 0, len);
     garbage_collect(str , 0);
-    str = expansion(str);//?
+    // str = expansion(str);//?
 	(*i) += len;
 	return (str);
 }

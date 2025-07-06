@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS    = -Wall -Wextra -Werror 
+CFLAGS    = -Wall -Wextra -Werror -g
           #-Wunused -Wunused-variable -Wunused-function -Wunused-parameter \
           #-Wshadow -Wformat=2 -Wstrict-prototypes -Wmissing-declarations \
           #-Wmissing-prototypes -Wunreachable-code -Wcast-align -Wcast-qual \
@@ -14,13 +14,13 @@ SRC_PAR_DIR = src/parsing
 SRC_BUILT_IN = $(SRC_EX_DIR)/built-in/ft_cd.c $(SRC_EX_DIR)/built-in/ft_pwd.c \
 				$(SRC_EX_DIR)/built-in/ft_export.c $(SRC_EX_DIR)/built-in/ft_env.c \
 				$(SRC_EX_DIR)/built-in/ft_unset.c $(SRC_EX_DIR)/built-in/ft_exit.c \
-				$(SRC_EX_DIR)/built-in/ft_echo.c
+				$(SRC_EX_DIR)/built-in/ft_echo.c $(SRC_EX_DIR)/ft_getenv.c
 
 SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/utils.c $(SRC_EX_DIR)/envp.c
 
 SRC_PARS = $(SRC_PAR_DIR)/tokenizer.c  $(SRC_PAR_DIR)/garbage_collector.c $(SRC_PAR_DIR)/utils.c \
 			$(SRC_PAR_DIR)/syntax.c $(SRC_PAR_DIR)/expansion.c $(SRC_PAR_DIR)/signal.c $(SRC_PAR_DIR)/parser.c \
-			$(SRC_PAR_DIR)/parser_utils.c $(SRC_PAR_DIR)/quote_removal.c $(SRC_PAR_DIR)/here_doc.c
+			$(SRC_PAR_DIR)/parser_utils.c $(SRC_PAR_DIR)/quote_removal.c $(SRC_PAR_DIR)/here_doc.c $(SRC_PAR_DIR)/expander.c
 
 
 LIB = libft/libft.a

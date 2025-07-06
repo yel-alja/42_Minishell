@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 17:44:51 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 10:09:10 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,16 @@ t_env	*new_var(char *var)
 
 void	add_var(t_env **head, t_env *var)
 {
-	var->next = *head;
-	*head = var;
+	t_env *tmp;
+	if(*head == NULL)
+		*head = var;
+	else
+	{
+		tmp = *head;
+		while(tmp->next)
+			tmp = tmp->next; 
+		tmp->next  = var;	
+	}
 }
 
 t_env	*get_envp(char **env)

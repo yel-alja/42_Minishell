@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 17:44:23 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:24:09 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,21 @@ void print_cmd_list(t_cmd *cmd) {
 }
 
 
-// void check_red(t_cmd *cmd) // just for testing
-// {
+void check_red(t_cmd *cmd , t_env *env) // just for testing
+{
 
-//     while(cmd)
-//     {
-//      t_redir *red = cmd->redirects;
-//      while(red)
-//      {
-//         if(red->type == HEREDOC)
-//             heredoc(red->filename);
-//         red = red->next;
-//      }
-//      cmd = cmd->next;
-//     }
-// }
+    while(cmd)
+    {
+     t_redir *red = cmd->redirects;
+     while(red)
+     {
+        if(red->type == HEREDOC)
+            here_doc_file(red->filename , env);
+        red = red->next;
+     }
+     cmd = cmd->next;
+    }
+}
 
 //'dsfjl"f'''das"'
 int main(int ac, char **av, char **env)
@@ -132,7 +132,8 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL , 1);
             continue;
         }
-        print_tokens(token);
+        print_tokens(token); 
+        check_red(parser(token) , envp);
         // print_cmd_list(parser(token));   
         garbage_collect(NULL , 1);
     }

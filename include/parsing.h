@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 09:18:21 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:08:29 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int check_syntax(t_token *token);
 int check_quotes(char *input);
 
 /*************expantion*************/
-char *expansion(char *token);
+// char *expansion(char *token , t_env *env);
 int check_dollar(char *str);
 
 /*************utils*************/
@@ -55,5 +55,6 @@ t_redir	*new_red(char *file , t_type type);
 
 /******quote removal******/
 char *quote_removal(char *str);
+
 
 #endif

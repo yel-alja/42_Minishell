@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 09:18:49 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:23:52 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char *search_and_replace(char **token , char *var_name, char *var_val , int nale
     return res;
 }
 
-char *var(char *token)
+char *var(char *token , t_env *env)
 {
     int i = 0;
     int start = 0;
@@ -93,10 +93,11 @@ char *var(char *token)
                 start++;
             var_name = ft_substr(token , i - 1, start - i + 1); //? garbage collect also for strdup bellow
             // garbage_collect(var_name);
-            var_value = getenv(var_name + 1);                        //we should implement our getenv
+            var_value = ft_getenv(var_name + 1 , env); 
             if(!var_value)
                 continue;
             p = ft_strjoin(p , search_and_replace(&token , var_name , var_value ,ft_strlen(var_name)));
+            // garbage_collect(p);
             i = -1;
         }
         i++;
@@ -104,12 +105,12 @@ char *var(char *token)
     return (p);
 }
 
-char *expansion(char *token)
+char *expansion(char *token ,t_env *env)
 {
     char *res = NULL;
     if(!check_dollar(token))
         return token;
-    res = var(token);
+    res = var(token ,env);
     return res;
 }
 

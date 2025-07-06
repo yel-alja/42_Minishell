@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 10:04:39 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:24:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,11 @@ typedef struct s_garbage
 
 /*******signal******/
 void	ctrl_c(int sig);
+//?
+char *ft_getenv(char *name , t_env *env);
+void expander(t_token **tk , t_env *env);
+char *expansion(char *token , t_env *env);
+char	*here_doc_file(char *del , t_env *env);
+
 
 #endif
