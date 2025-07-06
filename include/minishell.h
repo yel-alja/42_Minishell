@@ -6,7 +6,11 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/05 17:54:43 by zouazrou         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/06 16:24:21 by yel-alja         ###   ########.fr       */
+>>>>>>> parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +85,15 @@ typedef struct s_garbage
 
 /*******signal******/
 void	ctrl_c(int sig);
+<<<<<<< HEAD
 int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
+=======
+//?
+char *ft_getenv(char *name , t_env *env);
+void expander(t_token **tk , t_env *env);
+char *expansion(char *token , t_env *env);
+char	*here_doc_file(char *del , t_env *env);
+
+>>>>>>> parsing
 
 #endif

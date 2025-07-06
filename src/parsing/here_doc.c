@@ -6,13 +6,13 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/04 08:49:22 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:24:34 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	has_quote(char *del)
+int	has_quote(char *del)
 {
 	int	i;
 
@@ -20,28 +20,26 @@ bool	has_quote(char *del)
 	while (del[++i])
 	{
 		if (del[i] == '"' || del[i] == '\'')
-			return (true);
+			return (1);
 	}
-	return (false);
+	return (0);
 }
 char *create_name()
 {
-	/*is not complete*/
+	// we should 
     return ("/tmp/herdoc.txt");
 }
-/*
-	-> why fork ?
-*/
-char	*here_doc_file(char *del)
+
+char	*here_doc_file(char *del ,t_env *env)
 {
 	char	*file;
 	char	*line;
-	bool	expansion;
+	int		exp;
 	int		fd;
 
 	file = create_name();
-	fd = open(file, O_RDWR | O_CREAT | O_APPEND);
-	expansion = has_quote(del);
+	fd = open(file, O_RDWR | O_CREAT , 0644);
+	exp = has_quote(del);
 	while (1)
 	{
 		line = readline(">");
@@ -52,8 +50,8 @@ char	*here_doc_file(char *del)
 		}
 		if (!ft_strcmp(line, del))
 			break;
-		if (expansion == true)
-			/***expension***/;
+		if (!exp)
+			line = expansion(line ,env);
 		ft_putstr_fd(line , fd);
 		ft_putstr_fd("\n" , fd);
 	}

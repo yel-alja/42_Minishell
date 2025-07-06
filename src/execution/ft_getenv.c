@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 12:02:31 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/04 17:40:18 by yel-alja         ###   ########.fr       */
+/*   Created: 2025/07/06 11:00:38 by yel-alja          #+#    #+#             */
+/*   Updated: 2025/07/06 11:10:24 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// extern int	signal_code;
-
-void	ctrl_c(int sig)
+char *ft_getenv(char *name , t_env *env)
 {
-	(void )sig;
-	write(2, "\n", 1);
-	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
-	rl_on_new_line(); // move to new line
-	rl_redisplay(); // reprint promt
-	// signal_code = sig;
+    while(env)
+    {
+        if(!ft_strncmp(name , env->name , ft_strlen(name)))
+            return(env->value);
+        env = env->next;    
+    }
+    return (NULL);
 }

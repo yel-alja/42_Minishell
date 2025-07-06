@@ -6,11 +6,25 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 09:27:40 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/06 10:09:10 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void free_env(t_env *env)
+{
+	t_env *tmp;
+
+	while(env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+}
 
 int	sep_name_value(char *var, char **name, char **value)
 {
@@ -19,6 +33,8 @@ int	sep_name_value(char *var, char **name, char **value)
 
 	len = ft_charlen(var, "=");
 	*name = malloc((len + 1) * sizeof(char));
+	if(!name)
+		return (1);
 	i = 0;
 	while (i < len)
 	{
@@ -26,12 +42,8 @@ int	sep_name_value(char *var, char **name, char **value)
 		i++;
 	}
 	(*name)[len] = '\0';
-	// var has no value
-	if (var[len] == '\0')
-		return (0);
-	// var has value
 	len++;
-	*value = ft_strdup(var + len);
+	*value = ft_strdup(var + len); //malloc fail
 	return (0);
 }
 
@@ -39,39 +51,48 @@ t_env	*new_var(char *var)
 {
 	t_env *node;
 
-	node = malloc(sizeof(t_env));
+	node = malloc(sizeof(t_env)); // malloc fail
+	if(!node)
+		return (NULL);
 	node->name = NULL;
 	node->value = NULL;
 	node->next = NULL;
-	sep_name_value(var, &node->name, &node->value);
+	if(sep_name_value(var, &node->name, &node->value) == 1)
+		return NULL;
 	return(node);
 }
 
 void	add_var(t_env **head, t_env *var)
 {
-	var->next = *head;
-	*head = var;
+	t_env *tmp;
+	if(*head == NULL)
+		*head = var;
+	else
+	{
+		tmp = *head;
+		while(tmp->next)
+			tmp = tmp->next; 
+		tmp->next  = var;	
+	}
 }
 
 t_env	*get_envp(char **env)
 {
 	int		i;
 	t_env	*head;
+	t_env	*tmp;
 
 	i = -1;
 	head = NULL;
 	while(env[++i])
 	{
-		// printf("%s\n", env[i]);
-		add_var(&head, new_var(env[i]));
-		// printf("%s", head->name);
-		// if (head->value)
-		// {
-			// printf("=");
-			// printf("%s", head->value);
-		// }
-		// printf("\n");
+		tmp = new_var(env[i]);
+		if(!tmp)
+		{	
+			free_env(head);
+			exit(1);
+		}
+		add_var(&head, tmp);
 	}
-	// printf("\nsize %d\n", i);
 	return (head);
 }

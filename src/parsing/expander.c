@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 12:02:31 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/04 17:40:18 by yel-alja         ###   ########.fr       */
+/*   Created: 2025/07/06 09:27:11 by yel-alja          #+#    #+#             */
+/*   Updated: 2025/07/06 11:06:57 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// extern int	signal_code;
-
-void	ctrl_c(int sig)
+void expander(t_token **tk ,t_env *env)
 {
-	(void )sig;
-	write(2, "\n", 1);
-	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
-	rl_on_new_line(); // move to new line
-	rl_redisplay(); // reprint promt
-	// signal_code = sig;
+    t_token *token = *tk;
+    while(token)
+    {
+        if(check_dollar(token->value))
+            token->value = expansion(token->value , env);
+        token = token->next;    
+    }
 }
