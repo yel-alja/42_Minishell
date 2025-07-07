@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 18:21:03 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:12:16 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int main(int ac, char **av, char **env)
             continue;
         }
         // print_tokens(token);
-		exe_cmd_line(parser(token), &ac, &envp);
+		// exe_cmd_line(parser(token), &ac, &envp);
         print_cmd_list(parser(token));
         garbage_collect(NULL , 1);
     }

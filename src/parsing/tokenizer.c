@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 18:19:08 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:12:11 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*unquoted_word(char *input, int *i , t_env *env)
 		len++;
 	str = ft_substr(input + (*i), 0, len);
     garbage_collect(str , 0);
+    // printf("====%s\n" , str); //===============
     str = expansion(str ,env ,1);
 	(*i) += len;
 	return (str);
@@ -174,8 +175,7 @@ t_token *handling_token(char *input, int *i , t_env *env)
         token = token_word(input, i ,env);
         if(token->value && ft_strchr(token->value , 14))
         {
-            // printf("===={%s}\n" , token->value);
-            res = ft_split(token->value , 14); //?
+            res = ft_split(token->value , 14);
             token = build_list(res);
         }
     }
