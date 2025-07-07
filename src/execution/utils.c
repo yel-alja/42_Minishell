@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/06 16:50:26 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 09:02:17 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ bool	search_in_path(t_cmd *cmd)
 
 bool	is_built_in(char *cmd)
 {
-    // if (!ft_strcmp(cmd, "pwd"))
+    if (!ft_strcmp(cmd, "pwd"))
 	// if (!ft_strcmp(cmd, "exit"))
 	// if (!ft_strcmp(cmd, "cd"))
 	// if (!ft_strcmp(cmd, "env"))
 	// if (!ft_strcmp(cmd, "unset"))
 	// if (!ft_strcmp(cmd, "echo"))
-    //     return (1);
+        return (1);
     return (0);
 }
 

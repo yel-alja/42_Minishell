@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 11:14:36 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:19:08 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,24 +83,24 @@ t_token *token_re_output(int *i, char c)
 }
 
 
-char	*quoted_word(char *input, int *i, char *quote)
+char	*quoted_word(char *input, int *i, char *quote ,t_env *env)
 {
 	char	*str;
 	int		len;
 
 	(*i)++;
 	len = ft_charlen(input + (*i), quote);
-	str = ft_substr(input + (*i) - 1, 0, len + 2);
+	str = ft_substr(input + (*i), 0, len );
     garbage_collect(str , 0);
 	(*i) += len + 1;
-    // if(quote[0] == '"') //?
-    // {
-    //     str = expansion(str);
-    // }
+    if(quote[0] == '"')
+    {
+        str = expansion(str ,env, 0);
+    }
 	return (str);
 }
 
-char	*unquoted_word(char *input, int *i)
+char	*unquoted_word(char *input, int *i , t_env *env)
 {
 	char	*str;
 	int		len;
@@ -110,12 +110,12 @@ char	*unquoted_word(char *input, int *i)
 		len++;
 	str = ft_substr(input + (*i), 0, len);
     garbage_collect(str , 0);
-    // str = expansion(str);//?
+    str = expansion(str ,env ,1);
 	(*i) += len;
 	return (str);
 }
 
-t_token *token_word(char *input, int *i)
+t_token *token_word(char *input, int *i , t_env *env)
 {
     char *str;
     t_token *token = NULL;
@@ -127,17 +127,17 @@ t_token *token_word(char *input, int *i)
             break;
         if (input[*i] == '"')
         {
-            str = ft_strjoin(str, quoted_word(input, i, "\""));
+            str = ft_strjoin(str, quoted_word(input, i, "\"" , env));
             garbage_collect(str , 0);
         }
         else if (input[*i] == '\'')
         {   
-            str = ft_strjoin(str, quoted_word(input, i, "'"));
+            str = ft_strjoin(str, quoted_word(input, i, "'", env));
             garbage_collect(str , 0);
         }
 		else
         {
-            str = ft_strjoin(str, unquoted_word(input, i));
+            str = ft_strjoin(str, unquoted_word(input, i, env));
             garbage_collect(str , 0);
         }
     }
@@ -146,10 +146,21 @@ t_token *token_word(char *input, int *i)
     return (token);
 }
 
-t_token *handling_token(char *input, int *i)
+t_token *build_list(char **res)
+{
+    int i = 0;
+    t_token *head = NULL;
+    while(res[i])
+    {
+        token_add_back(&head , new_token(res[i] , WORD));
+        i++;   
+    }
+    return (head);
+}
+t_token *handling_token(char *input, int *i , t_env *env)
 {
     t_token *token = NULL;
-
+    char **res;
     if (input[*i] == '\0')
         return (NULL);
     if (input[*i] == '|')
@@ -159,11 +170,19 @@ t_token *handling_token(char *input, int *i)
     else if (input[*i] == '>')
         token = token_re_output(i, input[*i + 1]);
     else
-        token = token_word(input, i);
+    {
+        token = token_word(input, i ,env);
+        if(token->value && ft_strchr(token->value , 14))
+        {
+            // printf("===={%s}\n" , token->value);
+            res = ft_split(token->value , 14); //?
+            token = build_list(res);
+        }
+    }
     return (token);
 }
 
-t_token *tokenizer(char *input)
+t_token *tokenizer(char *input , t_env *env)
 {
     t_token *head = NULL;
     int i = 0;
@@ -175,7 +194,7 @@ t_token *tokenizer(char *input)
             i++;
         if(!input[i])
             break;
-        token_add_back(&head, handling_token(input, &i));
+        token_add_back(&head, handling_token(input, &i , env));
     }
     if(!check_syntax(head))
         return NULL;

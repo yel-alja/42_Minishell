@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 11:08:29 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:33:04 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 typedef struct s_token t_token;
 typedef struct s_cmd t_cmd;
 typedef struct s_redir t_redir;
+typedef struct	s_env t_env;
 typedef enum	e_type t_type;
 
 /*************token*************/
 
-t_token *tokenizer(char *input);
+t_token *tokenizer(char *input , t_env *env);
 t_token *new_token(char *input, t_type type);
 void token_add_back(t_token **head, t_token *node);
 int	contains_char(char c, char *str);

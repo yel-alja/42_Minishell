@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 11:23:52 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:20:38 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,26 @@ char *search_and_replace(char **token , char *var_name, char *var_val , int nale
     return res;
 }
 
-char *var(char *token , t_env *env)
+
+char *flag_splitters(char *value)
+{
+    int i = 0;
+    char *res = malloc(ft_strlen(value) + 1); //garbage
+    if(!value)
+        return NULL;
+    while(value[i])
+    {
+        if(value[i] == '\n' || value[i] == ' ' || value[i] == '\t')
+            res[i] = 14;
+        else
+            res[i] = value[i];
+        i++;
+    }
+    res[i] = '\0';
+    return (res);
+}
+
+char *var(char *token , t_env *env , int flag)
 {
     int i = 0;
     int start = 0;
@@ -93,7 +112,11 @@ char *var(char *token , t_env *env)
                 start++;
             var_name = ft_substr(token , i - 1, start - i + 1); //? garbage collect also for strdup bellow
             // garbage_collect(var_name);
-            var_value = ft_getenv(var_name + 1 , env); 
+            var_value = ft_getenv(var_name + 1 , env);
+            if(flag == 1)
+            {
+                var_value = flag_splitters(var_value);
+            }
             if(!var_value)
                 continue;
             p = ft_strjoin(p , search_and_replace(&token , var_name , var_value ,ft_strlen(var_name)));
@@ -105,47 +128,11 @@ char *var(char *token , t_env *env)
     return (p);
 }
 
-char *expansion(char *token ,t_env *env)
+char *expansion(char *token ,t_env *env , int flag)
 {
     char *res = NULL;
     if(!check_dollar(token))
         return token;
-    res = var(token ,env);
+    res = var(token ,env ,flag);
     return res;
-}
-
-/*	Notes:
-		if value begin by whitespases then split him from prev token
-		else join prev token with first word from value
-		ex : var=" A B "  ; echo a$var -> "a" "A" "B"
-		ex : var="\vA A " ; echo a$var -> "a\vA" "B"
-*/
-
-// this fn take value of variable and return lst of token
-t_token	*word_splitting(char *value)
-{
-	t_token	*head;
-	char	*word;
-	int		i;
-	int		len;
-
-	if (!value)
-		return (NULL);
-	i = 0;
-	head = NULL;
-	while (value[i])
-	{
-		while (value[i] && is_whitespace(value[i]))
-			i++;
-		if (!value[i])
-			break;
-		len = ft_charlen(value + i, WHITE_SP);
-		word = ft_substr(value + i, 0, len);
-        // garbage_collect(word , 0);
-        // printf("len = %d | word = \"%s\"\n", len, word);
-		token_add_back(&head, new_token(word, WORD));
-		word = NULL;
-		i += len;
-	}
-	return (head);
 }

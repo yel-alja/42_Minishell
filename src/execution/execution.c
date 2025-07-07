@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 16:45:11 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:20:32 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	wait_commands(t_cmd *cmd, int *exit_status)
 
 void		executable(t_cmd *cmd, int *exit_status, t_env **env)
 {
+	(void)exit_status;
+	(void)env;
 	if ((is_path(cmd->cmd)) == false)
 	{
 		if (search_in_path(cmd) == false)
@@ -43,6 +45,7 @@ void		executable(t_cmd *cmd, int *exit_status, t_env **env)
 
 int		run_redircts(t_cmd *cmd, int *exit_status)
 {
+	(void)exit_status;
 	// redirect input
 	if (!isatty(cmd->fd_input))
 	{
@@ -84,7 +87,7 @@ void		run_cmd(t_cmd *cmd, int *exit_status, t_env **env)
 void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
 {
 	t_redir	*redir;
-
+	(void)env;
 	redir = cmd->redirects;
 	while (redir)
 	{
@@ -114,33 +117,3 @@ int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env)
 	return (0);
 }
 
-/*
-< file1 cat << EOF < file2 	> appfile > outfile < file.log
-
-"< file.log",  "cat", "> outfile"
-fd-for-read {3}       fd-for-write {4}
-
-
-*/
-
-// int main(int argc, char const *argv[])
-// {
-// 	t_cmd	cmd;
-// 	int	exit_status = 0;
-
-// 	cmd.cmd = ft_strdup("/bin/cata");
-// 	cmd.args = malloc(sizeof(char *) * 2);
-// 	cmd.args[0] = ft_strdup("cat");
-// 	cmd.args[1] = NULL;
-// 	cmd.fd_input = STDIN_FILENO;
-// 	cmd.fd_output = STDOUT_FILENO;
-// 	cmd.error = false;
-// 	cmd.redirects = new_red("file1", INPUT);
-// 	// cmd.redirects->next = new_red("file.log", OUTPUT);
-// 	cmd.redirects->next = new_red("app.log", INPUT);
-// 	cmd.next = NULL;
-// 	exe_cmd_line(&cmd, &exit_status, NULL);
-// 	return 0;
-// }
-
-// cc  src/execution/built-in/*.o libft/*.o src/execution/*.c src/parsing/*.o -lreadline

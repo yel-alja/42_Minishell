@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/06 16:24:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:33:49 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*here_doc_file(char *del ,t_env *env)
 		}
 		if (!ft_strcmp(line, del))
 			break;
-		if (!exp)
-			line = expansion(line ,env);
+		// if (!exp)
+			// line = expansion(line ,env);
 		ft_putstr_fd(line , fd);
 		ft_putstr_fd("\n" , fd);
 	}

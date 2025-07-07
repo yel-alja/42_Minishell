@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 16:42:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:32:15 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
 int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
 //?
 char *ft_getenv(char *name , t_env *env);
-void expander(t_token **tk , t_env *env);
-char *expansion(char *token , t_env *env);
+char *expansion(char *token , t_env *env , int flag);
 char	*here_doc_file(char *del , t_env *env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 16:51:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:21:03 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,6 @@ void print_tokens(t_token *token)
         token = token->next;
     }
 }
-void env(t_env *our_env)
-{
-	while (our_env)
-	{
-		printf("%s", our_env->name);
-		if (our_env->value)
-		{
-			printf("=");
-			printf("%s", our_env->value);
-		}
-		printf("\n");
-		our_env = our_env->next;
-	}
-
-}
 
 void printenv(t_env *e)
 {
@@ -72,7 +57,7 @@ void print_cmd_list(t_cmd *cmd) {
         printf("Args:\n");
         if (cmd->args) {
             for (int i = 0; cmd->args[i]; i++)
-                printf("%s ", cmd->args[i]);
+                printf("[%s] ", cmd->args[i]);
         }
         printf("\nRedirections:\n");
         if (cmd->redirects) {
@@ -110,8 +95,9 @@ int main(int ac, char **av, char **env)
 	t_env	*envp;
 	t_token *token;
 	char *input;
-
-	// envp = get_envp(env);
+    (void )av;
+    (void )ac;
+	envp = get_envp(env);
     // printenv(envp);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
@@ -125,15 +111,15 @@ int main(int ac, char **av, char **env)
 			exit(EXIT_SUCCESS);
 		}
 		add_history(input);
-        token = tokenizer(input);
+        token = tokenizer(input , envp);
         if(token == NULL)
         {
             garbage_collect(NULL , 1);
             continue;
         }
-        print_tokens(token);
-		exe_cmd_line(parser(token), &ac, NULL);
-        // print_cmd_list(parser(token));
+        // print_tokens(token);
+		exe_cmd_line(parser(token), &ac, &envp);
+        print_cmd_list(parser(token));
         garbage_collect(NULL , 1);
     }
 }
