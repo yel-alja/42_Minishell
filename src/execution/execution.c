@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/09 14:22:31 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:39:00 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ int	exe_pipeline_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 	wait_commands(cmd);
-	*get_addr_exit_status(NULL);
 	printf("[%d]\n", *get_addr_exit_status(NULL));
 	/***********set Default fd************/
 	dup2(ttyin, STDIN_FILENO);
