@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 10:09:10 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/08 10:04:07 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,24 @@ t_env	*new_var(char *var)
 	node->value = NULL;
 	node->next = NULL;
 	if(sep_name_value(var, &node->name, &node->value) == 1)
-		return NULL;
+		return (NULL);
 	return(node);
 }
 
 void	add_var(t_env **head, t_env *var)
 {
 	t_env *tmp;
+
+	if (!var)
+		return ;
 	if(*head == NULL)
 		*head = var;
 	else
 	{
 		tmp = *head;
 		while(tmp->next)
-			tmp = tmp->next; 
-		tmp->next  = var;	
+			tmp = tmp->next;
+		tmp->next  = var;
 	}
 }
 
@@ -88,7 +91,7 @@ t_env	*get_envp(char **env)
 	{
 		tmp = new_var(env[i]);
 		if(!tmp)
-		{	
+		{
 			free_env(head);
 			exit(1);
 		}

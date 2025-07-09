@@ -3,88 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 16:45:11 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:22:31 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
-void	wait_commands(t_cmd *cmd, int *exit_status)
+void		process_exit_status(void)
 {
+	int	*exit_status;
+
+	exit_status = get_addr_exit_status(NULL);
+	if (WIFSIGNALED(*exit_status))
+		*exit_status = WTERMSIG(*exit_status);
+	else if (WIFEXITED(*exit_status))
+		*exit_status = WEXITSTATUS(*exit_status);
+}
+
+void	wait_commands(t_cmd *cmd)
+{
+	int	*exit_status;
+
+	exit_status = get_addr_exit_status(NULL);
 	while (cmd)
 	{
 		waitpid(cmd->pid, exit_status, 0);
-		if (WIFSIGNALED(*exit_status))
-			*exit_status += 128;
+		process_exit_status();
 		cmd = cmd->next;
 	}
 }
 
-void		executable(t_cmd *cmd, int *exit_status, t_env **env)
+void	exec_cmd(t_cmd *cmd)
 {
-	if ((is_path(cmd->cmd)) == false)
+	if ((is_path(cmd->cmd)) == true)
 	{
-		if (search_in_path(cmd) == false)
-		{
-			errmsg(NULL, cmd->cmd, "command not found");
-			exit(127);
-		}
+		if (!access(cmd->cmd, F_OK) && access(cmd->cmd, X_OK))
+			exit((errmsg(NULL, cmd->cmd, NULL), 126));
+		if (access(cmd->cmd, F_OK | X_OK))
+			exit((errmsg(NULL, cmd->cmd, NULL), 127));
 	}
-	if (execve(cmd->cmd, cmd->args, NULL) == -1)
-	{
-		errmsg("execve", cmd->args[0], NULL);
-		exit(EXIT_FAILURE);
-	}
+	else if (search_in_path(cmd) == false)
+		exit((errmsg(NULL, cmd->cmd, "command not found"), 127));
+	execve(cmd->cmd, cmd->args, env_to_arr(*get_addr_env(NULL)));
+	errmsg("execve", cmd->args[0], NULL);
+	exit(EXIT_FAILURE);
 }
 
-int		run_redircts(t_cmd *cmd, int *exit_status)
+void		run_redircts(t_cmd *cmd)
 {
 	// redirect input
 	if (!isatty(cmd->fd_input))
-	{
 		dup2(cmd->fd_input, STDIN_FILENO);
-	}
 	ft_close(&cmd->fd_input);
 	// redirect output
 	if (!isatty(cmd->fd_output))
-	{
 		dup2(cmd->fd_output, STDOUT_FILENO);
-	}
 	ft_close(&cmd->fd_output);
-	return (0);
 }
 
-void		run_cmd(t_cmd *cmd, int *exit_status, t_env **env)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		errmsg(NULL, "fork", NULL);
-	if (!pid)
-	{
-		run_redircts(cmd, exit_status);
-		if (is_built_in(cmd->cmd) == true)
-			printf("mazal\n");
-		else
-			executable(cmd, exit_status, env);
-	}
-	else
-	{
-		ft_close(&cmd->fd_input);
-		ft_close(&cmd->fd_output);
-		cmd->pid = pid;
-	}
-}
-
-void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
+int	open_redirects(t_cmd *cmd)
 {
 	t_redir	*redir;
+	int		*exit_status;
 
+	exit_status = get_addr_exit_status(NULL);
+	*exit_status = 0;
 	redir = cmd->redirects;
 	while (redir)
 	{
@@ -99,21 +86,89 @@ void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
 			ft_close(&cmd->fd_output);
 			cmd->error = true;
 			*exit_status = 1;
-			break;
+			return (1);
 		}
 		redir = redir->next;
 	}
-}
-
-int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env)
-{
-	open_redirects(cmd, exit_status, env);
-	run_cmd(cmd, exit_status, env);
-	wait_commands(cmd, exit_status);
-	printf("exit status : %d\n", *exit_status);
+	run_redircts(cmd);
 	return (0);
 }
 
+void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		errmsg(NULL, "fork", NULL);
+	if (pid) // Parent proc
+	{
+		ft_close(&cmd->fd_input);
+		ft_close(&cmd->fd_output);
+		cmd->pid = pid;
+	}
+	else  // Child proc
+	{
+		signal(SIGQUIT, SIG_DFL);
+		if (open_redirects(cmd))
+			return ;
+		if (is_built_in(cmd) == true)
+			exec_built_in(cmd);
+		else
+			exec_cmd(cmd);
+	}
+}
+
+
+int	exe_pipeline_cmd(t_cmd *cmd)
+{
+	int	ttyin;
+	int	ttyout;
+	t_cmd	*tmp;
+
+	ttyin = dup(STDIN_FILENO);
+	ttyout = dup(STDOUT_FILENO);
+	/***********Dup stdin & stdout**********/
+	tmp = cmd;
+	if (cmd->next)
+		open_pipe(cmd);
+	while (tmp)
+	{
+		exec_simple_cmd(tmp);
+		tmp = tmp->next;
+	}
+	wait_commands(cmd);
+	*get_addr_exit_status(NULL);
+	printf("[%d]\n", *get_addr_exit_status(NULL));
+	/***********set Default fd************/
+	dup2(ttyin, STDIN_FILENO);
+	dup2(ttyout, STDOUT_FILENO);
+	close(ttyin);
+	close(ttyout);
+	return (0);
+}
+
+int	exe_single_built_in(t_cmd *cmd)
+{
+	int	ttyin;
+	int	ttyout;
+	int	*exit_status;
+
+
+
+	/***********built-in************/
+	exit_status = get_addr_exit_status(NULL);
+	ttyin = dup(STDIN_FILENO);
+	ttyout = dup(STDOUT_FILENO);
+	if (!open_redirects(cmd))
+		*exit_status = exec_built_in(cmd);
+	// call built-in function
+	dup2(ttyin, STDIN_FILENO);
+	dup2(ttyout, STDOUT_FILENO);
+	close(ttyin);
+	close(ttyout);
+	return (0);
+}
 /*
 < file1 cat << EOF < file2 	> appfile > outfile < file.log
 
@@ -122,25 +177,3 @@ fd-for-read {3}       fd-for-write {4}
 
 
 */
-
-// int main(int argc, char const *argv[])
-// {
-// 	t_cmd	cmd;
-// 	int	exit_status = 0;
-
-// 	cmd.cmd = ft_strdup("/bin/cata");
-// 	cmd.args = malloc(sizeof(char *) * 2);
-// 	cmd.args[0] = ft_strdup("cat");
-// 	cmd.args[1] = NULL;
-// 	cmd.fd_input = STDIN_FILENO;
-// 	cmd.fd_output = STDOUT_FILENO;
-// 	cmd.error = false;
-// 	cmd.redirects = new_red("file1", INPUT);
-// 	// cmd.redirects->next = new_red("file.log", OUTPUT);
-// 	cmd.redirects->next = new_red("app.log", INPUT);
-// 	cmd.next = NULL;
-// 	exe_cmd_line(&cmd, &exit_status, NULL);
-// 	return 0;
-// }
-
-// cc  src/execution/built-in/*.o libft/*.o src/execution/*.c src/parsing/*.o -lreadline

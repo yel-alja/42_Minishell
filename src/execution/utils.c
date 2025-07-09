@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/06 16:50:26 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:09:26 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 void	errmsg(char *cmd, char *arg, char *err)
 {
 	if (cmd)
-	{
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(cmd, 2);
-	}
 	else
 		ft_putstr_fd("shell", 2);
 	if (arg)
 	{
-		ft_putchar_fd(' ', 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(arg, 2);
 	}
 	if (err)
@@ -72,21 +69,84 @@ bool	search_in_path(t_cmd *cmd)
 	return (false);
 }
 
-bool	is_built_in(char *cmd)
+int	exec_built_in(t_cmd *cmd)
 {
-    // if (!ft_strcmp(cmd, "pwd"))
-	// if (!ft_strcmp(cmd, "exit"))
-	// if (!ft_strcmp(cmd, "cd"))
-	// if (!ft_strcmp(cmd, "env"))
-	// if (!ft_strcmp(cmd, "unset"))
-	// if (!ft_strcmp(cmd, "echo"))
-    //     return (1);
+	if (!ft_strcmp(cmd->cmd, "pwd"))
+		return (ft_pwd(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		return (ft_echo(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		return (ft_cd(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "env"))
+		return (ft_env(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "export"))
+		return (ft_export(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "exit "))
+		return (ft_exit(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "unset"))
+		return (printf("mazal\n"));
     return (0);
 }
 
+bool	is_built_in(t_cmd *cmd)
+{
+    if (!ft_strcmp(cmd->cmd, "pwd"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "env"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "export"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "exit"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "unset"))
+		return (true);
+    return (false);
+}
 int ft_close(int *fd)
 {
+	int	r;
+
 	if (!isatty(*fd))
-		return (close(*fd));
+	{
+		r = close(*fd);
+		*fd = -42;
+		return (r);
+	}
 	return (0);
+}
+
+char **env_to_arr(t_env *env)
+{
+	int	i;
+	int	len;
+	char	**arr;
+	t_env	*tmp;
+
+	if (env == NULL)
+		return (NULL);
+	len = 0;
+	tmp = env;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	arr = malloc((len + 1) * sizeof(char *));
+	if (!arr)
+		return (perror("malloc"), NULL);
+	i = 0;
+	while (env)
+	{
+		arr[i] = ft_strjoin(env->name, "=");
+		// garbage_collect(arr[i], 1)
+		arr[i] = ft_strjoin(arr[i], env->value);
+		env = env->next;
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }

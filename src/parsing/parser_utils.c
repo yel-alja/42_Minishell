@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/02 09:02:30 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:40:39 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_cmd *new_cmd(char *cmd ,char **args , t_redir *red)
     // garbage_collect(tmp);
     tmp->cmd = cmd;
     tmp->args = args;
+	tmp->fd_input = STDIN_FILENO;
+	tmp->fd_output = STDOUT_FILENO;
+	tmp->error = false;
+	tmp->pid = 0;
     tmp->redirects = red;
     tmp->next = NULL;
     return(tmp);

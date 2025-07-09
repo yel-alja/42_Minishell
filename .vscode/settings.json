@@ -1,14 +1,28 @@
 {
     "files.associations": {
-        "execution.h": "c",
-        "complex": "c",
-        "minishell.h": "c",
-        "parsing.h": "c",
-        "signal.h": "c",
-        "stdlib.h": "c",
-        "stdio.h": "c",
-        "stdbool.h": "c",
-        "libft.h": "c",
-        "cstdlib": "c"
-    }
+		"execution.h": "c",
+		"complex": "c",
+		"minishell.h": "c",
+		"parsing.h": "c",
+		"signal.h": "c",
+		"stdlib.h": "c",
+		"stdio.h": "c",
+		"stdbool.h": "c",
+		"libft.h": "c",
+		"cstdlib": "c",
+		"chrono": "c",
+		"text_encoding": "c",
+		"typeinfo": "c",
+		"charconv": "c",
+		"optional": "c",
+		"format": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"errno.h": "c"
+	}
 }

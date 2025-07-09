@@ -6,15 +6,15 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:07:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:48 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:34:19 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-int	ft_unset(char **args, t_env **env)
+
+int	ft_unset(char **args)
 {
 	(void)args;
-	(void)env;
 	return (0);
 }
