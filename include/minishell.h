@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 10:32:15 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:51:30 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum	e_type
     OUTPUT,      // >
     APPEND,      // >>
     HEREDOC,     // <<
+	AMBIGUOUS,
 }				t_type;
 
 typedef struct	s_redir

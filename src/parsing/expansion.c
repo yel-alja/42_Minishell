@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 21:49:21 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/09 09:15:22 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,21 @@ char *search_and_replace(char **token , char *var_name, char *var_val , int nale
     int j;
     char *tkn = (*token);
     int len = ft_strlen(tkn) + ft_strlen(var_val) - nalen + 1;
-    char *res = malloc(len + 1);
+    char *res = malloc(len);
     // garbage_collect(res);
     while(i < len)
     {
         if(!ft_strncmp(&tkn[i] , var_name , nalen))
         {
             j = 0;
-            while(var_val[j])
+            if(var_val[0] != 15)
             {
-                res[i] =  var_val[j];
-                i++;
-                j++;
+                while(var_val[j])
+                {
+                    res[i] =  var_val[j];
+                    i++;
+                    j++;
+                }
             }
         }
         else
@@ -69,7 +72,7 @@ char *search_and_replace(char **token , char *var_name, char *var_val , int nale
         }
         i++;
     }
-    res[i] = '\0';
+    res[i - 1] = '\0';
     *token = remove_name(tkn , var_name);
     return res;
 }
@@ -100,26 +103,25 @@ char *var(char *token , t_env *env , int flag)
     char *var_name= NULL;
     char *var_value = NULL;
     char *p = NULL;
-
     while(token[i])
     {
         if(token[i] == '$')
         {
             i++;
             start = i;
-            while(token[start] && !is_whitespace(token[start]) &&
+            while(token[start] && (ft_isalnum(token[start]) || token[start] == '_') && !is_whitespace(token[start]) &&
                         token[start] != '$')
                 start++;
             var_name = ft_substr(token , i - 1, start - i + 1); //? garbage collect also for strdup bellow
             // garbage_collect(var_name);
-            var_value = ft_getenv(var_name + 1 , env);
+            var_value = getenv(var_name + 1);
             if(flag == 1)
             {
                 var_value = flag_splitters(var_value);
             }
             if(!var_value)
             {
-               p = ft_strjoin(p , search_and_replace(&token , var_name , "",ft_strlen(var_name))); 
+                p = ft_strjoin(p , search_and_replace(&token , var_name , "",ft_strlen(var_name)));
                 continue;
             }
             p = ft_strjoin(p , search_and_replace(&token , var_name , var_value ,ft_strlen(var_name)));
