@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 20:12:16 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/11 10:24:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,25 @@ void print_cmd_list(t_cmd *cmd) {
 // }
 
 //'dsfjl"f'''das"'
+// void free_env(t_env *env)
+// {
+//     t_env *tmp;
+//     while(env)
+//     {
+//         tmp = env;
+//         env = env->next;
+//         free(tmp->name);
+//         free(tmp->value);
+//         free(tmp);
+        
+//     }
+// }
+void free_env(t_env *env);
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 	t_token *token;
+	t_cmd *cmd;
 	char *input;
     (void )av;
     (void )ac;
@@ -108,6 +123,8 @@ int main(int ac, char **av, char **env)
         if(!input)
 		{
 			// clean up
+            garbage_collect(NULL , 1);
+            free_env(envp);            
 			exit(EXIT_SUCCESS);
 		}
 		add_history(input);
@@ -117,8 +134,10 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL , 1);
             continue;
         }
+        // cmd = parser(token);
         // print_tokens(token);
 		// exe_cmd_line(parser(token), &ac, &envp);
+        
         print_cmd_list(parser(token));
         garbage_collect(NULL , 1);
     }

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/04 17:41:53 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/11 09:34:46 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd *parser2(t_token **tkn)
     t_cmd   *cmd = NULL;
     t_token *token = (*tkn);
     char *cmnd = get_cmd_name(token);
-    char **args = malloc(count_args(token) * 8);
+    char **args = malloc((count_args(token) + 1) * 8);
     int i  = 0;
     while(token)
     {

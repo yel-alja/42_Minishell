@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/08 16:52:56 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/11 09:38:17 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ char	*unquoted_word(char *input, int *i , t_env *env)
 		len++;
 	str = ft_substr(input + (*i), 0, len);
     garbage_collect(str , 0);
-    // printf("====%s\n" , str); //===============
     str = expansion(str ,env ,1);
 	(*i) += len;
 	return (str);
