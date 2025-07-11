@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/09 14:39:00 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:12:48 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		process_exit_status(void)
 
 	exit_status = get_addr_exit_status(NULL);
 	if (WIFSIGNALED(*exit_status))
-		*exit_status = WTERMSIG(*exit_status);
+		*exit_status = *exit_status;
 	else if (WIFEXITED(*exit_status))
 		*exit_status = WEXITSTATUS(*exit_status);
 }
@@ -97,12 +97,24 @@ int	open_redirects(t_cmd *cmd)
 void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 {
 	pid_t	pid;
+	int		fd[2];
 
+	if (cmd->next)
+	{
+		if (pipe(fd) == -1)
+			return (errmsg(NULL, "pipe", NULL));
+		ft_close(&cmd->next->fd_input);
+		cmd->next->fd_input = fd[0];
+	}
 	pid = fork();
 	if (pid == -1)
 		errmsg(NULL, "fork", NULL);
 	if (pid) // Parent proc
 	{
+		if (cmd->next)
+		{
+			ft_close(fd + 1);
+		}
 		ft_close(&cmd->fd_input);
 		ft_close(&cmd->fd_output);
 		cmd->pid = pid;
@@ -110,28 +122,34 @@ void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	else  // Child proc
 	{
 		signal(SIGQUIT, SIG_DFL);
+		if (cmd->next)
+		{
+			ft_close(fd + 0);
+			cmd->fd_output = fd[1];
+		}
+		// if (run_pipe(fd[1]))
+		// 	return ;
 		if (open_redirects(cmd))
 			return ;
 		if (is_built_in(cmd) == true)
-			exec_built_in(cmd);
+			exit(exec_built_in(cmd));
 		else
 			exec_cmd(cmd);
 	}
 }
 
-
 int	exe_pipeline_cmd(t_cmd *cmd)
 {
-	int	ttyin;
-	int	ttyout;
+	// int	ttyin;
+	// int	ttyout;
 	t_cmd	*tmp;
 
-	ttyin = dup(STDIN_FILENO);
-	ttyout = dup(STDOUT_FILENO);
+	// ttyin = dup(STDIN_FILENO);
+	// ttyout = dup(STDOUT_FILENO);
 	/***********Dup stdin & stdout**********/
 	tmp = cmd;
-	if (cmd->next)
-		open_pipe(cmd);
+	// if (cmd->next)
+	// 	open_pipe(cmd);
 	while (tmp)
 	{
 		exec_simple_cmd(tmp);
@@ -140,10 +158,10 @@ int	exe_pipeline_cmd(t_cmd *cmd)
 	wait_commands(cmd);
 	printf("[%d]\n", *get_addr_exit_status(NULL));
 	/***********set Default fd************/
-	dup2(ttyin, STDIN_FILENO);
-	dup2(ttyout, STDOUT_FILENO);
-	close(ttyin);
-	close(ttyout);
+	// dup2(ttyin, STDIN_FILENO);
+	// dup2(ttyout, STDOUT_FILENO);
+	// close(ttyin);
+	// close(ttyout);
 	return (0);
 }
 

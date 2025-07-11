@@ -6,12 +6,15 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:19:40 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:08 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:13:00 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+/*
+echo -n -n
 
+*/
 bool	option_n(char *args)
 {
 	int	j;
