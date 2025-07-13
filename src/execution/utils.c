@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/13 11:32:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:30:19 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void	errmsg(char *cmd, char *arg, char *err)
 		str = ft_strjoin(str, arg);
 		garbage_collect(str, 0);
 	}
+	str = ft_strjoin(str, ": ");
+	garbage_collect(str, 0);
 	if (err)
-	{
-		str = ft_strjoin(str, ": ");
 		str = ft_strjoin(str, err);
-	}
 	else
 		str = ft_strjoin(str, strerror(errno));
 	garbage_collect(str, 0);
