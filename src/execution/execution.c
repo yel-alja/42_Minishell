@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/11 12:12:48 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:03:09 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,28 +140,15 @@ void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 int	exe_pipeline_cmd(t_cmd *cmd)
 {
-	// int	ttyin;
-	// int	ttyout;
 	t_cmd	*tmp;
 
-	// ttyin = dup(STDIN_FILENO);
-	// ttyout = dup(STDOUT_FILENO);
-	/***********Dup stdin & stdout**********/
 	tmp = cmd;
-	// if (cmd->next)
-	// 	open_pipe(cmd);
 	while (tmp)
 	{
 		exec_simple_cmd(tmp);
 		tmp = tmp->next;
 	}
 	wait_commands(cmd);
-	printf("[%d]\n", *get_addr_exit_status(NULL));
-	/***********set Default fd************/
-	// dup2(ttyin, STDIN_FILENO);
-	// dup2(ttyout, STDOUT_FILENO);
-	// close(ttyin);
-	// close(ttyout);
 	return (0);
 }
 

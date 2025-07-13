@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/09 14:19:21 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:23:07 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int main(int ac, char **av, char **env)
 			exe_single_built_in(cmd);
 		else
 			exe_pipeline_cmd(cmd);
+		// printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , 1);
     }
 }

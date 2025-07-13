@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/09 14:09:26 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:32:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,32 @@
 
 void	errmsg(char *cmd, char *arg, char *err)
 {
+	char	*str;
+	// char	*str;
+
+	str = NULL;
 	if (cmd)
-		ft_putstr_fd(cmd, 2);
+		str = ft_strjoin(str, cmd);
 	else
-		ft_putstr_fd("shell", 2);
+		str = ft_strjoin(str, "shell");
+	garbage_collect(str, 0);
 	if (arg)
 	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(arg, 2);
+		str = ft_strjoin(str, ": ");
+		str = ft_strjoin(str, arg);
+		garbage_collect(str, 0);
 	}
 	if (err)
 	{
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(err, 2);
+		str = ft_strjoin(str, ": ");
+		str = ft_strjoin(str, err);
 	}
 	else
-		perror(" ");
+		str = ft_strjoin(str, strerror(errno));
+	garbage_collect(str, 0);
+	str = ft_strjoin(str, "\n");
+	garbage_collect(str, 0);
+	ft_putstr_fd(str, 2);
 }
 // shell: errmsg
 

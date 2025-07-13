@@ -6,20 +6,20 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/08 10:04:07 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:11:24 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_env(t_env *env)
+void free_env(t_env **env)
 {
 	t_env *tmp;
 
-	while(env)
+	while(*env)
 	{
-		tmp = env;
-		env = env->next;
+		tmp = *env;
+		*env = (*env)->next;
 		free(tmp->name);
 		free(tmp->value);
 		free(tmp);
@@ -43,7 +43,10 @@ int	sep_name_value(char *var, char **name, char **value)
 	}
 	(*name)[len] = '\0';
 	len++;
-	*value = ft_strdup(var + len); //malloc fail
+	if (value)
+	{
+		*value = ft_strdup(var + len); //malloc fail
+	}
 	return (0);
 }
 
@@ -92,7 +95,7 @@ t_env	*get_envp(char **env)
 		tmp = new_var(env[i]);
 		if(!tmp)
 		{
-			free_env(head);
+			free_env(&head);
 			exit(1);
 		}
 		add_var(&head, tmp);

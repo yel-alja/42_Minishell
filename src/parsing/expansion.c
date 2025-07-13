@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 11:23:52 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:00:13 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char *var(char *token , t_env *env)
     char *var_value = NULL;
     char *p = NULL;
 
+	(void)env;
     while(token[i])
     {
         if(token[i] == '$')
@@ -93,7 +94,7 @@ char *var(char *token , t_env *env)
                 start++;
             var_name = ft_substr(token , i - 1, start - i + 1); //? garbage collect also for strdup bellow
             // garbage_collect(var_name);
-            var_value = ft_getenv(var_name + 1 , env); 
+            var_value = ft_getenv(var_name + 1);
             if(!var_value)
                 continue;
             p = ft_strjoin(p , search_and_replace(&token , var_name , var_value ,ft_strlen(var_name)));

@@ -6,42 +6,55 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:06:10 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:15 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 10:30:25 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+/*
 
+oldpwd="AA"
+
+*/
+void	update_env(char *curr_dir)
+{
+	t_env	*pwd;
+	t_env	*oldpwd;
+
+	pwd = ft_getvarenv("PWD");
+	oldpwd = ft_getvarenv("OLDPWD");
+
+	if (oldpwd && pwd)
+	{
+		free(oldpwd->value);
+		oldpwd->value = pwd->value;
+	}
+	if (pwd)
+	{
+		if (!oldpwd)
+			free(pwd->value);
+		pwd->value = ft_strdup(curr_dir);
+	}
+}
 // (X)
 int ft_cd(char **args)
 {
-    struct stat file;
+	char	*path;
 
-    // check num of argms
-    if (!args || !*args)
-
-    // if arg 'cd' || 'cd ~' -> moving to $HOME env (check getenv())
-    /*
-        Handling this case
-    */
-    if (args[2] != NULL)
-        return (errmsg("cd", NULL, "too many arguments"), 1);
-    // check if exist
-    if (access(args[1], F_OK))
-        return (errmsg("cd", args[1],"No such file or directory"), 1);
-    if (stat(args[1], &file))
-        return (perror("stat"), 3);
-    // check is dir
-    // if (!S_ISDIR(file.st_mode))
-    //     return (errmsg("cd: test_f: Not a directory\n"), 1);
-    // check permission
-    // if (access(args[1], X_OK))
-    //     return (errmsg("cd: "), errmsg(args[1]), errmsg(": Permission denied\n"), 1);
-    // moving to diroctory
-    if (chdir(args[1]))
-        return (errmsg("cd", args[1], NULL), 6);
-
-	// update env var $PWD
-
-    return (0);
+	path = args[1];
+	if (!args[1])
+	{
+		path = ft_getenv("HOME");
+		if (!path)
+			return (errmsg("yzsh: cd", path, "HOME not set"), EXIT_FAILURE);
+		if (!*path)
+			return (EXIT_SUCCESS);
+	}
+    else if (args[2])
+        return (errmsg(NULL, "yzsh: cd", "too many arguments"), EXIT_FAILURE);
+    if (chdir(path))
+        return (errmsg("yzsh: cd", path, NULL), EXIT_FAILURE);
+	else
+		update_env(path);
+    return (EXIT_SUCCESS);
 }

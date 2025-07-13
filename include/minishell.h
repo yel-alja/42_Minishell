@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/09 11:05:10 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:14:28 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include "parsing.h"
 #include "execution.h"
 
-#define PROMPT "yzsh> "
+#define PROMPT "\033[0;35myzsh> \033[0m"
 #define WHITE_SP " \t\n"
 
 typedef struct s_env
@@ -75,7 +75,7 @@ typedef struct s_token
 
 typedef struct s_garbage
 {
-	char *ptr;
+	void *ptr;
 	struct s_garbage *next;
 }	t_garbage;
 
@@ -84,7 +84,8 @@ void	ctrl_c(int sig);
 int	exe_pipeline_cmd(t_cmd *cmd);
 
 //?
-char *ft_getenv(char *name , t_env *env);
+t_env	*ft_getvarenv(char *name);
+char *ft_getenv(char *name);
 void expander(t_token **tk , t_env *env);
 char *expansion(char *token , t_env *env);
 char	*here_doc_file(char *del , t_env *env);
