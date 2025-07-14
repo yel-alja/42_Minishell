@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/09 11:18:27 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:42:48 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		ft_pwd(char **args);
 int		ft_cd(char **args);
 int		ft_env(char **args);
 int		ft_export(char **args);
-// int		unset(char **args);
+int		ft_unset(char **args);
 int		ft_exit(char **args);
 
 // Error o dakchi
@@ -50,7 +50,7 @@ int		*get_addr_exit_status(int *ptr);
 t_env	*get_envp(char **env);
 void	printenv(t_env *e, bool d_x);
 char	**env_to_arr(t_env *env);
-bool	search_in_path(t_cmd *cmd);
+void	search_in_path(t_cmd *cmd);
 t_env	*new_var(char *var);
 void	add_var(t_env **head, t_env *var);
 int		sep_name_value(char *var, char **name, char **value);

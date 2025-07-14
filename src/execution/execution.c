@@ -6,12 +6,21 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 13:15:56 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:42:00 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
+
+bool	is_directory(char *path)
+{
+    struct stat stats;
+
+    if (stat(path, &stats) == 0 && S_ISDIR(stats.st_mode))
+        return (true);
+    return (false);
+}
 
 void		process_exit_status(void)
 {
@@ -39,15 +48,20 @@ void	wait_commands(t_cmd *cmd)
 
 void	exec_cmd(t_cmd *cmd)
 {
-	if ((is_path(cmd->cmd)) == true)
+	char	*vpath;
+
+	vpath = ft_getenv("PATH");
+	if ((is_path(cmd->cmd)) == true || !vpath || !*vpath)
 	{
+		if (is_directory(cmd->cmd) == true)
+			exit((errmsg(NULL, cmd->cmd, "Is a directory"), 126));
 		if (!access(cmd->cmd, F_OK) && access(cmd->cmd, X_OK))
 			exit((errmsg(NULL, cmd->cmd, NULL), 126));
 		if (access(cmd->cmd, F_OK | X_OK))
 			exit((errmsg(NULL, cmd->cmd, NULL), 127));
 	}
-	else if (search_in_path(cmd) == false)
-		exit((errmsg(NULL, cmd->cmd, "command not found"), 127));
+	else
+		search_in_path(cmd);
 	execve(cmd->cmd, cmd->args, env_to_arr(*get_addr_env(NULL)));
 	errmsg("execve", cmd->args[0], NULL);
 	exit(EXIT_FAILURE);

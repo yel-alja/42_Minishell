@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 11:42:22 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:41:26 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,35 @@ bool	is_path(char *file)
 	return (false);
 }
 
-bool	search_in_path(t_cmd *cmd)
+void	search_in_path(t_cmd *cmd)
 {
 	int		p;
 	char	*str;
+	int		flag;
 	char	**paths;
 
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(ft_getenv("PATH"), ':');
+	// if (!paths)
+	// 	exit(err)
 	p = -1;
+	flag = 0;
 	while (paths[++p])
 	{
 		str = ft_strjoin(paths[p], "/");
 		str = ft_strjoin(str, cmd->cmd);
+
+		if (access(str, F_OK) == 0)
+			flag = 1;
 		if (access(str, F_OK | X_OK) == 0)
 		{
 			cmd->cmd = str;
-			return (true);
+			return ;
 		}
 	}
-	return (false);
+	if (flag == 0)
+		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "command not found"), 127));
+	else if (flag == 1)
+		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "Permission denied"), 126));
 }
 
 int	exec_built_in(t_cmd *cmd)
@@ -93,7 +103,7 @@ int	exec_built_in(t_cmd *cmd)
 	if (!ft_strcmp(cmd->cmd, "exit"))
 		return (ft_exit(cmd->args));
 	if (!ft_strcmp(cmd->cmd, "unset"))
-		return (printf("mazal\n"));
+		return (ft_unset(cmd->args));
     return (0);
 }
 

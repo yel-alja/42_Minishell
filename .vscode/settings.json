@@ -23,6 +23,7 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"limits.h": "c"
 	}
 }
