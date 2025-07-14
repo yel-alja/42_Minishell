@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/06 10:09:10 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:29:45 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	sep_name_value(char *var, char **name, char **value)
 
 	len = ft_charlen(var, "=");
 	*name = malloc((len + 1) * sizeof(char));
-	if(!name)
-		return (1);
+		if(!name)
+			return (1);
 	i = 0;
 	while (i < len)
 	{

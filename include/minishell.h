@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/08 16:51:30 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:13:54 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum	e_type
     OUTPUT,      // >
     APPEND,      // >>
     HEREDOC,     // <<
-	AMBIGUOUS,
+	AMBG,
 }				t_type;
 
 typedef struct	s_redir
@@ -71,6 +71,8 @@ typedef struct s_token
 {
 	char *value;
 	t_type type;
+	int amg;
+	int flag;
 	struct s_token *next;
 }	t_token;
 
@@ -87,5 +89,6 @@ int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
 //?
 char *ft_getenv(char *name , t_env *env);
 char *expansion(char *token , t_env *env , int flag);
-char	*here_doc_file(char *del , t_env *env);
+char	*heredoc_file(char *del ,t_env *env , int quoted);
+
 #endif

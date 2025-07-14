@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/11 10:24:21 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:59:58 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char *type_to_str(t_type type)
     if (type == APPEND) return "APPEND";
     if (type == OUTPUT) return "OUTPUT";
     if (type == INPUT) return "INPUT";
+    if (type == AMBG) return "AMBG";
     if (type == HEREDOC) return "HEREDOC";
     return "WORD";
 }
@@ -73,21 +74,23 @@ void print_cmd_list(t_cmd *cmd) {
 }
 
 
-// void check_red(t_cmd *cmd) // just for testing
-// {
+void check_red(t_cmd *cmd , t_env  *env , int flag) // just for testing
+{
 
-//     while(cmd)
-//     {
-//      t_redir *red = cmd->redirects;
-//      while(red)
-//      {
-//         if(red->type == HEREDOC)
-//             heredoc(red->filename);
-//         red = red->next;
-//      }
-//      cmd = cmd->next;
-//     }
-// }
+    while(cmd)
+    {
+     t_redir *red = cmd->redirects;
+     while(red)
+     {
+        if(red->type == HEREDOC)
+        {
+            heredoc_file(red->filename, env , flag);
+        }
+        red = red->next;
+     }
+     cmd = cmd->next;
+    }
+}
 
 //'dsfjl"f'''das"'
 // void free_env(t_env *env)
@@ -103,12 +106,11 @@ void print_cmd_list(t_cmd *cmd) {
         
 //     }
 // }
-void free_env(t_env *env);
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 	t_token *token;
-	t_cmd *cmd;
+    t_cmd *cmd;
 	char *input;
     (void )av;
     (void )ac;
@@ -124,7 +126,7 @@ int main(int ac, char **av, char **env)
 		{
 			// clean up
             garbage_collect(NULL , 1);
-            free_env(envp);            
+            // free_env(envp);            
 			exit(EXIT_SUCCESS);
 		}
 		add_history(input);
@@ -134,11 +136,11 @@ int main(int ac, char **av, char **env)
             garbage_collect(NULL , 1);
             continue;
         }
-        // cmd = parser(token);
-        // print_tokens(token);
+        cmd = parser(token);
+        // check_red(cmd , envp , 1);
 		// exe_cmd_line(parser(token), &ac, &envp);
         
-        print_cmd_list(parser(token));
+        print_cmd_list(cmd);
         garbage_collect(NULL , 1);
     }
 }

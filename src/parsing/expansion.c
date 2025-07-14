@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/11 09:41:53 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:01:18 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char *var(char *token , t_env *env , int flag)
             garbage_collect(p , 0);
             var_name = ft_substr(token , i - 1, start - i + 1);
             garbage_collect(var_name , 0);
-            var_value = getenv(var_name + 1); //?
+            var_value = ft_getenv(var_name + 1 , env); //?
             if(flag == 1)
             {
                 var_value = flag_splitters(var_value);
@@ -72,12 +72,13 @@ char *var(char *token , t_env *env , int flag)
             p = ft_strjoin(p , token + start);
             garbage_collect(p , 0);
             token = p;
-            i = -1;
+            i += ft_strlen(var_value);
         }
         i++;
     }
     return (p);
 }
+
 
 char *expansion(char *token ,t_env *env , int flag)
 {
