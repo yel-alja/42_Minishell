@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/13 15:30:19 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:42:22 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	exec_built_in(t_cmd *cmd)
 		return (ft_env(cmd->args));
 	if (!ft_strcmp(cmd->cmd, "export"))
 		return (ft_export(cmd->args));
-	if (!ft_strcmp(cmd->cmd, "exit "))
+	if (!ft_strcmp(cmd->cmd, "exit"))
 		return (ft_exit(cmd->args));
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		return (printf("mazal\n"));

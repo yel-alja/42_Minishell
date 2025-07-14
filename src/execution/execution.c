@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/12 10:03:09 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:15:56 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	open_redirects(t_cmd *cmd)
 	int		*exit_status;
 
 	exit_status = get_addr_exit_status(NULL);
-	*exit_status = 0;
 	redir = cmd->redirects;
 	while (redir)
 	{
@@ -157,8 +156,6 @@ int	exe_single_built_in(t_cmd *cmd)
 	int	ttyin;
 	int	ttyout;
 	int	*exit_status;
-
-
 
 	/***********built-in************/
 	exit_status = get_addr_exit_status(NULL);

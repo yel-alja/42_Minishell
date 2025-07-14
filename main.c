@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/13 11:23:07 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:02:05 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,15 @@ int main(int ac, char **av, char **env)
 	t_env	*envp;
 	t_token *token;
 	t_cmd	*cmd;
-	int		exit_stat;
+	int		exit_status;
 	char *input;
 
 	(void)av;
 	(void)ac;
-	exit_stat = 0;
+	exit_status = 0;
 	get_addr_env(&envp);
 	get_addr_cmd(&cmd);
-	get_addr_exit_status(&exit_stat);
+	get_addr_exit_status(&exit_status);
 	envp = get_envp(env);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
@@ -133,7 +133,7 @@ int main(int ac, char **av, char **env)
 			exe_single_built_in(cmd);
 		else
 			exe_pipeline_cmd(cmd);
-		// printf("[%d]\n", *get_addr_exit_status(NULL));
+		printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , 1);
     }
 }
