@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:59:32 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 19:16:14 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:05:50 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char *quote_removal(char *str)
 
 	rslt = NULL;
 	i = 0;
+	if(!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')

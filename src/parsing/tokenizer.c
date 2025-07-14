@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 12:00:09 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:52:04 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,28 @@ t_token *token_pipe(int *i)
     *i += 1;
     return (tmp);
 }
-
-t_token *token_re_input(int *i, char c)
+t_token *her_del(char *input, int *i)
 {
-    t_token *tmp;
+    int start ;
+    char *del;
+    while(input[*i] && is_whitespace(input[*i]))
+        *i += 1;
+    start = *i;
+    while(input[start] && input[start] != '>' && input[start] != '<' && input[start] != '|' && !is_whitespace(input[start]))
+        start++;
+    del = ft_substr(input, *i , start);
+    del = quote_removal(del);
+    *i += ft_strlen(del);
+    if(!del)
+        return NULL;
+    return(new_token(del , WORD , 0));
+}
 
-    if (c != '<')
+t_token *token_re_input(int *i, char *c)
+{
+    t_token *tmp = NULL;
+
+    if (c[*i + 1] != '<')
     {
        tmp = new_token("<", INPUT , 0);
         *i += 1;
@@ -64,6 +80,7 @@ t_token *token_re_input(int *i, char c)
     {
         tmp = new_token("<<", HEREDOC , 0);
         *i += 2;
+        token_add_back(&tmp, her_del(c , i));
     }
     return (tmp);
 }
@@ -169,7 +186,7 @@ t_token *handling_token(char *input, int *i , t_env *env)
     if (input[*i] == '|')
         token = token_pipe(i);
     else if (input[*i] == '<')
-        token = token_re_input(i, input[*i + 1]);
+        token = token_re_input(i, input);
     else if (input[*i] == '>')
         token = token_re_output(i, input[*i + 1]);
     else
@@ -189,7 +206,7 @@ void update_amg(t_token *token)
 {
     while(token->next)
     {
-        if(token->type != HEREDOC && token->type != WORD && ((token->next->amg == 1  && token->next->next)|| token->next->value[0] == '\0'))
+        if(token->type != HEREDOC && token->type != WORD&& token->type != PIPE && ((token->next->amg == 1  && token->next->next)|| token->next->value[0] == '\0'))
             token->type = AMBG;
         token = token->next;
     }

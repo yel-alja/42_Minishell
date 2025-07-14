@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/13 14:45:01 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:14:13 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char *get_cmd_name(t_token *token)
 {
     while(token)
     {
-        if(token->type == WORD || token->type == AMBG)
+        if(token->type == WORD)
             return(ft_strdup(token->value));
         else
             token = token->next->next;
