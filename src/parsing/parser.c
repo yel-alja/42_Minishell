@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 21:14:13 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:27:04 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ t_cmd *parser2(t_token **tkn)
                         i++;
             }
         else if(token->type == HEREDOC)
-                tmp = new_red(token->next->value , HEREDOC);
+        {
+            tmp = new_red(token->next->value , HEREDOC);
+            if(token->next->quoted)
+                tmp->quoted = 1;
+        }
         else if(token->type == OUTPUT)
         {
             if(token->next->type == AMBG)
@@ -99,7 +103,26 @@ t_cmd *parser2(t_token **tkn)
     return (cmd);
 }
 
-t_cmd *parser(t_token *token)
+void open_her(t_cmd *cmd , t_env *env)
+{
+    t_redir *red;
+    while(cmd)
+    {
+        red = cmd->redirects;
+        while (red)
+        {
+            if(red->type == HEREDOC)
+            {
+                red->filename = heredoc_file(red->filename , env , red->quoted);
+            }
+            red = red->next;
+        }
+        cmd = cmd->next;
+        
+    }
+}
+
+t_cmd *parser(t_token *token , t_env *env)
 {
     t_cmd *cmd = NULL;
     while(token)
@@ -110,5 +133,6 @@ t_cmd *parser(t_token *token)
             break;
         cmd_add_back(&cmd , parser2(&token));
     }
+    open_her(cmd , env);
     return (cmd);
 }

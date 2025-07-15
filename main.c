@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 21:50:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:23:51 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void print_cmd_list(t_cmd *cmd) {
         if (cmd->redirects) {
             t_redir *red = cmd->redirects;
             while (red) {
-                printf("file %s type %s\n", red->filename, type_to_str(red->type));
+                printf("file %s type %s===%d\n", red->filename, type_to_str(red->type) , red->quoted);
                 red = red->next;
             }
         }
@@ -73,24 +73,6 @@ void print_cmd_list(t_cmd *cmd) {
     }
 }
 
-
-void check_red(t_cmd *cmd , t_env  *env , int flag) // just for testing
-{
-
-    while(cmd)
-    {
-     t_redir *red = cmd->redirects;
-     while(red)
-     {
-        if(red->type == HEREDOC)
-        {
-            heredoc_file(red->filename, env , flag);
-        }
-        red = red->next;
-     }
-     cmd = cmd->next;
-    }
-}
 
 //'dsfjl"f'''das"'
 // void free_env(t_env *env)
@@ -137,8 +119,7 @@ int main(int ac, char **av, char **env)
             continue;
         }
 		print_tokens(token);
-        cmd = parser(token);
-        check_red(cmd , envp , 1);
+        cmd = parser(token , envp);
 		// exe_cmd_line(parser(token), &ac, &envp);
         
        print_cmd_list(cmd);

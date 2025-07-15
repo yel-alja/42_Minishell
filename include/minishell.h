@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 11:13:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:10:09 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum	e_type
 typedef struct	s_redir
 {
     char			*filename;
+	int 			quoted;
     t_type			type;
     struct s_redir	*next;
 }					t_redir;
@@ -72,7 +73,7 @@ typedef struct s_token
 	char *value;
 	t_type type;
 	int amg;
-	int flag;
+	int quoted;
 	struct s_token *next;
 }	t_token;
 

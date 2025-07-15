@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/11 18:25:43 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:00:41 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_redir *new_red(char *file , t_type type)
     garbage_collect(tmp , 0);
     tmp->filename = file;
     tmp->type = type;
+    tmp->quoted = 0;
     tmp->next = NULL;
     return(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 20:52:04 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:39:46 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token *new_token(char *input, t_type type , int amg)
     garbage_collect(node->value , 0);
     node->type = type;
     node->amg = amg;
+    node->quoted = 0;
     node->next = NULL;
     return (node);
 }
@@ -52,19 +53,25 @@ t_token *token_pipe(int *i)
 }
 t_token *her_del(char *input, int *i)
 {
-    int start ;
+    int start;
     char *del;
+    size_t len;
+    t_token *tmp;
     while(input[*i] && is_whitespace(input[*i]))
         *i += 1;
     start = *i;
-    while(input[start] && input[start] != '>' && input[start] != '<' && input[start] != '|' && !is_whitespace(input[start]))
+    while(input[start] && input[start] != '>' && input[start] != '<' && input[start] != '|' && !is_whitespace(input[start])) 
         start++;
-    del = ft_substr(input, *i , start);
+    del = ft_substr(input, *i , start - *i);
+    len  = ft_strlen(del);
+    *i += len;
     del = quote_removal(del);
-    *i += ft_strlen(del);
     if(!del)
         return NULL;
-    return(new_token(del , WORD , 0));
+    tmp = new_token(del, WORD, 0);
+    if(len != ft_strlen(del))
+        tmp->quoted = 1;
+    return(tmp);
 }
 
 t_token *token_re_input(int *i, char *c)
@@ -80,7 +87,7 @@ t_token *token_re_input(int *i, char *c)
     {
         tmp = new_token("<<", HEREDOC , 0);
         *i += 2;
-        token_add_back(&tmp, her_del(c , i));
+        token_add_back(&tmp, her_del(c , i)); //?
     }
     return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/13 14:37:13 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:24:03 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int is_operator(t_token *token);
 void	cmd_add_back(t_cmd **head, t_cmd *node);
 t_cmd	*new_cmd(char *cmd ,char **args , t_redir *red);
 void	red_add_back(t_redir **head, t_redir *node);
-t_cmd	*parser(t_token *token);
+t_cmd	*parser(t_token *token , t_env *env);
 t_redir	*new_red(char *file , t_type type);
 
 /******quote removal******/
