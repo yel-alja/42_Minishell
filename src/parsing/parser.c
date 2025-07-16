@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 10:27:04 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:39:33 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,23 @@ int count_args(t_token *token)
 
 char *get_cmd_name(t_token *token)
 {
+    char *cmd;
     while(token)
     {
+        if(token->type == PIPE)
+            return NULL;
         if(token->type == WORD)
-            return(ft_strdup(token->value));
+        {
+            cmd = ft_strdup(token->value);
+            garbage_collect(cmd , 0); //?
+            return(cmd);
+        }
         else
             token = token->next->next;
     }
     return (NULL);
 }
+// ambg should added to re list | exit status $? |<
 
 t_cmd *parser2(t_token **tkn)
 {
@@ -45,9 +53,8 @@ t_cmd *parser2(t_token **tkn)
     t_cmd   *cmd = NULL;
     t_token *token = (*tkn);
     char *cmnd = get_cmd_name(token);
-    // garbage_collect(cmnd , 0);
     char **args = malloc((count_args(token) + 1) * 8);
-    // garbage_collect(args , 0);
+    garbage_collect(args , 0);
     int i  = 0;
     while(token)
     {
@@ -66,26 +73,13 @@ t_cmd *parser2(t_token **tkn)
                 tmp->quoted = 1;
         }
         else if(token->type == OUTPUT)
-        {
-            if(token->next->type == AMBG)
-                tmp = new_red(token->next->value, AMBG);
-            else
                 tmp = new_red(token->next->value, OUTPUT);
-        }
         else if(token->type == INPUT)
-        {
-            if(token->next->type == AMBG)
-                tmp = new_red(token->next->value, AMBG);
-            else
                 tmp = new_red(token->next->value, INPUT);
-        }
         else if(token->type == APPEND)
-        {
-            if(token->next->type == AMBG)
-                tmp = new_red(token->next->value, AMBG);
-            else
                 tmp = new_red(token->next->value, APPEND);
-        }
+        else if(token->type == AMBG)
+                tmp = new_red("", AMBG);
         if(tmp)
         {
             red_add_back(&red, tmp);

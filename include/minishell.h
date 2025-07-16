@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 10:10:09 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:58:32 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 
 #define PROMPT "yzsh> "
 #define WHITE_SP " \t\n"
-
 typedef struct s_env
 {
 	char			*name;

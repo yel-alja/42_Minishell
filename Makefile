@@ -29,7 +29,7 @@ all : $(NAME)
 $(LIB) :
 	make -C libft
 
-$(NAME) : $(OBJ) $(LIB)
+$(NAME) : $(OBJ) $(LIB) include/minishell.h
 	$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME) -lreadline
 
 

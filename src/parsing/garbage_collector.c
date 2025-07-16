@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:11:52 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 10:29:41 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:04:55 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_garbage *lst(void *ptr)
 
     node = malloc(sizeof(t_garbage));
     if(!node)
-        garbage_collect(NULL, 1);
+        garbage_collect(NULL, 0);
     node->ptr = ptr;
     node->next = NULL;
     return (node);

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:32:56 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 21:33:55 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:02:36 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,18 @@ int check_syntax(t_token *token)
     }
     while(token)
     {
+		if(token->type == PIPE && token->next && token->next->type == PIPE)
+		{
+             write(2 , "syntax error\n" ,13);
+			return (0);
+		}
         if((is_operator(token) || token->type == PIPE ) && token->next == NULL)
         {
-             write(2 , "syntax error\n" ,13);
+
+            write(2 , "syntax error\n" ,13);
             return (0);
         }
-        if((is_operator(token) || token->type == PIPE) && (is_operator(token->next) || token->next->type == PIPE)) //?
+        if((is_operator(token)) && (is_operator(token->next) || token->next->type == PIPE)) //?
         {
             write(2 , "syntax error\n" ,13);
             return (0);

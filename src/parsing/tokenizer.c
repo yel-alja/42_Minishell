@@ -6,11 +6,12 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 11:39:46 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:25:22 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 
 t_token *new_token(char *input, t_type type , int amg)
 {
@@ -87,7 +88,7 @@ t_token *token_re_input(int *i, char *c)
     {
         tmp = new_token("<<", HEREDOC , 0);
         *i += 2;
-        token_add_back(&tmp, her_del(c , i)); //?
+        token_add_back(&tmp, her_del(c , i));
     }
     return (tmp);
 }
@@ -138,7 +139,9 @@ char	*unquoted_word(char *input, int *i , t_env *env)
 	str = ft_substr(input + (*i), 0, len);
     garbage_collect(str , 0);
     str = expansion(str ,env ,1);
-	(*i) += len;
+	(*i) += len; 
+    if(str[0] == '\0')
+        return NULL;
 	return (str);
 }
 
@@ -146,6 +149,7 @@ t_token *token_word(char *input, int *i , t_env *env)
 {
     char *str;
     t_token *token = NULL;
+    int flag = 0;
 
 	str = NULL;
     while (input[*i] && !is_whitespace(input[*i]))
@@ -155,11 +159,13 @@ t_token *token_word(char *input, int *i , t_env *env)
         if (input[*i] == '"')
         {
             str = ft_strjoin(str, quoted_word(input, i, "\"" , env));
+            flag = 1;
             garbage_collect(str , 0);
         }
         else if (input[*i] == '\'')
         {   
             str = ft_strjoin(str, quoted_word(input, i, "'", env));
+            flag = 1;
             garbage_collect(str , 0);
         }
 		else
@@ -169,7 +175,10 @@ t_token *token_word(char *input, int *i , t_env *env)
         }
     }
     if(str)
+    {
         token = new_token(str, WORD , 0);
+        token->quoted = flag;
+    }
     return (token);
 }
 
@@ -199,7 +208,7 @@ t_token *handling_token(char *input, int *i , t_env *env)
     else
     {
         token = token_word(input, i ,env);
-        if(token->value && ft_strchr(token->value , 14))
+        if(token && token->value && ft_strchr(token->value , 14))
         {
             res = ft_split(token->value , 14);
             if(res)
@@ -213,7 +222,8 @@ void update_amg(t_token *token)
 {
     while(token->next)
     {
-        if(token->type != HEREDOC && token->type != WORD&& token->type != PIPE && ((token->next->amg == 1  && token->next->next)|| token->next->value[0] == '\0'))
+        if(token->type != HEREDOC && token->type != WORD&& token->type != PIPE && 
+            ((token->next->amg == 1  && token->next->next)|| token->next->value[0] == '\0'))
             token->type = AMBG;
         token = token->next;
     }

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 10:23:51 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:35:17 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,7 @@ void print_cmd_list(t_cmd *cmd) {
         cmd = cmd->next;
     }
 }
-
-
-//'dsfjl"f'''das"'
-// void free_env(t_env *env)
-// {
-//     t_env *tmp;
-//     while(env)
-//     {
-//         tmp = env;
-//         env = env->next;
-//         free(tmp->name);
-//         free(tmp->value);
-//         free(tmp);
-        
-//     }
-// }
+    
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
