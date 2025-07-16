@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:16:25 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:17:59 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void		process_exit_status(void)
 	int	*exit_status;
 
 	exit_status = get_addr_exit_status(NULL);
-	if (WIFSIGNALED(*exit_status))
-		*exit_status = *exit_status;
-	else if (WIFEXITED(*exit_status))
+	// if (WIFSIGNALED(*exit_status))
+	// 	;
+	if (WIFEXITED(*exit_status))
 		*exit_status = WEXITSTATUS(*exit_status);
 }
 
@@ -146,7 +146,10 @@ void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		if (open_redirects(cmd))
 			return ;
 		if (is_built_in(cmd) == true)
-			exit(exec_built_in(cmd));
+		{
+			exec_built_in(cmd);
+			exit((garbage_collect(NULL, false), free_env(), *get_addr_exit_status(NULL)));
+		}
 		else
 			exec_cmd(cmd);
 	}

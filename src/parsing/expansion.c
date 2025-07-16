@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:18:20 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:07:50 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int check_dollar(char *str)
 
 char *flag_splitters(char *value)
 {
+	if(!value)
+		return NULL;
     int i = 0;
     char *res = malloc(ft_strlen(value) + 1); //garbage
-    if(!value)
-        return NULL;
+    garbage_collect(res, true);
     while(value[i])
     {
         if(value[i] == '\n' || value[i] == ' ' || value[i] == '\t')
@@ -44,6 +45,7 @@ char *flag_splitters(char *value)
 
 char *var(char *token , int flag)
 {
+	token = ft_strdup(token);
     int i = 0;
     int start = 0;
     char *var_name= NULL;
@@ -59,18 +61,14 @@ char *var(char *token , int flag)
                         token[start] != '$')
                 start++;
             p = ft_substr(token , 0 , i - 1);
-            garbage_collect(p , 0);
             var_name = ft_substr(token , i - 1, start - i + 1);
-            garbage_collect(var_name , 0);
-            var_value = ft_getenv(var_name + 1); //?
+            var_value = ft_getenv(var_name + 1); // SEGV : TEST CASE $DFG
             if(flag == 1)
             {
                 var_value = flag_splitters(var_value);
             }
             p = ft_strjoin(p ,var_value);
-            garbage_collect(p ,0);
             p = ft_strjoin(p ,token + start);
-            garbage_collect(p ,0);
             token = p;
         }
         i++;

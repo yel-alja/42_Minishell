@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:21:27 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:46:12 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ t_token *new_token(char *input, t_type type , int amg)
     t_token *node;
 
     node = malloc(sizeof(t_token));
-    garbage_collect(node , 0);
+    garbage_collect(node , true);
     node->value = ft_strdup(input);
-    garbage_collect(node->value , 0);
     node->type = type;
     node->amg = amg;
     node->quoted = 0;
@@ -119,7 +118,6 @@ char	*quoted_word(char *input, int *i, char *quote )
 	(*i)++;
 	len = ft_charlen(input + (*i), quote);
 	str = ft_substr(input + (*i), 0, len);
-    garbage_collect(str , 0);
 	(*i) += len + 1;
     if(quote[0] == '"')
     {
@@ -136,7 +134,6 @@ char	*unquoted_word(char *input, int *i  )
 	while (input[(*i) + len] && !is_whitespace(input[(*i) + len]) && !is_metachar(input[(*i) + len]))
 		len++;
 	str = ft_substr(input + (*i), 0, len);
-    garbage_collect(str , 0);
     str = expansion(str  ,1);
 	(*i) += len;
     if(str[0] == '\0')
@@ -160,18 +157,15 @@ t_token *token_word(char *input, int *i )
         {
             str = ft_strjoin(str, quoted_word(input, i, "\"" ));
             flag = 1;
-            garbage_collect(str , 0);
         }
         else if (input[*i] == '\'')
         {
             str = ft_strjoin(str, quoted_word(input, i, "'"));
             flag = 1;
-            garbage_collect(str , 0);
         }
 		else
         {
             str = ft_strjoin(str, unquoted_word(input, i));
-            garbage_collect(str , 0);
         }
     }
     if(str)

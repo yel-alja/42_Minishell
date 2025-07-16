@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 20:07:44 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:44:09 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
-char *ft_strndup(char *str , int size)
-{
-    char *p ;
-    int i;
-
-    p = malloc(size + 2);
-    garbage_collect(p , 0);
-    i = 0;
-    while(i <= size)
-    {
-        p[i] = str[i];
-        i++;
-    }
-    p[i] = '\0';
-    return (p);
-}
 
 // whitespace just three !!
 int is_whitespace(char c)

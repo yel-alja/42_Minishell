@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:23:17 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:44:24 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char *get_cmd_name(t_token *token)
         if(token->type == WORD)
         {
             cmd = ft_strdup(token->value);
-            garbage_collect(cmd , 0); //?
             return(cmd);
         }
         else
@@ -54,7 +53,7 @@ t_cmd *parser2(t_token **tkn)
     t_token *token = (*tkn);
     char *cmnd = get_cmd_name(token);
     char **args = malloc((count_args(token) + 1) * 8);
-    garbage_collect(args , 0);
+    garbage_collect(args , true);
     int i  = 0;
     while(token)
     {
@@ -63,7 +62,6 @@ t_cmd *parser2(t_token **tkn)
         else if(token->type == WORD)
             {
                 args[i] = ft_strdup(token->value);
-                // garbage_collect(args[i] , 0);
                         i++;
             }
         else if(token->type == HEREDOC)

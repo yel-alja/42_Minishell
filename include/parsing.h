@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:14:13 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:48:18 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	contains_char(char c, char *str);
 
 
 /*************garbage_collect*************/
-void garbage_collect(void *ptr ,int flag);
+void garbage_collect(void *ptr ,bool terminate);
 
 
 /*************syntax*************/
@@ -43,7 +43,7 @@ int check_quotes(char *input);
 int check_dollar(char *str);
 
 /*************utils*************/
-char *ft_strndup(char *str , int size);
+// char *ft_strndup(char *str , int size);
 int is_whitespace(char c);
 int is_metachar(char c);
 int is_operator(t_token *token);

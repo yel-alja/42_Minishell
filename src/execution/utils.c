@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 10:05:35 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:43:06 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,17 @@ void	errmsg(char *cmd, char *arg, char *err)
 		str = ft_strjoin(str, cmd);
 	else
 		str = ft_strjoin(str, "shell");
-	garbage_collect(str, 0);
 	if (arg)
 	{
 		str = ft_strjoin(str, ": ");
 		str = ft_strjoin(str, arg);
-		garbage_collect(str, 0);
 	}
 	str = ft_strjoin(str, ": ");
-	garbage_collect(str, 0);
 	if (err)
 		str = ft_strjoin(str, err);
 	else
 		str = ft_strjoin(str, strerror(errno));
-	garbage_collect(str, 0);
 	str = ft_strjoin(str, "\n");
-	garbage_collect(str, 0);
 	ft_putstr_fd(str, 2);
 }
 // shell: errmsg
@@ -83,28 +78,31 @@ void	search_in_path(t_cmd *cmd)
 		}
 	}
 	if (flag == 0)
-		exit((errmsg(NULL, cmd->cmd, "command not found"), garbage_collect(NULL, 1), 127));
+		exit((errmsg(NULL, cmd->cmd, "command not found"), garbage_collect(NULL, false), 127));
 	else if (flag == 1)
-		exit((errmsg(NULL, cmd->cmd, "Permission denied"), garbage_collect(NULL, 1), 126));
+		exit((errmsg(NULL, cmd->cmd, "Permission denied"), garbage_collect(NULL, false), 126));
 }
 
 int	exec_built_in(t_cmd *cmd)
 {
+	int	*status;
+
+	status = get_addr_exit_status(NULL);
 	if (!ft_strcmp(cmd->cmd, "pwd"))
-		return (ft_pwd(cmd->args));
+		*status = ft_pwd(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "echo"))
-		return (ft_echo(cmd->args));
+		*status = ft_echo(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "cd"))
-		return (ft_cd(cmd->args));
+		*status = ft_cd(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "env"))
-		return (ft_env(cmd->args));
+		*status = ft_env(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "export"))
-		return (ft_export(cmd->args));
+		*status = ft_export(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "exit"))
-		return (ft_exit(cmd->args));
+		*status = ft_exit(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "unset"))
-		return (ft_unset(cmd->args));
-    return (0);
+		*status = ft_unset(cmd->args);
+    return (*status);
 }
 
 bool	is_built_in(t_cmd *cmd)
@@ -155,13 +153,11 @@ char **env_to_arr(t_env *env)
 		tmp = tmp->next;
 	}
 	arr = malloc((len + 1) * sizeof(char *));
-	if (!arr)
-		return (perror("malloc"), NULL);
+	garbage_collect(arr, true);
 	i = 0;
 	while (env)
 	{
 		arr[i] = ft_strjoin(env->name, "=");
-		// garbage_collect(arr[i], 1)
 		arr[i] = ft_strjoin(arr[i], env->value);
 		env = env->next;
 		i++;

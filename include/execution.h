@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 14:42:48 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:25:03 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ char	**env_to_arr(t_env *env);
 void	search_in_path(t_cmd *cmd);
 t_env	*new_var(char *var);
 void	add_var(t_env **head, t_env *var);
-int		sep_name_value(char *var, char **name, char **value);
+void		sep_name_value(char *var, char **name, char **value);
+void		process_exit_status(void);
 
 //utils
 int		ft_charlen(char *str, char *del);
 int		ft_close(int *fd);
-
+void	free_env(void);
 
 #endif

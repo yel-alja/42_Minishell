@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 09:31:58 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/12 09:44:32 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:16:21 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@
 bool	check_valid_syntax(char *arg)
 {
 	int		i;
-	bool	has_val;
 
 	i = 0;
-	has_val = false;
 	if (!arg || !arg[i])
 		return (false);
 	if (!isalpha(arg[i]) && arg[i] != '_')
@@ -59,6 +57,8 @@ int	ft_export(char **args)
 			continue;
 		}
 		sep_name_value(args[i], &name, &value);
+		garbage_collect(name, true);
+		garbage_collect(value, true);
 		var = ft_getvarenv(name);
 		if (var)
 			var->value = value;
@@ -67,3 +67,14 @@ int	ft_export(char **args)
 	}
 	return (status);
 }
+/*
+==224547== 8 bytes in 4 blocks are definitely lost in loss record 3 of 79
+==224547==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==224547==    by 0x404E10: strdup_org (envp.c:23)
+==224547==    by 0x404FF7: sep_name_value (envp.c:72)
+==224547==    by 0x4050A9: new_var (envp.c:88)
+==224547==    by 0x401748: ft_export (ft_export.c:66)
+==224547==    by 0x404A84: exec_built_in (utils.c:100)
+==224547==    by 0x40453A: exe_single_built_in (execution.c:183)
+==224547==    by 0x405743: main (main.c:121)
+*/

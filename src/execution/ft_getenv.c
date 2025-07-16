@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 11:00:38 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:07:34 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:05:17 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@ t_env	*ft_getvarenv(char *name)
 
 char *ft_getenv(char *name)
 {
-	char	*str;
 	t_env	*env;
 
 	if (!ft_strcmp(name, "?"))
-	{
-		str = ft_itoa(*get_addr_exit_status(NULL));
-		return (str);
-	}
+		return (ft_itoa(*get_addr_exit_status(NULL)));
 	env = *get_addr_env(NULL);
     while(env)
     {

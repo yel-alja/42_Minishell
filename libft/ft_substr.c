@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:15:54 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:17:27 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:37:36 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	i = 0;
 	p = malloc(len + 1);
-	if (p == NULL)
-		return (NULL);
+	garbage_collect(p, true);
 	while (i < len && s[start])
 		p[i++] = s[start++];
 	p[i] = '\0';

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:14:39 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:49:17 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,31 +89,30 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	(void)ac;
 	exit_status = 0;
+	envp = NULL;
 	get_addr_env(&envp);
 	get_addr_cmd(&cmd);
 	get_addr_exit_status(&exit_status);
-	envp = get_envp(env);
-
+	envp = get_envp(env); // leaaaaaaaks
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
 		cmd = NULL;
         input = readline(PROMPT);
-        garbage_collect(input , 0);
         if(!input)
 		{
-			// clean up
-            garbage_collect(NULL , 1);
-            // free_env(envp);
-			exit(EXIT_SUCCESS);
+            garbage_collect(input , false);
+            free_env();
+			exit(*get_addr_exit_status(NULL));
 		}
+        garbage_collect(input , true);
 		add_history(input);
         token = tokenizer(input);
 
         if(token == NULL)
         {
-            garbage_collect(NULL , 1);
+            garbage_collect(NULL , false);
             continue;
         }
 		cmd = parser(token);
@@ -123,6 +122,6 @@ int main(int ac, char **av, char **env)
 		else
 			exe_pipeline_cmd(cmd);
 		printf("[%d]\n", *get_addr_exit_status(NULL));
-        garbage_collect(NULL , 1);
+        garbage_collect(NULL , false);
     }
 }

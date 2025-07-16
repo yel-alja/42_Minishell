@@ -24,6 +24,7 @@
 		"type_traits": "c",
 		"utility": "c",
 		"errno.h": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"ctype.h": "c"
 	}
 }

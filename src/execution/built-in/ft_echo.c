@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:19:40 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/13 13:19:23 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:36:21 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,15 @@ int	ft_echo(char **args)
     while (args[i])
     {
 		str = ft_strjoin(str, args[i]);
-		garbage_collect(str, 0);
         if (args[i + 1])
 		{
 			str = ft_strjoin(str, " ");
-			garbage_collect(str, 0);
 		}
 		i++;
     }
     if (flag == false)
 	{
 		str = ft_strjoin(str, "\n");
-		garbage_collect(str, 0);
 	}
 	ft_putstr_fd(str, STDOUT_FILENO);
     return (0);

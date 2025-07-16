@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:56:26 by zouazrou          #+#    #+#             */
-/*   Updated: 2024/11/02 21:36:40 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:59:28 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("0"));
 	lennb = ft_countnbr(n);
 	p = malloc(lennb + 1);
-	if (p == NULL)
-		return (NULL);
+	garbage_collect(p, true);
 	if (n < 0)
 	{
 		p[0] = '-';

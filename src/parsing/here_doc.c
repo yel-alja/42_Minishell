@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 09:22:09 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:43:30 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,19 @@ char *create_name()
 {
 	char rd;
 	int fd;
-	int i  = 0;
-	int bytes;
-	char *file = malloc(20);
-	garbage_collect(file , 0);
+	int i;
+	char *file;
+
+	file = malloc(20);
+	garbage_collect(file , true);
 	fd = open("/dev/random" , O_RDONLY);
-	if(fd == -1)
-	{
-		garbage_collect(NULL,  1); //?
-	}
+	i = 0;
 	while(i < 20)
 	{
-		bytes  = read(fd , &rd , 1);
+		if (read(fd , &rd , 1) == -1)
+			garbage_collect(NULL,  true);
 		if(ft_isalpha(rd))
-		{
-			file[i] = rd;
-			i++;
-		}
+			file[i++] = rd;
 	}
 	file[20] = '\0';
 	close(fd);
@@ -46,7 +42,7 @@ char	*heredoc_file(char *del , int quoted)
 	char	*line;
 	int		fd;
 	int pid;
-	int status;
+
 	file = create_name();
 	fd = open(file, O_RDWR | O_CREAT , 0644);
 	pid = fork();
@@ -56,28 +52,27 @@ char	*heredoc_file(char *del , int quoted)
 		while (1)
 		{
 			line = readline(">");
-			garbage_collect(line, 1);
 			if (!line)
 			{
-				write(2 , "warning: here-document delimited by end-of-file (wanted `a')\n" , 61); //should we write error in 2
+				errmsg("warning", NULL, "here-document delimited by end-of-file (wanted `a')"); //should we write error in 2
 				close(fd);
-				garbage_collect(NULL, 1);
+				garbage_collect(line, true);
 				exit(0);
 			}
+			garbage_collect(line, true);
 			if (!ft_strcmp(line, del))
 			{
 				close(fd);
+				garbage_collect(NULL, true);
 				exit(0);
 			}
 			if(!quoted)
-			{
 				line = expansion(line , 0);
-			}
-			ft_putstr_fd(line , fd);
-			ft_putstr_fd("\n" , fd);
+			ft_putendl_fd(line , fd);
 		}
 	}
 	close(fd);
-	waitpid(pid ,&status ,0);
+	waitpid(pid , get_addr_exit_status(NULL),0);
+	process_exit_status();
 	return (file);
 }

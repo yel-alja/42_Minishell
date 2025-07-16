@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:57:15 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/01 20:52:22 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:35:11 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	ft_len(s1, s2, &lens1, &lens2);
 	p = malloc(lens1 + lens2 + 1);
-	if (p == NULL)
-		return (NULL);
+	garbage_collect(p, true);
 	i = 0;
 	while (i < lens1)
 	{

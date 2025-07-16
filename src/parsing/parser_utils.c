@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:18:35 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:43:57 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_cmd *new_cmd(char *cmd ,char **args , t_redir *red)
     t_cmd *tmp;
 
     tmp = malloc(sizeof(t_cmd));
-    garbage_collect(tmp , 0);
+    garbage_collect(tmp , true);
     tmp->cmd = cmd;
     tmp->args = args;
 	tmp->fd_input = STDIN_FILENO;
@@ -34,7 +34,7 @@ t_redir *new_red(char *file , t_type type)
     t_redir *tmp;
 
     tmp = malloc(sizeof(t_redir));
-    garbage_collect(tmp , 0);
+    garbage_collect(tmp , true);
     tmp->filename = file;
     tmp->type = type;
     tmp->quoted = 0;

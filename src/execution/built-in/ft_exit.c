@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:59 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 12:58:46 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:36:55 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ int	ft_exit(char **args)
 	if (!args[1])
 	{
 		printf("exit vlaue %d\n", *get_addr_exit_status(NULL));
-		exit((garbage_collect(NULL, 1), *get_addr_exit_status(NULL)));
+		exit((garbage_collect(NULL, false), *get_addr_exit_status(NULL)));
 	}
 	i = 0;
 	ret_val = check_args(args[1], &i);
 	if (ret_val == 1 && args[2])
 		return (errmsg(NULL, "exit", "too many arguments"), 1);
 	exit_status = ft_atoi(args[1]);
-	garbage_collect(NULL, 1);
+	garbage_collect(NULL, false);
 	if (!ret_val)
 		exit((errmsg(NULL, "exit", "numeric argument required"), 2));
 	if (ret_val == 2)
