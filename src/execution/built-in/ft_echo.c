@@ -6,12 +6,15 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:19:40 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:08 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:19:23 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+/*
+echo -n -n
 
+*/
 bool	option_n(char *args)
 {
 	int	j;
@@ -27,28 +30,40 @@ bool	option_n(char *args)
 	}
 	return (true);
 }
-
+// print sp between args
 int	ft_echo(char **args)
 {
 	int		i;
 	bool	flag;
+	char	*str;
 
 	i = 1;
 	flag = false;
-
+	str = NULL;
 	if (!args || !*args)
 		return (1);
 
-	flag = option_n(args[i]);
-	if (flag == true)
+	while (option_n(args[i]))
+	{
+		flag = true;
 		i++;
+	}
     while (args[i])
     {
-        if ((i != 1 && flag == false) || (i != 2 && flag == true))
-            printf(" ");
-        printf("%s", args[i++]);
+		str = ft_strjoin(str, args[i]);
+		garbage_collect(str, 0);
+        if (args[i + 1])
+		{
+			str = ft_strjoin(str, " ");
+			garbage_collect(str, 0);
+		}
+		i++;
     }
     if (flag == false)
-        printf("\n");
+	{
+		str = ft_strjoin(str, "\n");
+		garbage_collect(str, 0);
+	}
+	ft_putstr_fd(str, STDOUT_FILENO);
     return (0);
 }

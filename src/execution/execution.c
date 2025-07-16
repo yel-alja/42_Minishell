@@ -3,91 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/07 10:20:32 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:23:38 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
-void	wait_commands(t_cmd *cmd, int *exit_status)
+bool	is_directory(char *path)
 {
+    struct stat stats;
+
+    if (stat(path, &stats) == 0 && S_ISDIR(stats.st_mode))
+        return (true);
+    return (false);
+}
+
+void		process_exit_status(void)
+{
+	int	*exit_status;
+
+	exit_status = get_addr_exit_status(NULL);
+	if (WIFSIGNALED(*exit_status))
+		*exit_status = *exit_status;
+	else if (WIFEXITED(*exit_status))
+		*exit_status = WEXITSTATUS(*exit_status);
+}
+
+void	wait_commands(t_cmd *cmd)
+{
+	int	*exit_status;
+
+	exit_status = get_addr_exit_status(NULL);
 	while (cmd)
 	{
 		waitpid(cmd->pid, exit_status, 0);
-		if (WIFSIGNALED(*exit_status))
-			*exit_status += 128;
+		process_exit_status();
 		cmd = cmd->next;
 	}
 }
 
-void		executable(t_cmd *cmd, int *exit_status, t_env **env)
+void	exec_cmd(t_cmd *cmd)
 {
-	(void)exit_status;
-	(void)env;
-	if ((is_path(cmd->cmd)) == false)
+	char	*vpath;
+
+	vpath = ft_getenv("PATH");
+	if ((is_path(cmd->cmd)) == true || !vpath || !*vpath)
 	{
-		if (search_in_path(cmd) == false)
-		{
-			errmsg(NULL, cmd->cmd, "command not found");
-			exit(127);
-		}
+		if (is_directory(cmd->cmd) == true)
+			exit((errmsg(NULL, cmd->cmd, "Is a directory"), 126));
+		if (!access(cmd->cmd, F_OK) && access(cmd->cmd, X_OK))
+			exit((errmsg(NULL, cmd->cmd, NULL), 126));
+		if (access(cmd->cmd, F_OK | X_OK))
+			exit((errmsg(NULL, cmd->cmd, NULL), 127));
 	}
-	if (execve(cmd->cmd, cmd->args, NULL) == -1)
-	{
-		errmsg("execve", cmd->args[0], NULL);
-		exit(EXIT_FAILURE);
-	}
+	else
+		search_in_path(cmd);
+	execve(cmd->cmd, cmd->args, env_to_arr(*get_addr_env(NULL)));
+	errmsg("execve", cmd->args[0], NULL);
+	exit(EXIT_FAILURE);
 }
 
-int		run_redircts(t_cmd *cmd, int *exit_status)
+void		run_redircts(t_cmd *cmd)
 {
-	(void)exit_status;
+	// (void)exit_status;
 	// redirect input
 	if (!isatty(cmd->fd_input))
-	{
 		dup2(cmd->fd_input, STDIN_FILENO);
-	}
 	ft_close(&cmd->fd_input);
 	// redirect output
 	if (!isatty(cmd->fd_output))
-	{
 		dup2(cmd->fd_output, STDOUT_FILENO);
-	}
 	ft_close(&cmd->fd_output);
-	return (0);
 }
 
-void		run_cmd(t_cmd *cmd, int *exit_status, t_env **env)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		errmsg(NULL, "fork", NULL);
-	if (!pid)
-	{
-		run_redircts(cmd, exit_status);
-		if (is_built_in(cmd->cmd) == true)
-			printf("mazal\n");
-		else
-			executable(cmd, exit_status, env);
-	}
-	else
-	{
-		ft_close(&cmd->fd_input);
-		ft_close(&cmd->fd_output);
-		cmd->pid = pid;
-	}
-}
-
-void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
+int	open_redirects(t_cmd *cmd)
 {
 	t_redir	*redir;
-	(void)env;
+	int		*exit_status;
+
+	exit_status = get_addr_exit_status(NULL);
 	redir = cmd->redirects;
 	while (redir)
 	{
@@ -102,18 +100,96 @@ void	open_redirects(t_cmd *cmd, int *exit_status, t_env **env)
 			ft_close(&cmd->fd_output);
 			cmd->error = true;
 			*exit_status = 1;
-			break;
+			return (1);
 		}
 		redir = redir->next;
 	}
-}
-
-int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env)
-{
-	open_redirects(cmd, exit_status, env);
-	run_cmd(cmd, exit_status, env);
-	wait_commands(cmd, exit_status);
-	printf("exit status : %d\n", *exit_status);
+	run_redircts(cmd);
 	return (0);
 }
 
+void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (cmd->next)
+	{
+		if (pipe(fd) == -1)
+			return (errmsg(NULL, "pipe", NULL));
+		ft_close(&cmd->next->fd_input);
+		cmd->next->fd_input = fd[0];
+	}
+	pid = fork();
+	if (pid == -1)
+		errmsg(NULL, "fork", NULL);
+	if (pid) // Parent proc
+	{
+		if (cmd->next)
+		{
+			ft_close(fd + 1);
+		}
+		ft_close(&cmd->fd_input);
+		ft_close(&cmd->fd_output);
+		cmd->pid = pid;
+	}
+	else  // Child proc
+	{
+		signal(SIGQUIT, SIG_DFL);
+		if (cmd->next)
+		{
+			ft_close(fd + 0);
+			cmd->fd_output = fd[1];
+		}
+		// if (run_pipe(fd[1]))
+		// 	return ;
+		if (open_redirects(cmd))
+			return ;
+		if (is_built_in(cmd) == true)
+			exit(exec_built_in(cmd));
+		else
+			exec_cmd(cmd);
+	}
+}
+
+int	exe_pipeline_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		exec_simple_cmd(tmp);
+		tmp = tmp->next;
+	}
+	wait_commands(cmd);
+	return (0);
+}
+
+int	exe_single_built_in(t_cmd *cmd)
+{
+	int	ttyin;
+	int	ttyout;
+	int	*exit_status;
+
+	/***********built-in************/
+	exit_status = get_addr_exit_status(NULL);
+	ttyin = dup(STDIN_FILENO);
+	ttyout = dup(STDOUT_FILENO);
+	if (!open_redirects(cmd))
+		*exit_status = exec_built_in(cmd);
+	// call built-in function
+	dup2(ttyin, STDIN_FILENO);
+	dup2(ttyout, STDOUT_FILENO);
+	close(ttyin);
+	close(ttyout);
+	return (0);
+}
+/*
+< file1 cat << EOF < file2 	> appfile > outfile < file.log
+
+"< file.log",  "cat", "> outfile"
+fd-for-read {3}       fd-for-write {4}
+
+
+*/

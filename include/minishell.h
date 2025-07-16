@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 17:58:32 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:22:42 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include "parsing.h"
 #include "execution.h"
 
-#define PROMPT "yzsh> "
+#define PROMPT "\033[0;35myzsh> \033[0m"
 #define WHITE_SP " \t\n"
 typedef struct s_env
 {
@@ -78,17 +78,17 @@ typedef struct s_token
 
 typedef struct s_garbage
 {
-	char *ptr;
+	void *ptr;
 	struct s_garbage *next;
 }	t_garbage;
 
 /*******signal******/
 void	ctrl_c(int sig);
-int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
-int	exe_cmd_line(t_cmd *cmd, int *exit_status, t_env **env);
-//?
-char *ft_getenv(char *name , t_env *env);
-char *expansion(char *token , t_env *env , int flag);
-char	*heredoc_file(char *del ,t_env *env , int quoted);
+int	exe_pipeline_cmd(t_cmd *cmd);
 
+//?
+char *ft_getenv(char *name );
+char *expansion(char *token , int flag);
+char	*heredoc_file(char *del , int quoted);
+t_env	*ft_getvarenv(char *name);
 #endif

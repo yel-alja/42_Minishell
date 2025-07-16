@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/07 09:02:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:24:08 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,31 @@
 
 void	errmsg(char *cmd, char *arg, char *err)
 {
+	char	*str;
+	// char	*str;
+
+	str = NULL;
 	if (cmd)
-	{
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(cmd, 2);
-	}
+		str = ft_strjoin(str, cmd);
 	else
-		ft_putstr_fd("shell", 2);
+		str = ft_strjoin(str, "shell");
+	garbage_collect(str, 0);
 	if (arg)
 	{
-		ft_putchar_fd(' ', 2);
-		ft_putstr_fd(arg, 2);
+		str = ft_strjoin(str, ": ");
+		str = ft_strjoin(str, arg);
+		garbage_collect(str, 0);
 	}
+	str = ft_strjoin(str, ": ");
+	garbage_collect(str, 0);
 	if (err)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(err, 2);
-	}
+		str = ft_strjoin(str, err);
 	else
-		perror(" ");
+		str = ft_strjoin(str, strerror(errno));
+	garbage_collect(str, 0);
+	str = ft_strjoin(str, "\n");
+	garbage_collect(str, 0);
+	ft_putstr_fd(str, 2);
 }
 // shell: errmsg
 
@@ -51,42 +57,115 @@ bool	is_path(char *file)
 	return (false);
 }
 
-bool	search_in_path(t_cmd *cmd)
+void	search_in_path(t_cmd *cmd)
 {
 	int		p;
 	char	*str;
+	int		flag;
 	char	**paths;
 
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(ft_getenv("PATH"), ':');
+	// if (!paths)
+	// 	exit(err)
 	p = -1;
+	flag = 0;
 	while (paths[++p])
 	{
 		str = ft_strjoin(paths[p], "/");
 		str = ft_strjoin(str, cmd->cmd);
+
+		if (access(str, F_OK) == 0)
+			flag = 1;
 		if (access(str, F_OK | X_OK) == 0)
 		{
 			cmd->cmd = str;
-			return (true);
+			return ;
 		}
 	}
-	return (false);
+	if (flag == 0)
+		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "command not found"), 127));
+	else if (flag == 1)
+		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "Permission denied"), 126));
 }
 
-bool	is_built_in(char *cmd)
+int	exec_built_in(t_cmd *cmd)
 {
-    if (!ft_strcmp(cmd, "pwd"))
-	// if (!ft_strcmp(cmd, "exit"))
-	// if (!ft_strcmp(cmd, "cd"))
-	// if (!ft_strcmp(cmd, "env"))
-	// if (!ft_strcmp(cmd, "unset"))
-	// if (!ft_strcmp(cmd, "echo"))
-        return (1);
+	if (!ft_strcmp(cmd->cmd, "pwd"))
+		return (ft_pwd(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		return (ft_echo(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		return (ft_cd(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "env"))
+		return (ft_env(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "export"))
+		return (ft_export(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "exit"))
+		return (ft_exit(cmd->args));
+	if (!ft_strcmp(cmd->cmd, "unset"))
+		return (ft_unset(cmd->args));
     return (0);
 }
 
+bool	is_built_in(t_cmd *cmd)
+{
+    if (!ft_strcmp(cmd->cmd, "pwd"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "env"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "export"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "exit"))
+		return (true);
+	if (!ft_strcmp(cmd->cmd, "unset"))
+		return (true);
+    return (false);
+}
 int ft_close(int *fd)
 {
+	int	r;
+
 	if (!isatty(*fd))
-		return (close(*fd));
+	{
+		r = close(*fd);
+		*fd = -42;
+		return (r);
+	}
 	return (0);
+}
+
+char **env_to_arr(t_env *env)
+{
+	int	i;
+	int	len;
+	char	**arr;
+	t_env	*tmp;
+
+	if (env == NULL)
+		return (NULL);
+	len = 0;
+	tmp = env;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	arr = malloc((len + 1) * sizeof(char *));
+	if (!arr)
+		return (perror("malloc"), NULL);
+	i = 0;
+	while (env)
+	{
+		arr[i] = ft_strjoin(env->name, "=");
+		// garbage_collect(arr[i], 1)
+		arr[i] = ft_strjoin(arr[i], env->value);
+		env = env->next;
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }

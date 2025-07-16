@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 20:00:21 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:14:13 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum	e_type t_type;
 
 /*************token*************/
 
-t_token *tokenizer(char *input , t_env *env);
+t_token *tokenizer(char *input );
 // t_token *new_token(char *input, t_type type);
 t_token *new_token(char *input, t_type type , int amg);
 void token_add_back(t_token **head, t_token *node);
@@ -52,7 +52,7 @@ int is_operator(t_token *token);
 void	cmd_add_back(t_cmd **head, t_cmd *node);
 t_cmd	*new_cmd(char *cmd ,char **args , t_redir *red);
 void	red_add_back(t_redir **head, t_redir *node);
-t_cmd	*parser(t_token *token , t_env *env);
+t_cmd	*parser(t_token *token );
 t_redir	*new_red(char *file , t_type type);
 
 /******quote removal******/

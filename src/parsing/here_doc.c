@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/15 16:11:27 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:22:09 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *create_name()
     return (file);
 }
 
-char	*heredoc_file(char *del ,t_env *env , int quoted)
+char	*heredoc_file(char *del , int quoted)
 {
 	char	*file;
 	char	*line;
@@ -71,7 +71,7 @@ char	*heredoc_file(char *del ,t_env *env , int quoted)
 			}
 			if(!quoted)
 			{
-				line = expansion(line ,env , 0);
+				line = expansion(line , 0);
 			}
 			ft_putstr_fd(line , fd);
 			ft_putstr_fd("\n" , fd);

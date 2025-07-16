@@ -1,20 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 10:06:25 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/08 10:51:04 by zouazrou         ###   ########.fr       */
+/*   Created: 2025/07/07 08:28:29 by zouazrou          #+#    #+#             */
+/*   Updated: 2025/07/07 11:11:53 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
-int    ft_env(char **args)
+int	open_pipe(t_cmd *cmd)
 {
-	(void)args;
-	printenv(*get_addr_env(NULL), false);
-    return (0);
+	int	fds[2];
+
+	while (cmd)
+	{
+		// check if there are another command
+		if (cmd->next == NULL)
+			break;
+		// check error happind
+		if (pipe(fds) == -1)
+		{
+			/* close and free all memory */;
+			perror("pipe");
+			return (EXIT_FAILURE);
+		}
+		cmd->fd_output = fds[1];
+		cmd->next->fd_input = fds[0];
+		cmd = cmd->next;
+	}
+	return (0);
 }

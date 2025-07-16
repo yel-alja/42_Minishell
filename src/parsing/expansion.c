@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/14 21:49:25 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:18:20 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *flag_splitters(char *value)
     return (res);
 }
 
-char *var(char *token , t_env *env , int flag)
+char *var(char *token , int flag)
 {
     int i = 0;
     int start = 0;
@@ -62,7 +62,7 @@ char *var(char *token , t_env *env , int flag)
             garbage_collect(p , 0);
             var_name = ft_substr(token , i - 1, start - i + 1);
             garbage_collect(var_name , 0);
-            var_value = ft_getenv(var_name + 1 , env); //?
+            var_value = ft_getenv(var_name + 1); //?
             if(flag == 1)
             {
                 var_value = flag_splitters(var_value);
@@ -79,11 +79,11 @@ char *var(char *token , t_env *env , int flag)
 }
 
 
-char *expansion(char *token ,t_env *env , int flag)
+char *expansion(char *token , int flag)
 {
     char *res = NULL;
     if(!check_dollar(token))
         return token;
-    res = var(token ,env ,flag);
+    res = var(token  ,flag);
     return res;
 }

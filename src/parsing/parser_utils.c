@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 10:00:41 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:18:35 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_cmd *new_cmd(char *cmd ,char **args , t_redir *red)
     garbage_collect(tmp , 0);
     tmp->cmd = cmd;
     tmp->args = args;
+	tmp->fd_input = STDIN_FILENO;
+	tmp->fd_output = STDOUT_FILENO;
+	tmp->error = false;
+	tmp->pid = 0;
     tmp->redirects = red;
     tmp->next = NULL;
     return(tmp);

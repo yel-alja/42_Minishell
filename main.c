@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 18:35:17 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:14:39 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ void print_tokens(t_token *token)
     }
 }
 
-void printenv(t_env *e)
+void printenv(t_env *e, bool d_x)
 {
     while(e)
     {
-        printf("%s=%s\n" , e->name , e->value);
+		if (d_x == true)
+			printf("declare -x %s=\"%s\"\n" , e->name , e->value);
+		else
+			printf("%s=%s\n" , e->name , e->value);
         e = e->next;
     }
 }
@@ -72,42 +75,54 @@ void print_cmd_list(t_cmd *cmd) {
         cmd = cmd->next;
     }
 }
-    
+
+
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 	t_token *token;
-    t_cmd *cmd;
-	char *input;
-    (void )av;
-    (void )ac;
-	envp = get_envp(env);
     // printenv(envp);
+	t_cmd	*cmd;
+	int		exit_status;
+	char *input;
+
+	(void)av;
+	(void)ac;
+	exit_status = 0;
+	get_addr_env(&envp);
+	get_addr_cmd(&cmd);
+	get_addr_exit_status(&exit_status);
+	envp = get_envp(env);
+
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
+		cmd = NULL;
         input = readline(PROMPT);
         garbage_collect(input , 0);
         if(!input)
 		{
 			// clean up
             garbage_collect(NULL , 1);
-            // free_env(envp);            
+            // free_env(envp);
 			exit(EXIT_SUCCESS);
 		}
 		add_history(input);
-        token = tokenizer(input , envp);
+        token = tokenizer(input);
+
         if(token == NULL)
         {
             garbage_collect(NULL , 1);
             continue;
         }
-		print_tokens(token);
-        cmd = parser(token , envp);
-		// exe_cmd_line(parser(token), &ac, &envp);
-        
-       print_cmd_list(cmd);
+		cmd = parser(token);
+        // print_tokens(token);
+		if (is_built_in(cmd) && !cmd->next)
+			exe_single_built_in(cmd);
+		else
+			exe_pipeline_cmd(cmd);
+		printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , 1);
     }
 }
