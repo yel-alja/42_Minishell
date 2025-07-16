@@ -1,7 +1,7 @@
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
-		
+
 SRC = $(SRC_BUILT_IN) $(SRC_PARS) $(SRC_EXEC) main.c
 SRC_EX_DIR = src/execution
 SRC_PAR_DIR = src/parsing

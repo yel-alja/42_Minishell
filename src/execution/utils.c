@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 09:24:08 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:05:35 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	search_in_path(t_cmd *cmd)
 		}
 	}
 	if (flag == 0)
-		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "command not found"), 127));
+		exit((errmsg(NULL, cmd->cmd, "command not found"), garbage_collect(NULL, 1), 127));
 	else if (flag == 1)
-		exit((garbage_collect(NULL, 1), errmsg(NULL, cmd->cmd, "Permission denied"), 126));
+		exit((errmsg(NULL, cmd->cmd, "Permission denied"), garbage_collect(NULL, 1), 126));
 }
 
 int	exec_built_in(t_cmd *cmd)
