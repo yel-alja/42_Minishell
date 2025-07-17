@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:22:42 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:56:25 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_garbage
 
 /*******signal******/
 void	ctrl_c(int sig);
-int	exe_pipeline_cmd(t_cmd *cmd);
+void	exe_pipeline_cmd(t_cmd *cmd);
 
 //?
 char *ft_getenv(char *name );

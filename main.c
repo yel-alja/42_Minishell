@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/17 11:16:24 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:18:06 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,13 @@ void print_cmd_list(t_cmd *cmd) {
     }
 }
 
-
 int main(int ac, char **av, char **env)
 {
-	t_env	*envp;
-	t_token *token;
+	char	*input;
 	t_cmd	*cmd;
+	t_env	*envp;
+	t_token	*token;
 	int		exit_status;
-	char *input;
 
 	(void)av;
 	(void)ac;
@@ -101,20 +100,10 @@ int main(int ac, char **av, char **env)
 		cmd = NULL;
         input = readline(PROMPT);
         if(!input)
-		{
-            garbage_collect(input , false);
-            free_env();
-			exit(*get_addr_exit_status(NULL));
-		}
-        garbage_collect(input , true);
+			ft_clean(true, true, *get_addr_exit_status(NULL));
+        garbage_collect(input , false);
 		add_history(input);
         token = tokenizer(input);
-
-        if(token == NULL)
-        {
-            garbage_collect(NULL , false);
-            continue;
-        }
 		cmd = parser(token);
         // print_tokens(token);
 		if (is_built_in(cmd) && !cmd->next)
@@ -122,19 +111,7 @@ int main(int ac, char **av, char **env)
 		else
 			exe_pipeline_cmd(cmd);
 		printf("[%d]\n", *get_addr_exit_status(NULL));
-        garbage_collect(NULL , false);
+		ft_clean(false, true, -1);
     }
-
-	// char **ax = malloc(sizeof(char *) * 3);
-	// ax[0] = strdup("export");
-	// // ax[1] = strdup("LANGUAGE");
-	// ax[1] = strdup("PWD=zikOOOOOOOOOOOOOOOOO");
-	// ax[2] = NULL;
-	// ft_export(ax);
-	// free(ax[0]);
-	// free(ax[1]);
-	// free(ax);
-    // printenv(envp, false);
-    // printenv(envp, false);
-	// ft_clean(true, true, 3);
+	return (EXIT_SUCCESS);
 }

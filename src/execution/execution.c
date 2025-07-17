@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/17 11:46:57 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:09:17 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,39 @@ void	wait_commands(t_cmd *cmd)
 	}
 }
 
+void	valid_path_executable(t_cmd *cmd)
+{
+	if (is_directory(cmd->cmd) == true)
+	{
+		errmsg(NULL, cmd->cmd, "Is a directory");
+		ft_clean(1, 1, 126);
+	}
+	if (!access(cmd->cmd, F_OK) && access(cmd->cmd, X_OK))
+	{
+		errmsg(NULL, cmd->cmd, NULL);
+		ft_clean(1, 1, 126);
+	}
+	if (access(cmd->cmd, F_OK | X_OK))
+	{
+		errmsg(NULL, cmd->cmd, NULL);
+		ft_clean(1, 1, 127);
+	}
+}
+
 void	exec_cmd(t_cmd *cmd)
 {
 	char	*vpath;
+	char	**arr_env;
 
 	vpath = ft_getenv("PATH");
 	if ((is_path(cmd->cmd)) == true || !vpath || !*vpath)
-	{
-		if (is_directory(cmd->cmd) == true)
-			exit((errmsg(NULL, cmd->cmd, "Is a directory"), 126));
-		if (!access(cmd->cmd, F_OK) && access(cmd->cmd, X_OK))
-			exit((errmsg(NULL, cmd->cmd, NULL), 126));
-		if (access(cmd->cmd, F_OK | X_OK))
-			exit((errmsg(NULL, cmd->cmd, NULL), 127));
-	}
+		valid_path_executable(cmd);
 	else
 		search_in_path(cmd);
-	execve(cmd->cmd, cmd->args, env_to_arr(*get_addr_env(NULL)));
+	arr_env = env_to_arr(*get_addr_env(NULL));
+	execve(cmd->cmd, cmd->args, arr_env);
 	errmsg("execve", cmd->args[0], NULL);
-	exit(EXIT_FAILURE);
+	ft_clean(true, true, EXIT_FAILURE);
 }
 
 void		run_redircts(t_cmd *cmd)
@@ -141,24 +155,24 @@ void		exec_simple_cmd(t_cmd *cmd) // IM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			ft_close(fd + 0);
 			cmd->fd_output = fd[1];
 		}
-		// if (run_pipe(fd[1]))
-		// 	return ;
 		if (open_redirects(cmd))
-			return ;
+			ft_clean(true, true, *get_addr_exit_status(NULL));
 		if (is_built_in(cmd) == true)
 		{
 			exec_built_in(cmd);
-			exit((garbage_collect(NULL, false), free_env(), *get_addr_exit_status(NULL)));
+			ft_clean(true, true, *get_addr_exit_status(NULL));
 		}
 		else
 			exec_cmd(cmd);
 	}
 }
 
-int	exe_pipeline_cmd(t_cmd *cmd)
+void	exe_pipeline_cmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
+	if (!cmd)
+		return ;
 	tmp = cmd;
 	while (tmp)
 	{
@@ -166,17 +180,20 @@ int	exe_pipeline_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 	wait_commands(cmd);
-	return (0);
 }
 
-int	exe_single_built_in(t_cmd *cmd)
+void	exe_single_built_in(t_cmd *cmd)
 {
 	int	ttyin;
 	int	ttyout;
 	int	*exit_status;
 
+	if (!cmd)
+		return ;
 	/***********built-in************/
 	exit_status = get_addr_exit_status(NULL);
+	if (!ft_strcmp(cmd->cmd, "exit"))
+		*exit_status = exec_built_in(cmd);
 	ttyin = dup(STDIN_FILENO);
 	ttyout = dup(STDOUT_FILENO);
 	if (!open_redirects(cmd))
@@ -186,7 +203,6 @@ int	exe_single_built_in(t_cmd *cmd)
 	dup2(ttyout, STDOUT_FILENO);
 	close(ttyin);
 	close(ttyout);
-	return (0);
 }
 /*
 < file1 cat << EOF < file2 	> appfile > outfile < file.log

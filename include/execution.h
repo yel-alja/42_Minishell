@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/17 10:30:16 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:57:45 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		rd_output(char *file, int fd, t_type flag);
 int		open_pipe(t_cmd *cmd);
 
 // execution
-int	exe_single_built_in(t_cmd *cmd);
+void	exe_single_built_in(t_cmd *cmd);
 
 // Built-in commands
 int		ft_echo(char **args);
@@ -49,7 +49,10 @@ int		*get_addr_exit_status(int *ptr);
 /******** envp *********/
 t_env	*get_envp(char **env);
 void	printenv(t_env *e, bool d_x);
+
+// void	free_arr_to_str(char **arr);
 char	**env_to_arr(t_env *env);
+
 void	search_in_path(t_cmd *cmd);
 t_env	*new_var(char *var);
 void	add_var(t_env *var);

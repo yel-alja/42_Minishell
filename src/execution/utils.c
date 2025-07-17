@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/17 11:40:52 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:56:55 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	search_in_path(t_cmd *cmd)
 	int		flag;
 	char	**paths;
 
+	if (!*cmd->cmd)
+	{
+		errmsg(NULL, cmd->cmd, "command not found");
+		ft_clean(true, true, 127);
+	}
 	paths = ft_split(ft_getenv("PATH"), ':');
 	// if (!paths)
 	// 	exit(err)
@@ -78,9 +83,15 @@ void	search_in_path(t_cmd *cmd)
 		}
 	}
 	if (flag == 0)
-		exit((errmsg(NULL, cmd->cmd, "command not found"), garbage_collect(NULL, false), 127));
+	{
+		errmsg(NULL, cmd->cmd, "command not found");
+		ft_clean(true, true, 127);
+	}
 	else if (flag == 1)
-		exit((errmsg(NULL, cmd->cmd, "Permission denied"), garbage_collect(NULL, false), 126));
+	{
+		errmsg(NULL, cmd->cmd, "Permission denied");
+		ft_clean(true, true, 126);
+	}
 }
 
 int	exec_built_in(t_cmd *cmd)
@@ -107,6 +118,8 @@ int	exec_built_in(t_cmd *cmd)
 
 bool	is_built_in(t_cmd *cmd)
 {
+	if (!cmd)
+		return (false);
     if (!ft_strcmp(cmd->cmd, "pwd"))
 		return (true);
 	if (!ft_strcmp(cmd->cmd, "echo"))
@@ -135,6 +148,16 @@ int ft_close(int *fd)
 	}
 	return (0);
 }
+
+// void	free_arr_to_str(char **arr)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (arr[++i])
+// 		free(arr[i]);
+// 	free(arr);
+// }
 
 char **env_to_arr(t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:44:24 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:58:51 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void open_her(t_cmd *cmd)
 
 t_cmd *parser(t_token *token)
 {
+	if (!token)
+		return (NULL);
     t_cmd *cmd = NULL;
     while(token)
     {

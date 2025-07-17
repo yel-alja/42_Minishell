@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:35:15 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/05/28 12:05:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:44:02 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ static char	*word(const char **s, char c)
 	if (len == 0)
 		return (NULL);
 	ptr = malloc(len + 1);
-	if (!ptr)
-		return (NULL);
+	garbage_collect(ptr, true);
 	i = 0;
 	while (i < len)
 	{
@@ -92,17 +91,11 @@ char	**ft_split(const char *s, char c)
 		return (NULL);
 	count = count_word(s, c);
 	split = (char **)malloc((count + 1) * sizeof(char *));
-	if (!split)
-		return (NULL);
+	garbage_collect(split, true);
 	i = 0;
 	while (i < count)
 	{
 		split[i] = word(&s, c);
-		if (!split[i])
-		{
-			free_s(split);
-			return (NULL);
-		}
 		i++;
 	}
 	split[count] = NULL;
