@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 13:39:51 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:16:51 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void free_env(void)
 			free(tmp->value);
 		free(tmp);
 	}
+	*env = NULL;
 }
 
 void	sep_name_value(char *var, char **name, char **value)
@@ -57,8 +58,8 @@ void	sep_name_value(char *var, char **name, char **value)
 
 	len = ft_charlen(var, "=");
 	*name = malloc((len + 1) * sizeof(char));
-	if(!name)
-		exit((garbage_collect(NULL, false), free_env(), 1));
+	if(!*name)
+		ft_clean(true, true, EXIT_FAILURE);
 	i = 0;
 	while (i < len)
 	{
@@ -71,7 +72,10 @@ void	sep_name_value(char *var, char **name, char **value)
 	{
 		*value = strdup_org(var + len);
 		if (!*value)
-			exit((garbage_collect(NULL, false), free_env(), 1));
+		{
+			free(*name);
+			ft_clean(true, true, EXIT_FAILURE);
+		}
 	}
 }
 
@@ -86,15 +90,21 @@ t_env	*new_var(char *var)
 	node->value = NULL;
 	node->next = NULL;
 	sep_name_value(var, &node->name, &node->value);
+	/*
+		->compound literal
+	*/
+	ft_unset((char *[]){"unset", node->name, NULL});
 	return(node);
 }
 
-void	add_var(t_env **head, t_env *var)
+void	add_var(t_env *var)
 {
 	t_env *tmp;
+	t_env **head;
 
 	if (!var)
 		return ;
+	head = get_addr_env(NULL);
 	if(*head == NULL)
 		*head = var;
 	else
@@ -109,20 +119,17 @@ void	add_var(t_env **head, t_env *var)
 t_env	*get_envp(char **env)
 {
 	int		i;
-	t_env	*head;
 	t_env	*tmp;
 
 	i = -1;
-	head = NULL;
 	while(env[++i])
 	{
 		tmp = new_var(env[i]);
 		if(!tmp)
 		{
-			free_env();
-			exit(1);
+			ft_clean(true, true, EXIT_FAILURE);
 		}
-		add_var(&head, tmp);
+		add_var(tmp);
 	}
-	return (head);
+	return (*get_addr_env(NULL));
 }

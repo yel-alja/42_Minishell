@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:07:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 14:50:15 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:06:02 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	remove_from_env(char *name_var)
 	t_env	*tmp;
 
 	env = get_addr_env(NULL);
+	if (!*env)
+		return ;
 	tmp = *env;
 	if (!ft_strcmp((*env)->name, name_var))
 	{

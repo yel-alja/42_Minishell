@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:11:52 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 13:36:59 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 10:45:55 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ void free_list(t_garbage *lst)
 {
     t_garbage *tmp;
 
+	if (!lst)
+		return;
     while(lst)
     {
         tmp = lst;
         lst = lst->next;
-        free(tmp->ptr);
-        free(tmp);
+        if (tmp->ptr)
+			free(tmp->ptr);
+        if (tmp)
+			free(tmp);
     }
 }
 

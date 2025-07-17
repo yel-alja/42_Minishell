@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/17 00:51:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:16:24 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+#include <string.h>
 
 int	signal_code;
 
@@ -81,7 +82,6 @@ int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
 	t_token *token;
-    // printenv(envp);
 	t_cmd	*cmd;
 	int		exit_status;
 	char *input;
@@ -93,7 +93,7 @@ int main(int ac, char **av, char **env)
 	get_addr_env(&envp);
 	get_addr_cmd(&cmd);
 	get_addr_exit_status(&exit_status);
-	envp = get_envp(env); // leaaaaaaaks
+	envp = get_envp(env);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
     while(1)
@@ -124,4 +124,17 @@ int main(int ac, char **av, char **env)
 		printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , false);
     }
+
+	// char **ax = malloc(sizeof(char *) * 3);
+	// ax[0] = strdup("export");
+	// // ax[1] = strdup("LANGUAGE");
+	// ax[1] = strdup("PWD=zikOOOOOOOOOOOOOOOOO");
+	// ax[2] = NULL;
+	// ft_export(ax);
+	// free(ax[0]);
+	// free(ax[1]);
+	// free(ax);
+    // printenv(envp, false);
+    // printenv(envp, false);
+	// ft_clean(true, true, 3);
 }

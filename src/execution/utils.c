@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/17 00:56:36 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:40:52 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int ft_close(int *fd)
 {
 	int	r;
 
-	if (!isatty(*fd))
+	if (*fd > -1 && !isatty(*fd))
 	{
 		r = close(*fd);
 		*fd = -42;

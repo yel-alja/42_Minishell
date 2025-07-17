@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 13:17:59 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:46:57 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void		run_redircts(t_cmd *cmd)
 {
 	// (void)exit_status;
 	// redirect input
-	if (!isatty(cmd->fd_input))
+	if (cmd->fd_input > -1)
 		dup2(cmd->fd_input, STDIN_FILENO);
 	ft_close(&cmd->fd_input);
 	// redirect output
-	if (!isatty(cmd->fd_output))
+	if (cmd->fd_output > -1)
 		dup2(cmd->fd_output, STDOUT_FILENO);
 	ft_close(&cmd->fd_output);
 }
