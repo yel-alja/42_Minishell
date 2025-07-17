@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 14:07:50 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 01:01:30 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char *flag_splitters(char *value)
 
 char *var(char *token , int flag)
 {
-	token = ft_strdup(token);
     int i = 0;
     int start = 0;
     char *var_name= NULL;
@@ -70,6 +69,7 @@ char *var(char *token , int flag)
             p = ft_strjoin(p ,var_value);
             p = ft_strjoin(p ,token + start);
             token = p;
+            i = -1; //?
         }
         i++;
     }
