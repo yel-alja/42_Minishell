@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/18 08:55:05 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:42:53 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,10 @@ int main(int ac, char **av, char **env)
 		cmd = parser(token);
         // print_tokens(token);
         print_cmd_list(cmd);    
-		// if (is_built_in(cmd) && !cmd->next) // "> dsg" SEGV // also $SADGG SEGV
-		// 	exe_single_built_in(cmd);
-		// else
-		// 	exe_pipeline_cmd(cmd);
+		if (is_built_in(cmd) && !cmd->next) // "> dsg" SEGV // also $SADGG SEGV
+			exe_single_built_in(cmd);
+		else
+			exe_pipeline_cmd(cmd);
 		printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , false);
     }
