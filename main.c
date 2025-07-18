@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/17 00:51:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/18 08:55:05 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void print_tokens(t_token *token)
 		// 	token->value = quote_removal(ptr);
 		// 	free(ptr);
 		// }
-        printf("\033[36m[value : \033[0m\033[33m%s\033[0m\033[36m]    [type : \033[0m\033[32m%s\033[0m\033[36m]\033[0m\n",token->value, type_to_str(token->type));
+        printf("\033[36m[value : \033[0m\033[33m%s\033[0m\033[36m]    [type : \033[0m\033[32m%s\033[0m\033[36m]\033[0m====%d\n",token->value, type_to_str(token->type) , token->quoted);
         token = token->next;
     }
 }
@@ -76,7 +76,6 @@ void print_cmd_list(t_cmd *cmd) {
     }
 }
 
-
 int main(int ac, char **av, char **env)
 {
 	t_env	*envp;
@@ -93,7 +92,7 @@ int main(int ac, char **av, char **env)
 	get_addr_env(&envp);
 	get_addr_cmd(&cmd);
 	get_addr_exit_status(&exit_status);
-	envp = get_envp(env); // leaaaaaaaks
+	envp = get_envp(env); 
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
     while(1)
@@ -117,10 +116,11 @@ int main(int ac, char **av, char **env)
         }
 		cmd = parser(token);
         // print_tokens(token);
-		if (is_built_in(cmd) && !cmd->next)
-			exe_single_built_in(cmd);
-		else
-			exe_pipeline_cmd(cmd);
+        print_cmd_list(cmd);    
+		// if (is_built_in(cmd) && !cmd->next) // "> dsg" SEGV // also $SADGG SEGV
+		// 	exe_single_built_in(cmd);
+		// else
+		// 	exe_pipeline_cmd(cmd);
 		printf("[%d]\n", *get_addr_exit_status(NULL));
         garbage_collect(NULL , false);
     }

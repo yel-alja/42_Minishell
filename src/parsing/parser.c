@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:44:24 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:30:27 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,21 @@ char *get_cmd_name(t_token *token)
     {
         if(token->type == PIPE)
             return NULL;
-        if(token->type == WORD)
+        if(token->type == WORD || token->type == AMBG)
         {
+            if(token->type == WORD && (token->value[0] || token->quoted))
+            {   
             cmd = ft_strdup(token->value);
             return(cmd);
+            }
+            token = token->next;
         }
         else
             token = token->next->next;
     }
     return (NULL);
 }
-// ambg should added to re list | exit status $? |<
+//exit status $? |<
 
 t_cmd *parser2(t_token **tkn)
 {
@@ -61,8 +65,11 @@ t_cmd *parser2(t_token **tkn)
             break;
         else if(token->type == WORD)
             {
-                args[i] = ft_strdup(token->value);
-                        i++;
+                if(token->value[0] || token->quoted)
+                {   
+                    args[i] = ft_strdup(token->value);
+                    i++;
+                }
             }
         else if(token->type == HEREDOC)
         {
