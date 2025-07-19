@@ -6,14 +6,12 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:55:19 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:26:01 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 23:03:41 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// if "status" was btw 0-255 then exit with code "status"
-// otherwise doest exit
 void	ft_clean(bool own_env, bool garbage, int status)
 {
 	if (own_env == true)
@@ -73,6 +71,5 @@ void	errmsg(char *cmd, char *arg, char *err)
 		str = ft_strjoin(str, err);
 	else
 		str = ft_strjoin(str, strerror(errno));
-	str = ft_strjoin(str, "\n");
-	ft_putstr_fd(str, 2);
+	ft_putendl_fd(str, 2);
 }

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:21:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:19:45 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ void	errmsg(char *cmd, char *arg, char *msg);
 
 /******** add *********/
 t_env	**get_addr_env(t_env **ptr);
-t_cmd	**get_addr_cmd(t_cmd **ptr);
 int		*get_addr_exit_status(int *ptr);
 
 /******** envp *********/
 t_env	*get_envp(char **env);
 void	printenv(t_env *e, bool d_x);
 
-// void	free_arr_to_str(char **arr);
 char	**env_to_arr(t_env *env);
 
 void	search_in_path(t_cmd *cmd);

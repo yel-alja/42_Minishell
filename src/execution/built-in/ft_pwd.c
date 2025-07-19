@@ -6,13 +6,12 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:05:30 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:17:28 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 23:59:56 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-// (X)
 int	ft_pwd(char **args)
 {
 	char	*buffer;
@@ -21,8 +20,8 @@ int	ft_pwd(char **args)
 	buffer = NULL;
 	buffer = getcwd(buffer, 0);
 	if (!buffer)
-		return (errmsg("getcwd", NULL, NULL), errno);
-	printf("%s\n", buffer);
+		errmsg(NULL, "getcwd", NULL);
+	garbage_collect(buffer, true);
 	ft_putendl_fd(buffer, STDOUT_FILENO);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 14:39:42 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:20:20 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int check_quotes(char *input);
 int check_dollar(char *str);
 
 /*************utils*************/
-// char *ft_strndup(char *str , int size);
 int is_whitespace(char c);
 int is_metachar(char c);
 int is_operator(t_token *token);

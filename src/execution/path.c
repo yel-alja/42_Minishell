@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:44:43 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 15:46:50 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:53:50 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,6 @@ void	search_in_path(t_cmd *cmd)
 	char	*path_cmd;
 
 	paths = ft_split(ft_getenv("PATH"), ':');
-	// handle this
-	if (!paths)
-		exit(1);
 	p = -1;
 	flag = 0;
 	while (paths[++p])

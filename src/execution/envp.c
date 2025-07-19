@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 15:45:24 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:21:46 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_env(void)
 	*env = NULL;
 }
 
-// strdup_org() this function dont set allocated mem in garbage c
 void	sep_name_value(char *var, char **name, char **value)
 {
 	int	i;
@@ -97,17 +96,17 @@ void	add_var(t_env *var)
 t_env	*get_envp(char **env)
 {
 	int		i;
-	t_env	*tmp;
+	t_env	*tmp_var;
 
 	i = -1;
 	while (env[++i])
 	{
-		tmp = new_var(env[i]);
-		if (!tmp)
+		tmp_var = new_var(env[i]);
+		if (!tmp_var)
 		{
 			ft_clean(true, true, EXIT_FAILURE);
 		}
-		add_var(tmp);
+		add_var(tmp_var);
 	}
 	return (*get_addr_env(NULL));
 }

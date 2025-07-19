@@ -6,12 +6,11 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 22:22:30 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:19:21 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-#include <string.h>
 
 char *type_to_str(t_type type)
 {
@@ -63,31 +62,38 @@ void print_cmd_list(t_cmd *cmd) {
         cmd = cmd->next;
     }
 }
-// bool	no_commands(t_cmd *cmd)
-// {
-// 	if (!cmd || (!cmd->cmd && !cmd->next))
-// 		return (true);
-// 	return (false);
-// }
-int main(int ac, char **av, char **env)
+
+void	execution(t_cmd *cmd)
 {
+	if (cmd && ((is_built_in(cmd) || !cmd->cmd) && !cmd->next))
+		exe_single_built_in(cmd);
+	else
+		exe_pipeline_cmd(cmd);
+}
+
+void	init_our_shell(int *status, t_env **envp, char **env_parent)
+{
+	*status = 0;
+	*envp = NULL;
+	get_addr_env(envp);
+	get_addr_exit_status(status);
+	rl_outstream = stderr;
+	*envp = get_envp(env_parent);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+int main(int ac, char **av, char **env_parent)
+{
+	int		status;
 	char	*input;
 	t_cmd	*cmd;
 	t_env	*envp;
 	t_token	*token;
-	int		exit_status;
 
 	(void)av;
 	(void)ac;
-	exit_status = 0;
-	envp = NULL;
-	get_addr_env(&envp);
-	get_addr_cmd(&cmd);
-	get_addr_exit_status(&exit_status);
-	envp = get_envp(env);
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
-	rl_outstream = stderr;
+	init_our_shell(&status, &envp, env_parent);
     while(1)
     {
 		cmd = NULL;
@@ -98,13 +104,9 @@ int main(int ac, char **av, char **env)
 		add_history(input);
         token = tokenizer(input);
 		cmd = parser(token);
-        print_tokens(token);
+        // print_tokens(token);
         // print_cmd_list(cmd);
-		if (cmd && ((is_built_in(cmd) || !cmd->cmd) && !cmd->next)) // "> dsg" SEGV // also $SADGG SEGV
-			exe_single_built_in(cmd);
-		else
-			exe_pipeline_cmd(cmd);
-		printf("[%d]\n", *get_addr_exit_status(NULL));
+		execution(cmd);
 		ft_clean(false, true, -1);
     }
 	return (EXIT_SUCCESS);
@@ -113,8 +115,4 @@ int main(int ac, char **av, char **env)
 /*
 cat << eof : ctrl c + sigquit
 mini inside mini : retrun sighanl to default when exe cmd until finish waiting command (also in single_built_in)
-here-doc == NULL : handle
-cat <<a<<b<<c | <<d<<e<<f
-sleep 342 : ctlr c : exit status
-then test heredoc
 */

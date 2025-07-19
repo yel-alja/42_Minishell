@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:59 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 15:48:21 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 23:04:20 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ bool	check_sign_nega(char *num, int *index)
 		return ((*index)++, false);
 	return (false);
 }
+
 /*
 [0] : error
 [1] : valid
 [2] : min long
 */
-
 int	check_range(char *num, int *index, int c, bool nega)
 {
 	if (c == 19)
@@ -69,7 +69,7 @@ int	ft_exit(char **args)
 	int				ret_val;
 	unsigned char	exit_status;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	exit_status = *get_addr_exit_status(NULL);
 	if (!args[1])
 		ft_clean(true, true, *get_addr_exit_status(NULL));

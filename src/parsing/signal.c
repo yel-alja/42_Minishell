@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:02:31 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:24:22 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:16:54 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	ctrl_c(int sig)
 	code = get_addr_exit_status(NULL);
 	*code = sig + 128;
 	write(2, "\n", 1);
-	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
-	rl_on_new_line();       // move to new line
-	rl_redisplay();         // reprint promt
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	here_doc_hanl(int sig)

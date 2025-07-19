@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:21:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:19:07 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ char	*create_name(void)
 
 int	save_fd_here_doc(int fd)
 {
-	static int	stock;
+	static int	stock = -1;
 
-	stock = -1;
 	if (stock == -1)
 		stock = fd;
 	return (stock);
@@ -62,7 +61,7 @@ void	read_here_doc(char *del, int quoted, int fd)
 		{
 			close(fd);
 			errmsg("warning", "here-document delimited by end-of-file wanted",
-					del); //should we write error in 2
+					del);
 			ft_clean(true, true, EXIT_SUCCESS);
 		}
 		garbage_collect(line, false);
