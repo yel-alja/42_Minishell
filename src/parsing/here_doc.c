@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:40:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:21:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*heredoc_file(char *del, int quoted)
 	close(fd);
 	waitpid(pid, get_addr_exit_status(NULL), 0);
 	signal(SIGINT, ctrl_c);
-	process_exit_status();
+	decode_exit_status();
 	if (*get_addr_exit_status(NULL) == SIGINT + 128)
 		return (NULL);
 	return (file);

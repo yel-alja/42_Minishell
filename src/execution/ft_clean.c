@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:55:19 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 16:19:16 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:26:01 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ void	ft_clean(bool own_env, bool garbage, int status)
 		exit(status);
 }
 
-void	process_exit_status(void)
+void	decode_exit_status(void)
 {
-	int	*exit_status;
+	int	*status;
 
-	exit_status = get_addr_exit_status(NULL);
-	if (WIFSIGNALED(*exit_status) && *exit_status == (SIGQUIT + 128))
-		errmsg(NULL, NULL, "Quit (core dumped)");
-	else if (WIFSIGNALED(*exit_status) && *exit_status == (SIGSEGV + 128))
-		errmsg(NULL, NULL, "segmentation fault (core dumped)");
-	else if (WIFEXITED(*exit_status))
-		*exit_status = WEXITSTATUS(*exit_status);
+	status = get_addr_exit_status(NULL);
+	if (WIFSIGNALED(*status))
+	{
+		if (WTERMSIG(*status) == SIGQUIT)
+			errmsg(NULL, NULL, "Quit (core dumped)");
+		if (WTERMSIG(*status) == SIGSEGV)
+			errmsg(NULL, NULL, "segmentation fault (core dumped)");
+		*status = WTERMSIG(*status) + 128;
+	}
+	else if (WIFEXITED(*status))
+		*status = WEXITSTATUS(*status);
 }
 
 int	ft_close(int *fd)

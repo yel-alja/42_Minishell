@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 15:46:05 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:21:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	wait_commands(t_cmd *cmd)
 			waitpid(cmd->pid, exit_status, 0);
 		cmd = cmd->next;
 	}
-	process_exit_status();
+	decode_exit_status();
 }
 
 void	exec_cmd(t_cmd *cmd)

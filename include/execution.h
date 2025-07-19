@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:57:33 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:21:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	search_in_path(t_cmd *cmd);
 t_env	*new_var(char *var);
 void	add_var(t_env *var);
 void		sep_name_value(char *var, char **name, char **value);
-void		process_exit_status(void);
+void		decode_exit_status(void);
 bool	is_directory(char *path);
 
 void	ft_clean(bool own_env, bool garbage, int status);
