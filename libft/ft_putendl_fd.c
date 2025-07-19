@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:53:04 by zouazrou          #+#    #+#             */
-/*   Updated: 2024/10/31 15:02:31 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:13:57 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	ft_putstr_fd(ft_strjoin(s, "\n"), fd);
 }

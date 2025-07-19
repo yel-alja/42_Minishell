@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 09:22:42 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:56:20 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@
 #include "execution.h"
 
 #define PROMPT "\033[0;35myzsh> \033[0m"
+#define SH_NAME "yzsh"
+#define SIZE_FILE_NAME 20
 #define WHITE_SP " \t\n"
+
 typedef struct s_env
 {
 	char			*name;
@@ -84,7 +87,7 @@ typedef struct s_garbage
 
 /*******signal******/
 void	ctrl_c(int sig);
-int	exe_pipeline_cmd(t_cmd *cmd);
+void	exe_pipeline_cmd(t_cmd *cmd);
 
 //?
 char *ft_getenv(char *name );

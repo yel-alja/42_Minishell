@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:32:56 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/15 20:02:36 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/19 12:14:40 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,20 @@ int into_quote(char *input , int *i , char c)
 
 int check_quotes(char *input)
 {
-    int i = 0;
+    int i;
 
+    i = 0;
     while(input[i])
     {
         if(input[i] == '"')
         {
             if(!into_quote(input , &i , '"'))
-            {
-                write(2 , "unclosed double quotes\n" , 23);
-                return (0);
-            }
+                return (errmsg("syntax error" ,NULL, "unclosed double quotes"), 0);
         }
         else if (input[i] == '\'')
         {
               if(!into_quote(input , &i , '\''))
-              {
-                    write(2 , "unclosed single quotes\n" , 23);
-                    return (0);
-              }
+                    return (errmsg("syntax error" ,NULL, "unclosed single quotes"), 0);
         }
         i++;
     }
@@ -54,30 +49,17 @@ int check_quotes(char *input)
 int check_syntax(t_token *token)
 {
     if(!token)
-        return (0);
+        return (1);
     if(token->type == PIPE)
-    {
-        write(2 , "syntax error\n" ,13);
-        return (0);
-    }
+        return (errmsg(NULL, NULL, "syntax error"), 0);
     while(token)
     {
 		if(token->type == PIPE && token->next && token->next->type == PIPE)
-		{
-             write(2 , "syntax error\n" ,13);
-			return (0);
-		}
+			return (errmsg(NULL, NULL, "syntax error"), 0);
         if((is_operator(token) || token->type == PIPE ) && token->next == NULL)
-        {
-
-            write(2 , "syntax error\n" ,13);
-            return (0);
-        }
-        if((is_operator(token)) && (is_operator(token->next) || token->next->type == PIPE)) //?
-        {
-            write(2 , "syntax error\n" ,13);
-            return (0);
-        }
+            return (errmsg(NULL, NULL, "syntax error"), 0);
+        if((is_operator(token)) && (is_operator(token->next) || token->next->type == PIPE))
+            return (errmsg(NULL, NULL, "syntax error"), 0);
         token = token->next;
     }
     return (1);

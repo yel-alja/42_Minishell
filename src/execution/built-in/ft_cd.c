@@ -6,16 +6,12 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:06:10 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 09:12:10 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:32:06 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-/*
 
-oldpwd="AA"
-
-*/
 void	update_env(char *curr_dir)
 {
 	t_env	*pwd;
@@ -23,7 +19,6 @@ void	update_env(char *curr_dir)
 
 	pwd = ft_getvarenv("PWD");
 	oldpwd = ft_getvarenv("OLDPWD");
-
 	if (oldpwd && pwd)
 	{
 		free(oldpwd->value);
@@ -36,7 +31,7 @@ void	update_env(char *curr_dir)
 		pwd->value = ft_strdup(curr_dir);
 	}
 }
-// (X)
+
 int ft_cd(char **args)
 {
 	char	*path;
@@ -45,6 +40,7 @@ int ft_cd(char **args)
 	if (!args[1])
 	{
 		path = ft_getenv("HOME");
+		printf("=======%s\n" , path);
 		if (!path)
 			return (errmsg("yzsh: cd", path, "HOME not set"), EXIT_FAILURE);
 		if (!*path)
@@ -52,9 +48,10 @@ int ft_cd(char **args)
 	}
     else if (args[2])
         return (errmsg(NULL, "yzsh: cd", "too many arguments"), EXIT_FAILURE);
+
     if (chdir(path))
         return (errmsg("yzsh: cd", path, NULL), EXIT_FAILURE);
-	else
-		update_env(path);
+	// else
+	// 	update_env(path);
     return (EXIT_SUCCESS);
 }

@@ -25,6 +25,10 @@
 		"utility": "c",
 		"errno.h": "c",
 		"limits.h": "c",
-		"ctype.h": "c"
+		"ctype.h": "c",
+		"sstream": "c",
+		"readline.h": "c",
+		"stat.h": "c",
+		"history.h": "c"
 	}
 }

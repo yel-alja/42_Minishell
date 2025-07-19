@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:48:18 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:39:42 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ t_redir	*new_red(char *file , t_type type);
 
 /******quote removal******/
 char *quote_removal(char *str);
-
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:57:44 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/17 09:30:27 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:02:22 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char *get_cmd_name(t_token *token)
         if(token->type == WORD || token->type == AMBG)
         {
             if(token->type == WORD && (token->value[0] || token->quoted))
-            {   
+            {
             cmd = ft_strdup(token->value);
             return(cmd);
             }
@@ -47,7 +47,6 @@ char *get_cmd_name(t_token *token)
     }
     return (NULL);
 }
-//exit status $? |<
 
 t_cmd *parser2(t_token **tkn)
 {
@@ -59,18 +58,13 @@ t_cmd *parser2(t_token **tkn)
     char **args = malloc((count_args(token) + 1) * 8);
     garbage_collect(args , true);
     int i  = 0;
-    while(token)
+    while(token && token->type != PIPE)
     {
-        if(token->type == PIPE)
-            break;
-        else if(token->type == WORD)
-            {
-                if(token->value[0] || token->quoted)
-                {   
-                    args[i] = ft_strdup(token->value);
-                    i++;
-                }
-            }
+        if(token->type == WORD)
+		{
+			if(token->value[0] || token->quoted)
+				args[i++] = ft_strdup(token->value);
+		}
         else if(token->type == HEREDOC)
         {
             tmp = new_red(token->next->value , HEREDOC);
@@ -91,7 +85,7 @@ t_cmd *parser2(t_token **tkn)
             tmp = NULL;
         }
         if(token->type != HEREDOC && token->type != OUTPUT && token->type != INPUT
-            && token->type != APPEND)
+            && token->type != APPEND && token->type != AMBG)
             token = token->next;
         else
             token = token->next->next;
@@ -102,9 +96,10 @@ t_cmd *parser2(t_token **tkn)
     return (cmd);
 }
 
-void open_her(t_cmd *cmd)
+int open_her(t_cmd *cmd)
 {
     t_redir *red;
+
     while(cmd)
     {
         red = cmd->redirects;
@@ -112,18 +107,24 @@ void open_her(t_cmd *cmd)
         {
             if(red->type == HEREDOC)
             {
-                red->filename = heredoc_file(red->filename  , red->quoted);
+                red->filename = heredoc_file(red->filename , red->quoted);
+				if (!red->filename)
+					return (1);
             }
             red = red->next;
         }
         cmd = cmd->next;
-
     }
+	return (0);
 }
 
 t_cmd *parser(t_token *token)
 {
-    t_cmd *cmd = NULL;
+    t_cmd *cmd;
+
+    cmd = NULL;
+	if (!token)
+		return (NULL);
     while(token)
     {
         if(token->type == PIPE)
@@ -132,6 +133,7 @@ t_cmd *parser(t_token *token)
             break;
         cmd_add_back(&cmd , parser2(&token));
     }
-    open_her(cmd );
+    if (open_her(cmd))
+		return (NULL);
     return (cmd);
 }

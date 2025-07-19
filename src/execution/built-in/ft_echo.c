@@ -6,15 +6,12 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:19:40 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:36:21 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:15:54 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-/*
-echo -n -n
 
-*/
 bool	option_n(char *args)
 {
 	int	j;
@@ -30,7 +27,7 @@ bool	option_n(char *args)
 	}
 	return (true);
 }
-// print sp between args
+
 int	ft_echo(char **args)
 {
 	int		i;
@@ -42,7 +39,6 @@ int	ft_echo(char **args)
 	str = NULL;
 	if (!args || !*args)
 		return (1);
-
 	while (option_n(args[i]))
 	{
 		flag = true;
@@ -51,16 +47,11 @@ int	ft_echo(char **args)
     while (args[i])
     {
 		str = ft_strjoin(str, args[i]);
-        if (args[i + 1])
-		{
+        if (args[++i])
 			str = ft_strjoin(str, " ");
-		}
-		i++;
     }
     if (flag == false)
-	{
 		str = ft_strjoin(str, "\n");
-	}
 	ft_putstr_fd(str, STDOUT_FILENO);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:59 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:36:55 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:05:12 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ int	ft_exit(char **args)
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	exit_status = *get_addr_exit_status(NULL);
 	if (!args[1])
-	{
-		printf("exit vlaue %d\n", *get_addr_exit_status(NULL));
-		exit((garbage_collect(NULL, false), *get_addr_exit_status(NULL)));
-	}
+		ft_clean(true, true, *get_addr_exit_status(NULL));
 	i = 0;
 	ret_val = check_args(args[1], &i);
 	if (ret_val == 1 && args[2])
 		return (errmsg(NULL, "exit", "too many arguments"), 1);
 	exit_status = ft_atoi(args[1]);
-	garbage_collect(NULL, false);
 	if (!ret_val)
-		exit((errmsg(NULL, "exit", "numeric argument required"), 2));
+	{
+		errmsg(NULL, "exit", "numeric argument required");
+		ft_clean(true, true, 2);
+	}
 	if (ret_val == 2)
-		exit((unsigned char)0);
-	exit(exit_status);
+		ft_clean(true, true, 0);
+	ft_clean(true, true, exit_status);
+	return (255);
 }

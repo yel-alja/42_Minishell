@@ -6,12 +6,11 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:46:12 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:11:34 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 t_token *new_token(char *input, t_type type , int amg)
 {
@@ -146,27 +145,22 @@ char	*unquoted_word(char *input, int *i  )
 t_token *token_word(char *input, int *i )
 {
     char *str;
-    t_token *token = NULL;
-    int flag = 0;
+    t_token *token;
+    int flag;
+
+    flag = 0;
 	str = NULL;
+    token = NULL;
     while (input[*i] && !is_whitespace(input[*i]))
     {
         if(input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
             break;
         if (input[*i] == '"')
-        {
-            str = ft_strjoin(str, quoted_word(input, i, "\"" ));
-            flag = 1;
-        }
+            (str = ft_strjoin(str, quoted_word(input, i, "\"" )), flag = 1);
         else if (input[*i] == '\'')
-        {
-            str = ft_strjoin(str, quoted_word(input, i, "'"));
-            flag = 1;
-        }
+			(str = ft_strjoin(str, quoted_word(input, i, "'")) , flag = 1);
 		else
-        {
             str = ft_strjoin(str, unquoted_word(input, i));
-        }
     }
     if(str)
     {
@@ -190,9 +184,10 @@ t_token *build_list(char **res)
 
 t_token *handling_token(char *input, int *i )
 {
-    t_token *token = NULL;
+    t_token *token ;
     char **res;
 
+	token = NULL;
     if (input[*i] == '|')
         token = token_pipe(i);
     else if (input[*i] == '<')
@@ -214,9 +209,11 @@ t_token *handling_token(char *input, int *i )
 
 void update_amg(t_token *token)
 {
+	if (!token)
+		return ;
     while(token->next)
     {
-        if(token->type != HEREDOC && token->type != WORD&& token->type != PIPE &&
+        if(token->type != HEREDOC && token->type != WORD && token->type != PIPE &&
             ((token->next->amg == 1  && token->next->next)|| token->next->value[0] == '\0'))
             token->type = AMBG;
         token = token->next;
@@ -225,10 +222,15 @@ void update_amg(t_token *token)
 
 t_token *tokenizer(char *input)
 {
-	t_token *head = NULL;
-    int i = 0;
+	t_token *head;
+	int		*status;
+    int i;
+
+	head = NULL;
+	status = get_addr_exit_status(NULL);
+    i = 0;
     if(!check_quotes(input))
-        return (head);
+        return ((*status = 2) ,NULL);
     while (input[i])
     {
         while (input[i] && is_whitespace(input[i]))
@@ -238,7 +240,7 @@ t_token *tokenizer(char *input)
         token_add_back(&head, handling_token(input, &i ));
     }
     if(!check_syntax(head))
-        return NULL;
+        return ((*status = 2) ,NULL);
     update_amg(head);
     return head;
 }

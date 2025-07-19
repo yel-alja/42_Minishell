@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 14:58:02 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:28:05 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:28:29 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	if (!s)
-		return NULL;
+		return (NULL);
 	p = malloc((ft_strlen(s) + 1));
 	garbage_collect(p, true);
 	while (i < ft_strlen(s) + 1)

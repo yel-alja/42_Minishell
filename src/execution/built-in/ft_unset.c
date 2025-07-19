@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:07:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 14:50:15 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:20:56 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	free_var(t_env *var)
 	free(var->value);
 	free(var);
 }
-void	remove_from_env(char *name_var)
+
+void	remove_from_env(char *name_var, t_env **env)
 {
 	t_env	*var;
-	t_env	**env;
 	t_env	*tmp;
 
-	env = get_addr_env(NULL);
+	if (!*env)
+		return ;
 	tmp = *env;
 	if (!ft_strcmp((*env)->name, name_var))
 	{
@@ -45,12 +46,13 @@ void	remove_from_env(char *name_var)
 		tmp = tmp->next;
 	}
 }
+
 int	ft_unset(char **args)
 {
 	int	i;
 
 	i = 0;
 	while (args[++i])
-		remove_from_env(args[i]);
+		remove_from_env(args[i], get_addr_env(NULL));
 	return (0);
 }

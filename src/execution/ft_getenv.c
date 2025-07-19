@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 11:00:38 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 12:05:17 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 11:24:08 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,31 @@ char *ft_getenv(char *name)
         env = env->next;
     }
     return (NULL);
+}
+
+void printenv(t_env *e, bool d_x)
+{
+	char	*line;
+
+    while(e)
+    {
+		line = NULL;
+		if (d_x == true)
+		{
+			line = ft_strjoin(line, "declare -x ");
+			line = ft_strjoin(line, e->name);
+			line = ft_strjoin(line, "=\"");
+			line = ft_strjoin(line, e->value);
+			line = ft_strjoin(line, "\"\n");
+		}
+		else
+		{
+			line = ft_strjoin(line, e->name);
+			line = ft_strjoin(line, "=");
+			line = ft_strjoin(line, e->value);
+			line = ft_strjoin(line, "\n");
+		}
+		printf("%s", line);
+        e = e->next;
+    }
 }

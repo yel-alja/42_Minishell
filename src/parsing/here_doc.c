@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 13:43:30 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:40:58 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,92 @@
 
 char *create_name()
 {
-	char rd;
-	int fd;
 	int i;
+	int fd;
+	char c;
 	char *file;
 
-	file = malloc(20);
+	file = malloc(SIZE_FILE_NAME);
 	garbage_collect(file , true);
-	fd = open("/dev/random" , O_RDONLY);
+	fd = open("/dev/random", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
 	i = 0;
-	while(i < 20)
+	while(i < SIZE_FILE_NAME)
 	{
-		if (read(fd , &rd , 1) == -1)
-			garbage_collect(NULL,  true);
-		if(ft_isalpha(rd))
-			file[i++] = rd;
+		if (read(fd , &c , 1) == -1)
+			return (close(fd), NULL);
+		if(ft_isalnum(c))
+			file[i++] = c;
 	}
-	file[20] = '\0';
+	file[SIZE_FILE_NAME - 1] = '\0';
 	close(fd);
 	file = ft_strjoin("/tmp/" , file);
     return (file);
 }
 
+int	save_fd_here_doc(int fd)
+{
+	static int	stock = -1;
+
+	if (stock == -1)
+		stock = fd;
+	return (stock);
+}
+
+void	read_here_doc(char *del, int quoted, int fd)
+{
+	char	*line;
+	int		*status;
+
+	status = get_addr_exit_status(NULL);
+	*status = EXIT_SUCCESS;
+	while (1)
+	{
+		line = readline(">");
+		if (!line)
+		{
+			close(fd);
+			errmsg("warning", "here-document delimited by end-of-file wanted", del); //should we write error in 2
+			ft_clean(true, true, EXIT_SUCCESS);
+		}
+		garbage_collect(line, false);
+		if (!ft_strcmp(line, del))
+		{
+			close(fd);
+			ft_clean(true, true, EXIT_SUCCESS);
+		}
+		if(!quoted)
+			line = expansion(line , 0);
+		ft_putendl_fd(line , fd);
+	}
+}
+
 char	*heredoc_file(char *del , int quoted)
 {
 	char	*file;
-	char	*line;
 	int		fd;
-	int pid;
+	int		pid;
 
 	file = create_name();
 	fd = open(file, O_RDWR | O_CREAT , 0644);
+	if (!file || fd == -1)
+		return (errmsg("here-doc", "I/O syscalls",NULL), NULL);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
-	if(pid == 0)
+	if (pid == -1)
+		return (errmsg("here-doc", "fork", NULL), NULL);
+	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		while (1)
-		{
-			line = readline(">");
-			if (!line)
-			{
-				errmsg("warning", NULL, "here-document delimited by end-of-file (wanted `a')"); //should we write error in 2
-				close(fd);
-				garbage_collect(line, true);
-				exit(0);
-			}
-			garbage_collect(line, true);
-			if (!ft_strcmp(line, del))
-			{
-				close(fd);
-				garbage_collect(NULL, true);
-				exit(0);
-			}
-			if(!quoted)
-				line = expansion(line , 0);
-			ft_putendl_fd(line , fd);
-		}
+		save_fd_here_doc(fd);
+		signal(SIGINT, here_doc_hanl);
+		read_here_doc(del, quoted, fd);
 	}
 	close(fd);
 	waitpid(pid , get_addr_exit_status(NULL),0);
+	signal(SIGINT, ctrl_c);
 	process_exit_status();
+	if (*get_addr_exit_status(NULL) == SIGINT + 128)
+		return (NULL);
 	return (file);
 }

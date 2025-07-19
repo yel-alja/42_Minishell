@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:25:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/06 16:50:14 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/19 08:39:17 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,43 @@ int	rd_output(char *file, int fd, t_type flag)
 	return (fd);
 }
 
-// int main(int argc, char *argv[])
-// {
-// 	int fd = STDIN_FILENO;
-// 	(void)argc;
-// 	// (void)argv;
+void	redirct_fd(t_cmd *cmd)
+{
+	// (void)exit_status;
+	// redirect input
+	if (cmd->fd_input > -1)
+		dup2(cmd->fd_input, STDIN_FILENO);
+	ft_close(&cmd->fd_input);
+	// redirect output
+	if (cmd->fd_output > -1)
+		dup2(cmd->fd_output, STDOUT_FILENO);
+	ft_close(&cmd->fd_output);
+}
 
-// 	fd = re_input(argv[1], fd);
-// 	// printf("pathfile:\"%s\" | fd : %d\n", argv[1], fd);
-// 	if (fd == -1)
-// 		return (1);
-// 	int pid = fork();
-// 	if (pid == -1)
-// 		errmsg(NULL, "fork", NULL);
-// 	if (pid == 0)
-// 	{
-// 		dup2(fd, STDIN_FILENO);
-// 		close(fd);
-// 		char *args[] = {"cat", NULL};
-// 		execve("/bin/cat", args, NULL);
-// 		errmsg(NULL, "execve",NULL);
-// 		exit(errno);
-// 	}
-// 	waitpid(pid, NULL, 0);
-// 	close(fd);
-// 	return 0;
-// }
+int	open_redirects(t_cmd *cmd)
+{
+	int		*exit_status;
 
-/*
-cc redirection.c ../built-in/commands.c ../../libraries/libft/.c -o exe
-
-*/
+	exit_status = get_addr_exit_status(NULL);
+	while (cmd->redirects)
+	{
+		if (cmd->redirects->type == HEREDOC || cmd->redirects->type == INPUT)
+			cmd->fd_input = rd_input(cmd->redirects->filename, cmd->fd_input);
+		else if (cmd->redirects->type == OUTPUT || cmd->redirects->type == APPEND)
+			cmd->fd_output = rd_output(cmd->redirects->filename, cmd->fd_output, cmd->redirects->type);
+		// Check if Error occured
+		if (cmd->fd_input == -1 || cmd->fd_output == -1 || cmd->redirects->type == AMBG)
+		{
+			ft_close(&cmd->fd_input);
+			ft_close(&cmd->fd_output);
+			cmd->error = true;
+			*exit_status = 1;
+			if (cmd->redirects->type == AMBG)
+				errmsg(NULL, NULL, "ambiguous redirect");
+			return (1);
+		}
+		cmd->redirects = cmd->redirects->next;
+	}
+	redirct_fd(cmd);
+	return (0);
+}
