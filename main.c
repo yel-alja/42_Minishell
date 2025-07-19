@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 16:24:41 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:31:17 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int main(int ac, char **av, char **env)
 		add_history(input);
         token = tokenizer(input);
 		cmd = parser(token);
-        // print_tokens(token);
+        print_tokens(token);
         // print_cmd_list(cmd);
 		if (cmd && ((is_built_in(cmd) || !cmd->cmd) && !cmd->next)) // "> dsg" SEGV // also $SADGG SEGV
 			exe_single_built_in(cmd);

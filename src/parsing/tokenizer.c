@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:17:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 14:11:34 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:33:06 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void	update_amg(t_token *token)
 		if (token->type != HEREDOC && token->type != WORD && token->type != PIPE
 			&&
 			((token->next->amg == 1 && token->next->next)
-					|| token->next->value[0] == '\0'))
+					|| (token->next->value[0] == '\0' && !token->next->quoted)))
 			token->type = AMBG;
 		token = token->next;
 	}
