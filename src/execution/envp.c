@@ -6,19 +6,19 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:49:53 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 14:22:12 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:45:24 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_env(void)
+void	free_env(void)
 {
-	t_env *tmp;
-	t_env **env;
+	t_env	*tmp;
+	t_env	**env;
 
 	env = get_addr_env(NULL);
-	while(*env)
+	while (*env)
 	{
 		tmp = *env;
 		*env = (*env)->next;
@@ -34,12 +34,12 @@ void free_env(void)
 // strdup_org() this function dont set allocated mem in garbage c
 void	sep_name_value(char *var, char **name, char **value)
 {
-	int		i;
-	int		len;
+	int	i;
+	int	len;
 
 	len = ft_charlen(var, "=");
 	*name = malloc((len + 1) * sizeof(char));
-	if(!*name)
+	if (!*name)
 		ft_clean(true, true, EXIT_FAILURE);
 	i = 0;
 	while (i < len)
@@ -62,38 +62,35 @@ void	sep_name_value(char *var, char **name, char **value)
 
 t_env	*new_var(char *var)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = malloc(sizeof(t_env));
-	if(!node)
+	if (!node)
 		return (NULL);
 	node->name = NULL;
 	node->value = NULL;
 	node->next = NULL;
 	sep_name_value(var, &node->name, &node->value);
-	/*
-		->compound literal
-	*/
 	ft_unset((char *[]){"unset", node->name, NULL});
-	return(node);
+	return (node);
 }
 
 void	add_var(t_env *var)
 {
-	t_env *tmp;
-	t_env **head;
+	t_env	*tmp;
+	t_env	**head;
 
 	if (!var)
 		return ;
 	head = get_addr_env(NULL);
-	if(*head == NULL)
+	if (*head == NULL)
 		*head = var;
 	else
 	{
 		tmp = *head;
-		while(tmp->next)
+		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next  = var;
+		tmp->next = var;
 	}
 }
 
@@ -103,10 +100,10 @@ t_env	*get_envp(char **env)
 	t_env	*tmp;
 
 	i = -1;
-	while(env[++i])
+	while (env[++i])
 	{
 		tmp = new_var(env[i]);
-		if(!tmp)
+		if (!tmp)
 		{
 			ft_clean(true, true, EXIT_FAILURE);
 		}

@@ -40,14 +40,14 @@ char	*get_word(char *str, int *i)
 	return (rslt);
 }
 
-char *quote_removal(char *str)
+char	*quote_removal(char *str)
 {
-	int	i;
-	char *rslt;
+	int		i;
+	char	*rslt;
 
 	rslt = NULL;
 	i = 0;
-	if(!str)
+	if (!str)
 		return (NULL);
 	while (str[i])
 	{

@@ -6,16 +6,16 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:36:51 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 15:31:39 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:39:29 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-int env_size(t_env *tmp)
+int	env_size(t_env *tmp)
 {
-	int len;
+	int	len;
+
 	len = 0;
 	while (tmp)
 	{
@@ -25,16 +25,15 @@ int env_size(t_env *tmp)
 	return (len);
 }
 
-char **env_to_arr(t_env *env)
+char	**env_to_arr(t_env *env)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	**arr;
 
 	if (env == NULL)
 		return (NULL);
 	len = env_size(env);
-
 	arr = malloc((len + 1) * sizeof(char *));
 	garbage_collect(arr, true);
 	i = 0;
@@ -56,7 +55,7 @@ char	*strdup_org(const char *s)
 
 	i = 0;
 	if (!s)
-		return NULL;
+		return (NULL);
 	p = malloc((ft_strlen(s) + 1));
 	if (!p)
 		return (NULL);
@@ -67,4 +66,3 @@ char	*strdup_org(const char *s)
 	}
 	return (p);
 }
-

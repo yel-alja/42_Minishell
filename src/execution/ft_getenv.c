@@ -26,28 +26,28 @@ t_env	*ft_getvarenv(char *name)
 	return (NULL);
 }
 
-char *ft_getenv(char *name)
+char	*ft_getenv(char *name)
 {
 	t_env	*env;
 
 	if (!ft_strcmp(name, "?"))
 		return (ft_itoa(*get_addr_exit_status(NULL)));
 	env = *get_addr_env(NULL);
-    while(env)
-    {
-        if(!ft_strcmp(name , env->name))
-            return (env->value);
-        env = env->next;
-    }
-    return (NULL);
+	while (env)
+	{
+		if (!ft_strcmp(name, env->name))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
 }
 
-void printenv(t_env *e, bool d_x)
+void	printenv(t_env *e, bool d_x)
 {
 	char	*line;
 
-    while(e)
-    {
+	while (e)
+	{
 		line = NULL;
 		if (d_x == true)
 		{
@@ -65,6 +65,6 @@ void printenv(t_env *e, bool d_x)
 			line = ft_strjoin(line, "\n");
 		}
 		printf("%s", line);
-        e = e->next;
-    }
+		e = e->next;
+	}
 }

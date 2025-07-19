@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 14:58:17 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:24:41 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,6 @@ cat << eof : ctrl c + sigquit
 mini inside mini : retrun sighanl to default when exe cmd until finish waiting command (also in single_built_in)
 here-doc == NULL : handle
 cat <<a<<b<<c | <<d<<e<<f
+sleep 342 : ctlr c : exit status
+then test heredoc
 */

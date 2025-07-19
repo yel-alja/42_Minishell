@@ -32,7 +32,7 @@ void	update_env(char *curr_dir)
 	}
 }
 
-int ft_cd(char **args)
+int	ft_cd(char **args)
 {
 	char	*path;
 
@@ -40,18 +40,17 @@ int ft_cd(char **args)
 	if (!args[1])
 	{
 		path = ft_getenv("HOME");
-		printf("=======%s\n" , path);
+		printf("=======%s\n", path);
 		if (!path)
 			return (errmsg("yzsh: cd", path, "HOME not set"), EXIT_FAILURE);
 		if (!*path)
 			return (EXIT_SUCCESS);
 	}
-    else if (args[2])
-        return (errmsg(NULL, "yzsh: cd", "too many arguments"), EXIT_FAILURE);
-
-    if (chdir(path))
-        return (errmsg("yzsh: cd", path, NULL), EXIT_FAILURE);
+	else if (args[2])
+		return (errmsg(NULL, "yzsh: cd", "too many arguments"), EXIT_FAILURE);
+	if (chdir(path))
+		return (errmsg("yzsh: cd", path, NULL), EXIT_FAILURE);
 	// else
 	// 	update_env(path);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

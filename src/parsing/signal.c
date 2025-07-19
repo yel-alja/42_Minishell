@@ -20,8 +20,8 @@ void	ctrl_c(int sig)
 	*code = sig + 128;
 	write(2, "\n", 1);
 	rl_replace_line("", 0); // clear buffer : second param like ctrl z in 'vs'
-	rl_on_new_line(); // move to new line
-	rl_redisplay(); // reprint promt
+	rl_on_new_line();       // move to new line
+	rl_redisplay();         // reprint promt
 }
 
 void	here_doc_hanl(int sig)

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:59 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/17 13:05:12 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:48:21 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ bool	check_sign_nega(char *num, int *index)
 [1] : valid
 [2] : min long
 */
+
 int	check_range(char *num, int *index, int c, bool nega)
 {
 	if (c == 19)
 	{
 		if (!ft_strcmp("9223372036854775808", num + (*index)) && nega == true)
 			return (2);
-		if (ft_strcmp("9223372036854775808", num + (*index)) > 0 && nega == true)
+		if (ft_strcmp("9223372036854775808", num + (*index)) > 0
+			&& nega == true)
 			return (0);
 		if (ft_strcmp("9223372036854775807", num + (*index)) < 0)
 			return (0);

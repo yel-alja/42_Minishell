@@ -13,16 +13,16 @@
 #include "../../../include/minishell.h"
 
 // (X)
-int ft_pwd(char **args)
+int	ft_pwd(char **args)
 {
-    char    *buffer;
+	char	*buffer;
 
 	(void)args;
-    buffer = NULL;
-    buffer = getcwd(buffer, 0);
-    if (!buffer)
+	buffer = NULL;
+	buffer = getcwd(buffer, 0);
+	if (!buffer)
 		return (errmsg("getcwd", NULL, NULL), errno);
-    printf("%s\n", buffer);
+	printf("%s\n", buffer);
 	ft_putendl_fd(buffer, STDOUT_FILENO);
-    return (0);
+	return (0);
 }

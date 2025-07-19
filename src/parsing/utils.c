@@ -13,16 +13,16 @@
 #include "../../include/minishell.h"
 
 // whitespace just three !!
-int is_whitespace(char c)
+int	is_whitespace(char c)
 {
-	return (contains_char(c , WHITE_SP));
+	return (contains_char(c, WHITE_SP));
 }
 
-int is_metachar(char c)
+int	is_metachar(char c)
 {
-    if(c == '|' || c == '<' || c == '>' || c == '\'' || c == '"')
-        return (1);
-    return (0);
+	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '"')
+		return (1);
+	return (0);
 }
 
 int	contains_char(char c, char *str)
@@ -48,9 +48,9 @@ int	ft_charlen(char *str, char *del)
 	return (len);
 }
 
-int is_operator(t_token *token)
+int	is_operator(t_token *token)
 {
-    if(token->type != WORD && token->type != AMBG && token->type != PIPE)
-        return (1);
-    return (0);
+	if (token->type != WORD && token->type != AMBG && token->type != PIPE)
+		return (1);
+	return (0);
 }

@@ -33,14 +33,14 @@ int	exec_built_in(t_cmd *cmd)
 		*status = ft_exit(cmd->args);
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		*status = ft_unset(cmd->args);
-    return (*status);
+	return (*status);
 }
 
 bool	is_built_in(t_cmd *cmd)
 {
 	if (!cmd || !cmd->cmd)
 		return (false);
-    if (!ft_strcmp(cmd->cmd, "pwd"))
+	if (!ft_strcmp(cmd->cmd, "pwd"))
 		return (true);
 	if (!ft_strcmp(cmd->cmd, "echo"))
 		return (true);
@@ -54,7 +54,7 @@ bool	is_built_in(t_cmd *cmd)
 		return (true);
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		return (true);
-    return (false);
+	return (false);
 }
 
 void	exe_single_built_in(t_cmd *cmd)

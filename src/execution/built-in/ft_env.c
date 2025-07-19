@@ -12,9 +12,9 @@
 
 #include "../../../include/minishell.h"
 
-int    ft_env(char **args)
+int	ft_env(char **args)
 {
 	(void)args;
 	printenv(*get_addr_env(NULL), false);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

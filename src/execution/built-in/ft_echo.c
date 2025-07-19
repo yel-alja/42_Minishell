@@ -44,14 +44,14 @@ int	ft_echo(char **args)
 		flag = true;
 		i++;
 	}
-    while (args[i])
-    {
+	while (args[i])
+	{
 		str = ft_strjoin(str, args[i]);
-        if (args[++i])
+		if (args[++i])
 			str = ft_strjoin(str, " ");
-    }
-    if (flag == false)
+	}
+	if (flag == false)
 		str = ft_strjoin(str, "\n");
 	ft_putstr_fd(str, STDOUT_FILENO);
-    return (0);
+	return (0);
 }

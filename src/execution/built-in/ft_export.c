@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 09:31:58 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:16:38 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:49:21 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_valid_syntax(char *arg)
 	while (arg[++i])
 	{
 		if (arg[i] == '=')
-		 	return (0);
+			return (0);
 		if ((!ft_isalnum(arg[i]) && arg[i] != '_'))
 			return (2);
 	}
@@ -36,9 +36,9 @@ int	check_valid_syntax(char *arg)
 
 int	ft_export(char **args)
 {
-	int		i;
-	int		rt;
-	int		status;
+	int	i;
+	int	rt;
+	int	status;
 
 	status = 0;
 	if (!args[1])
@@ -50,7 +50,7 @@ int	ft_export(char **args)
 		if (rt == 0)
 			add_var(new_var(args[i]));
 		if (rt == 1)
-			continue;
+			continue ;
 		if (rt == 2)
 		{
 			errmsg("export", NULL, "not a valid identifier");

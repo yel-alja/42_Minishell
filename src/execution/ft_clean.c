@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:55:19 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:43:58 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:19:16 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ void	ft_clean(bool own_env, bool garbage, int status)
 		exit(status);
 }
 
-void		process_exit_status(void)
+void	process_exit_status(void)
 {
 	int	*exit_status;
 
 	exit_status = get_addr_exit_status(NULL);
-	if (WIFSIGNALED(*exit_status) && *exit_status == SIGQUIT + 128)
+	if (WIFSIGNALED(*exit_status) && *exit_status == (SIGQUIT + 128))
 		errmsg(NULL, NULL, "Quit (core dumped)");
-	if (WIFEXITED(*exit_status))
+	else if (WIFSIGNALED(*exit_status) && *exit_status == (SIGSEGV + 128))
+		errmsg(NULL, NULL, "segmentation fault (core dumped)");
+	else if (WIFEXITED(*exit_status))
 		*exit_status = WEXITSTATUS(*exit_status);
 }
 
-int ft_close(int *fd)
+int	ft_close(int *fd)
 {
 	int	r;
 
@@ -51,7 +53,6 @@ int ft_close(int *fd)
 void	errmsg(char *cmd, char *arg, char *err)
 {
 	char	*str;
-	// char	*str;
 
 	str = NULL;
 	if (cmd)

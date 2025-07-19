@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:44:43 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 14:55:33 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:46:50 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 bool	is_directory(char *path)
 {
-    struct stat	stats;
+	struct stat	stats;
 
-    if (stat(path, &stats) == 0 && S_ISDIR(stats.st_mode))
-        return (true);
-    return (false);
+	if (stat(path, &stats) == 0 && S_ISDIR(stats.st_mode))
+		return (true);
+	return (false);
 }
 
 void	valid_path_executable(t_cmd *cmd)
@@ -52,6 +52,7 @@ bool	is_path(char *file)
 	}
 	return (false);
 }
+
 void	check_flags(t_cmd *cmd, int flag)
 {
 	if (flag == 0)
@@ -65,6 +66,7 @@ void	check_flags(t_cmd *cmd, int flag)
 		ft_clean(true, true, 126);
 	}
 }
+
 void	search_in_path(t_cmd *cmd)
 {
 	int		p;

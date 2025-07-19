@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:12:37 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 14:51:09 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:46:05 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exe_child_proc(t_cmd *cmd, int *fd)
 	ft_clean(true, true, *get_addr_exit_status(NULL));
 }
 
-int		exec_simple_cmd(t_cmd *cmd)
+int	exec_simple_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -86,8 +86,8 @@ int		exec_simple_cmd(t_cmd *cmd)
 	}
 	pid = fork();
 	if (pid == -1)
-		return(errmsg(NULL, "fork", NULL), 1);
-	else if (pid) // Parent proc
+		return (errmsg(NULL, "fork", NULL), 1);
+	else if (pid)
 	{
 		if (cmd->next)
 			ft_close(fd + 1);
@@ -95,7 +95,7 @@ int		exec_simple_cmd(t_cmd *cmd)
 		ft_close(&cmd->fd_output);
 		cmd->pid = pid;
 	}
-	else  // Child proc
+	else
 		exe_child_proc(cmd, fd);
 	return (0);
 }
@@ -122,10 +122,3 @@ void	exe_pipeline_cmd(t_cmd *cmd)
 	wait_commands(cmd);
 	signal(SIGINT, ctrl_c);
 }
-
-/*
-wc -c < fin  > xxx
-$fds <$fds  | $dfs
-fake cmd {null}
-$fdsf : set exit_status by zero
-*/
