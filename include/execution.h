@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 09:03:24 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/20 01:11:49 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/20 17:55:27 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int						ft_export(char **args);
 int						ft_unset(char **args);
 int						ft_exit(char **args);
 
-// Error o dakchi
+// Error 
 void					errmsg(char *cmd, char *arg, char *msg);
 
 /******** add *********/

@@ -6,18 +6,18 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:18:17 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:58:12 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 17:56:27 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <ctype.h> // rm
+# include <ctype.h>
 # include <stddef.h>
-# include <stdio.h> // rm
+# include <stdio.h>
 # include <stdlib.h>
-# include <string.h> // rm
+# include <string.h>
 # include <unistd.h>
 # include "../include/minishell.h"
 

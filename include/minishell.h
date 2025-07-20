@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/20 10:50:48 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 17:55:42 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_garbage
 void	ctrl_c(int sig);
 void	exe_pipeline_cmd(t_cmd *cmd);
 
-//?
 char	*ft_getenv(char *name);
 char	*expansion(char *token, int flag);
 char	*heredoc_file(char *del, int quoted);
