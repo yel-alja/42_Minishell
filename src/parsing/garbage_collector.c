@@ -46,8 +46,8 @@ void	free_list(t_garbage *lst)
 
 void	garbage_collect(void *ptr, bool terminate)
 {
-	static t_garbage *head;
-	t_garbage *tmp;
+	static t_garbage	*head;
+	t_garbage			*tmp;
 
 	tmp = NULL;
 	if (ptr != NULL)

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 09:18:00 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 13:44:09 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:48:25 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// whitespace just three !!
 int	is_whitespace(char c)
 {
 	return (contains_char(c, WHITE_SP));

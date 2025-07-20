@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/19 23:34:39 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:06:11 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ typedef struct s_env
 
 typedef enum	e_type
 {
-    PIPE,        // |
+    PIPE,        // |x
     WORD,        // "hello"
     INPUT,       // <
     OUTPUT,      // >
     APPEND,      // >>
-    HEREDOC,     // <<
+    HEREDOC,     // <<x
 	AMBG,
 }				t_type;
 

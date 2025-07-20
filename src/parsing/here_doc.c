@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:55:28 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/20 00:19:07 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 01:16:50 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	read_here_doc(char *del, int quoted, int fd)
 		{
 			close(fd);
 			errmsg("warning", "here-document delimited by end-of-file wanted",
-					del);
+				del);
 			ft_clean(true, true, EXIT_SUCCESS);
 		}
 		garbage_collect(line, false);

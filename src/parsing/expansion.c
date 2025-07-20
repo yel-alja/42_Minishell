@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 09:06:36 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/18 09:07:08 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:39:36 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,26 @@ char	*flag_splitters(char *value)
 	return (res);
 }
 
-char	*var(char *token, int flag)
+void	name_len(char *token, int *start, int i)
 {
-	int		i;
-	int		start;
+	if (token[i] == '?')
+		*start = i + 1;
+	else
+	{
+		*start = i;
+		while (token[*start] && (ft_isalnum(token[*start])
+				|| token[*start] == '_') && !is_whitespace(token[*start])
+			&& token[*start] != '$')
+			(*start)++;
+	}
+}
+
+char	*var(char *token, int flag, int i, int start)
+{
 	char	*var_name;
 	char	*var_value;
 	char	*p;
 
-	i = 0;
-	start = 0;
-	var_name = NULL;
-	var_value = NULL;
 	p = NULL;
 	while (token[i])
 	{
@@ -68,28 +76,16 @@ char	*var(char *token, int flag)
 				|| token[i + 1] == '?'))
 		{
 			i++;
-			if (token[i] == '?')
-				start = i + 1;
-			else
-			{
-				start = i;
-				while (token[start] && (ft_isalnum(token[start])
-						|| token[start] == '_') && !is_whitespace(token[start])
-					&&
-						token[start] != '$')
-					start++;
-			}
+			name_len(token, &start, i);
 			p = ft_substr(token, 0, i - 1);
 			var_name = ft_substr(token, i - 1, start - i + 1);
 			var_value = ft_getenv(var_name + 1);
 			if (flag == 1)
-			{
 				var_value = flag_splitters(var_value);
-			}
 			p = ft_strjoin(p, var_value);
 			p = ft_strjoin(p, token + start);
+			i += ft_strlen(var_value) - 2;
 			token = p;
-			i = -1;
 		}
 		i++;
 	}
@@ -99,10 +95,14 @@ char	*var(char *token, int flag)
 char	*expansion(char *token, int flag)
 {
 	char	*res;
+	int		i;
+	int		start;
 
+	start = 0;
+	i = 0;
 	res = NULL;
 	if (!check_dollar(token))
 		return (token);
-	res = var(token, flag);
+	res = var(token, flag, i, start);
 	return (res);
 }
