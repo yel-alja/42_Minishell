@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:59:32 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/14 17:05:50 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/20 12:21:51 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,16 @@ char	*quote_removal(char *str)
 			rslt = ft_strjoin(rslt, get_word(str, &i));
 	}
 	return (rslt);
+}
+
+char	**init_vars(t_redir **r, t_cmd **cmd, char **cmnd, t_token *tkn)
+{
+	char	**args;
+
+	*r = NULL;
+	*cmd = NULL;
+	*cmnd = get_cmd_name(tkn);
+	args = malloc((count_args(tkn) + 1) * 8);
+	garbage_collect(args, true);
+	return (args);
 }

@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:26 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/16 11:43:57 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 12:15:03 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,20 @@ void	cmd_add_back(t_cmd **head, t_cmd *node)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
+}
+
+int	count_args(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token && token->type != PIPE)
+	{
+		if (token->type == WORD)
+			i++;
+		else
+			token = token->next;
+		token = token->next;
+	}
+	return (i);
 }

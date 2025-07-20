@@ -6,7 +6,7 @@
 /*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:52:07 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/20 10:54:25 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/20 12:28:20 by zouazrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int			check_quotes(char *input);
 /*************expantion*************/
 // char *expansion(char *token , t_env *env);
 int			check_dollar(char *str);
+int			count_args(t_token *token);
 
 /*************utils*************/
 int			is_whitespace(char c);
@@ -58,6 +59,8 @@ t_cmd		*new_cmd(char *cmd, char **args, t_redir *red);
 void		red_add_back(t_redir **head, t_redir *node);
 t_cmd		*parser(t_token *token );
 t_redir		*new_red(char *file, t_type type);
+char		*get_cmd_name(t_token *token);
+char		**init_vars(t_redir **r, t_cmd **cmd, char **cmnd, t_token *tkn);
 
 /******quote removal******/
 char		*quote_removal(char *str);
