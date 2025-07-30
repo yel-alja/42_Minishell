@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:27:14 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/20 17:54:01 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:28:11 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **env_parent)
 	while (1)
 	{
 		cmd = NULL;
-		input = readline(PROMPT);
+		input = readline(build_prompt());
 		if (!input)
 			ft_clean(true, true, *get_addr_exit_status(NULL));
 		garbage_collect(input, false);

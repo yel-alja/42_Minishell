@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:05:30 by zouazrou          #+#    #+#             */
-/*   Updated: 2025/07/19 23:59:56 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:24:46 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(char **args)
 	buffer = getcwd(buffer, 0);
 	if (!buffer)
 		errmsg(NULL, "getcwd", NULL);
-	garbage_collect(buffer, true);
+	garbage_collect(buffer, false);
 	ft_putendl_fd(buffer, STDOUT_FILENO);
 	return (0);
 }

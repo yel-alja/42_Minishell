@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouazrou <zouazrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:32:25 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/07/20 17:55:42 by zouazrou         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:28:56 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ char	*ft_getenv(char *name);
 char	*expansion(char *token, int flag);
 char	*heredoc_file(char *del, int quoted);
 t_env	*ft_getvarenv(char *name);
+char	*build_prompt(void);
 
 #endif

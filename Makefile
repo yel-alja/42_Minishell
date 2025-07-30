@@ -17,7 +17,7 @@ SRC_EXEC = $(SRC_EX_DIR)/execution.c $(SRC_EX_DIR)/redirection.c $(SRC_EX_DIR)/u
 
 SRC_PARS = $(SRC_PAR_DIR)/tokenizer.c  $(SRC_PAR_DIR)/garbage_collector.c $(SRC_PAR_DIR)/utils.c $(SRC_PAR_DIR)/tokenizer_utils.c\
 			$(SRC_PAR_DIR)/tokenizer_utils2.c $(SRC_PAR_DIR)/syntax.c $(SRC_PAR_DIR)/expansion.c $(SRC_PAR_DIR)/signal.c $(SRC_PAR_DIR)/parser.c \
-			$(SRC_PAR_DIR)/parser_utils.c $(SRC_PAR_DIR)/quote_removal.c $(SRC_PAR_DIR)/here_doc.c
+			$(SRC_PAR_DIR)/parser_utils.c $(SRC_PAR_DIR)/quote_removal.c $(SRC_PAR_DIR)/here_doc.c $(SRC_PAR_DIR)/get_prompt.c
 
 
 LIB = libft/libft.a
